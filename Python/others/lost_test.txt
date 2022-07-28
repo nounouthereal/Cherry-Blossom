@@ -1,0 +1,293 @@
+from distutils import command
+from http import client
+import json
+from webbrowser import get
+from aiohttp import request
+import discord
+import asyncio
+from discord import Guild
+
+bot = command.Bot(bot_prefix = '+')
+
+@client.command(aliases = ['bal'])
+async def balance (ctx , user: discord.Member = None):
+    if not user:
+        user = ctx.author
+    await open_account(user)
+
+    users = await get_bank_data()
+    user = user
+
+    Argent_amount = users[str(user.id)]["Argent"]
+    Banque_amount = users[str(user.id)]["Banque"]
+    
+
+    embed = discord.Embed(title = "User\'s portefeuille" , color = 0xFD6C9E)
+    embed.add_field(name = 'Argent disponible' f'{Argent_amount}' )
+    embed.add_field(name = 'Banque' f'{Banque_amount}' )
+    await ctx.send(embed = embed)
+
+
+async def open_account(user):
+    users = await get_bank_data()
+
+    if str(user.id) in users:
+        return False
+    else:
+        users[str(user.id)] = {}
+        users[str(user.id)]["Argent"] = 0
+        users[str(user.id)]["Banque"] = 100
+
+    with open("economy.json" , "w") as f:
+        json.dump(user , f , indent=4)
+
+    return True
+
+async def get_bank_data():
+    with open("economy.json" , "r") as f:
+        users = json.load(f)
+
+async def update_bank(user , change=0 ,mode= "Argent" ):
+    users = await get_bank_data()
+
+    users[str(user.id)][mode]+= change
+
+    with open('economy.json') as f:
+        json.dump(users, f ,indents=4)
+
+    bal = [users[str(user.id)]["Argent"]],users[str(user.id)["Banque"]]
+    return bal
+
+client = command.Bot(command_prefix = '+')   
+@client.command()
+async def kick(ctx , member : discord.member, *, reason = 'Raison non fournie'):
+    await member.kick(reason=reason)
+    await ctx.member.send(f'Tu a été kick pour {reason}')
+
+
+def get_quote():
+        response = request.get
+        ('https://zequotes.io/api/random')
+        json_data = json.loads(response.text)
+        quote = json_data [0] ['q'] + " -" + json_data [0] ['a']
+
+async def on_ready(self):
+    bot_test_channel = self.get_channel(944602051671887902)
+    await bot_test_channel.send('Second fichier initialisée 0.2')
+
+@bot.command(pass_context=True)
+async def create_mute_role(guild: Guild):
+    '''
+    `guild` : must be :class:`discord.Guild`
+    '''
+    role_name = "muted"
+    # allows us to check if the role exists or not
+    mute_role = get(guild.roles, name=role_name)
+
+    # if the role doesn't exist, we create it
+    if mute_role is None:
+        await guild.create_role(name=role_name)
+        # retrieves the created role
+        mute_role = get(guild.roles, name=role_name)
+
+    # set channels permissions
+    for channel in guild.text_channels:
+        await asyncio.sleep(0)
+
+        mute_permissions = discord.PermissionOverwrite()
+        mute_permissions.send_messages = False
+
+        await channel.set_permissions(mute_role, overwrite=mute_permissions)
+
+    return(mute_role)
+
+
+@bot.command(pass_context=True)
+async def mute(ctx, member: discord.Member):
+    guild = ctx.message.guild
+    mute_role = await create_mute_role(guild)
+    await member.add_roles(mute_role)
+
+    await ctx.send(f"{member.name} est mute !")
+    return
+@bot.command()
+@command.has_permissions(mute_members=True)
+async def mute(ctx,member:discord.Member,time: int, reason):
+    role = discord.utils.get(ctx.guild.roles,id=910156126140633158)
+    channel = bot.get_channel(809483574398812160)
+    await member.add_roles(role)
+    emb = discord.Embed(title="L'utilisateur est muet !",color=0xc25151)
+    emb.add_field(name='Modérateur / administrateur :',value=ctx.message.author.mention,inline=False)
+    emb.add_field(name='User mute :',value=member.mention,inline=False)
+    emb.add_field(name='Raison :',value=reason,inline=False)
+    emb.add_field(name="Temps:",value=time,inline=False)
+    emb.set_footer (text = f'Autres : {ctx.message.author}', icon_url = ctx.message.author.avatar_url)
+    await channel.send(embed = emb)
+    await asyncio.sleep(time*60 )
+
+@bot.command()
+@command.has_permissions(mute_members=True)
+async def unmute(ctx,member:discord.Member):
+    role = discord.utils.get(ctx.guild.roles,id=910156126140633158)
+    channel = bot.get_channel(809483574398812160)
+
+    emb = discord.Embed(title="L'utilisateur a été unmute !",color=0xc25151)
+    emb.add_field(name='Modérateur / administrateur :',value= ctx.message.author.mention,inline=False)
+    emb.add_field(name='User unmute :',value=member.mention,inline=False)
+    emb.set_footer (text = f'Autres : {ctx.message.author}', icon_url = ctx.message.author.avatar_url)
+    await channel.send(embed=emb)
+    await member.remove_roles(role)
+
+@mute.error
+async def mute_error(ctx, error):
+        if isinstance(error, command.BadArgument):
+            emb = discord.Embed(title = f"Erreur !", description = f"L'utilisateur est introuvable.", colour = 0xce0000)
+            emb.set_author(name = ctx.author, icon_url = ctx.author.avatar_url)
+            await ctx.send(embed = emb)
+        else:
+            if isinstance(error, command.MissingPermissions):
+                await ctx.send(embed = discord.Embed(title = f"❌ Permission non valide !", description = f"{ctx.author.name}, vous n'avez pas les droits nécessaires!" , color = 0xf0002))
+            else:
+                if isinstance(error, command.MissingRequiredArgument):
+                    await ctx.send(embed = discord.Embed(title = f"Erreur !", description = f" {ctx.author.name}, vous devez fournir un argument !" , color = 0xf0002 ))
+
+@unmute.error
+async def unmute_error(ctx, error):
+        if isinstance(error, command.BadArgument):
+            emb = discord.Embed(title = f"Erreur !", description = f"L'utilisateur est introuvable.", colour = 0xce0000)
+            emb.set_author(name = ctx.author, icon_url = ctx.author.avatar_url)
+            await ctx.send(embed = emb)
+        else:
+            if isinstance(error, command.MissingPermissions):
+                await ctx.send(embed = discord.Embed(title = f"❌ Permission non valide !", description = f"{ctx.author.name}, vous n'avez pas les droits nécessaires!" , color = 0xf0002))
+            else:
+                if isinstance(error, command.MissingRequiredArgument):
+                    await ctx.send(embed = discord.Embed(title = f"Erreur !", description = f" {ctx.author.name}, vous devez fournir un argument !" , color = 0xf0002 ))
+
+
+client.categories = fs.readdirSync(path.resolve('./commands'));
+["command"].forEach(handler => {
+    require(path.resolve(`Js/economy/handlers/${handler}`))(client);
+});
+
+
+
+
+
+
+@bot.command(aliases=['tm'])
+@commands.has_permissions(manage_messages=True)
+async def tempmute(ctx, member: discord.Member=None, time=None, *, reason=None):
+    if not member:
+        await ctx.send('**❌ Merci de préciser un membre**')
+    elif not time:
+        await ctx.send('**❌ Merci de préciser un temps')
+    else:
+        if not reason:
+            reason='No reason given'
+        #Now timed mute manipulation
+        try:
+            seconds = time[:-1] #Gets the numbers from the time argument, start to -1
+            duration = time[-1] #Gets the timed maniulation, s, m, h, d
+            if duration == 's':
+                seconds = seconds * 1
+            elif duration == 'm':
+                seconds = seconds * 60
+            elif duration == 'h':
+                seconds = seconds * 60 * 60
+            elif duration == 'd':
+                seconds = seconds * 86400
+            else:
+                await ctx.send()
+                return
+        except Exception as e:
+            print(e)
+            await ctx.send('**❌ Le temps doit etre sous cette forme : Temps en secondes = s , Temps en minutes = m , Temps en heures = h , Temps en jours = d ; Ex : +tempban @Membre 1h ; Autre example : +tempban @Membre 3d**')
+            return
+        guild = ctx.guild
+        Muted = discord.utils.get(guild.roles, name='Muted')
+        if not Muted:
+            Muted = await guild.create_role(name='Muted')
+            for channel in guild.channels:
+                await channel.set_permissions(Muted, speak=False, send_messages=False, read_message_history=True, read_messages=False)
+        await member.add_roles(Muted, reason=reason)
+        emb1 = discord.Embed(title = '👮 Vous avez été tempmute' , color = soft_color)
+        emb1.add_field(name='Modérateur / administrateur :',value= ctx.message.author.mention,inline=False )
+        emb1.add_field(name='User tempmute:',value=member.mention,inline=False)
+        emb1.add_field(name='Temps du tempmute :',value=f'{time}',inline=False)
+        emb1.add_field(name='Raison :',value=f'`{reason}`',inline=False)
+        await member.send(embed = emb1)
+        emb = discord.Embed(title = '✅ Tempmute executé avec succés' , color = green )
+        emb.add_field(name='Modérateur / administrateur :',value= ctx.message.author.mention,inline=False)
+        emb.add_field(name='User tempmute :',value=member.mention,inline=False)
+        emb.add_field(name='Temps du tempmute :',value=f'{time}',inline=False)
+        emb.add_field(name='Raison :',value=f'`{reason}`',inline=False)
+        await ctx.send(embed = emb)
+
+
+        await asyncio.sleep(seconds)
+
+        await member.remove_roles(Muted)
+        emb2 = discord.Embed(title = '✅ Votre tempmute est terminé' , description = 'Bon retour parmis le chat', color = soft_color )
+        emb2.add_field(name='Temps du tempmute :',value=f'{time}',inline=False)
+        emb2.add_field(name='Ancienne raison du tempmute :',value=f'`{reason}`',inline=False)
+        await ctx.send(embed=emb2)
+        await member.send(embed=emb2)
+
+
+
+@bot.command()
+@commands.has_permissions(kick_members = True)
+@commands.cooldown(1, 5, commands.BucketType.guild)
+async def _tempmute(ctx, member: discord.Member, time, d, *, reason="Raison non fournie"):
+
+    guild = ctx.guild
+    muted_role = discord.utils.get(guild.roles, name = 'Muted')
+
+    emb1 = discord.Embed(title = '👮 Vous avez été tempmute' , color = soft_color)
+    emb1.add_field(name='Modérateur / administrateur :',value= ctx.message.author.mention,inline=False )
+    emb1.add_field(name='User tempmute:',value=member.mention,inline=False)
+    emb1.add_field(name='Temps du tempmute :',value=f'{time} {d}',inline=False)
+    emb1.add_field(name='Raison :',value=f'`{reason}`',inline=False)
+    await member.send(embed = emb1)
+
+    emb = discord.Embed(title = '✅ Tempmute executé avec succés' , color = green )
+    emb.add_field(name='Modérateur / administrateur :',value= ctx.message.author.mention,inline=False)
+    emb.add_field(name='User tempmute :',value=member.mention,inline=False)
+    emb.add_field(name='Temps du tempmute :',value=f'{time} {d}',inline=False)
+    emb.add_field(name='Raison :',value=f'`{reason}`',inline=False)
+    await ctx.send(embed = emb)
+
+    emb2 = discord.Embed(title = '✅ Votre tempmute est terminé' , description = 'Bon retour parmis le chat', color = soft_color )
+    emb2.add_field(name='Temps du tempmute :',value=f'{time} {d}',inline=False)
+    emb2.add_field(name='Ancienne raison du tempmute :',value=f'`{reason}`',inline=False)
+
+ 
+    
+    if d == "s" or 'seconds' or 'secondes':
+        await member.add_roles(muted_role)
+        print(f'ban ok {time}')
+        await asyncio.sleep(int(time))
+        print('sleep ok')
+        await member.remove_roles(muted_role)
+        await member.send(embed=emb2)
+        print('unban ok')
+        return
+    if d == "m" or 'minutes':
+        await member.add_roles(muted_role)
+        await asyncio.sleep(int(time*60))
+        await member.remove_roles(muted_role)
+        await member.send(embed=emb2)
+        return
+    if d == "h" or 'hours' or 'heures':
+        await member.add_roles(muted_role)
+        await asyncio.sleep(int(time*60*60))
+        await member.remove_roles(muted_role)
+        await member.send(embed=emb2)
+        return
+    if d == "d" or 'days' or 'jours':
+        await member.add_roles(muted_role)        
+        await asyncio.sleep(int(time*60*60*24))
+        await member.remove_roles(muted_role)
+        await member.send(embed=emb2)
+        return

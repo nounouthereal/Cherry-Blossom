@@ -280,10 +280,10 @@ module.exports.run = async (bot, message, args, ) => {
                     return
                 }
             }).catch(_ => {
-                          let timeout = new MessageEmbed()
-                          .setColor("RED")
-                          .setDescription(`${x} **${member.user.username}** : Tu as mis trop de temps à choisir, maintenant tu as perdu ton pari de **${betAmount.toLocaleString()}** :coin:`);
-                          return message.channel.send({embeds: [timeout]}).catch();
+                let timeout = new MessageEmbed()
+                    .setColor("RED")
+                    .setDescription(`${x} **${member.user.username}** : Tu as mis trop de temps à choisir, maintenant tu as perdu ton pari de **${betAmount.toLocaleString()}** :coin:`);
+                return message.channel.send({embeds: [timeout]}).catch();
                 bet("lose");
                 return
             })

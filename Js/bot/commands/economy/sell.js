@@ -97,11 +97,11 @@ module.exports.run = async (bot, message, args) => {
         .setThumbnail()
         .setTitle(`🛍 Vente réalisé avec succès`)
         .setFooter(message.guild.name)
-        .addField(`📦 Item vendu:`,`${item.name}`,true)
-        .addField(`🧮 Quantité:`,`**${parseInt(sellAmount).toLocaleString()}**`,true)
-        .addField(`💸 Prix de vente untaire:`,`\`${item.sellAmount}\` :coin:`,false)
-        .addField(`💰 Prix de vente total:`,`\`${parseInt(item.sellAmount * sellAmount).toLocaleString()}\` :coin:`,true)
-        .addField(`💳 Nouvelle balance:`,`**${user.coinsInWallet.toLocaleString()}** :coin:`,true)
+        .addField(`📦 Item vendu:`,`${item.name}`)
+        .addField(`🧮 Quantité:`,`**${parseInt(sellAmount).toLocaleString()}**`)
+        .addField(`💸 Prix de vente untaire:`,`\`${item.sellAmount}\` :coin:`)
+        .addField(`💰 Prix de vente total:`,`\`${parseInt(item.sellAmount * sellAmount).toLocaleString()}\` :coin:`)
+        .addField(`💳 Nouvelle balance:`,`**${user.coinsInWallet.toLocaleString()}** :coin:`)
     message.channel.send({embeds: [embed]});
 }
 

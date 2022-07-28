@@ -79,5 +79,5 @@ module.exports.run = async (bot, message, args) => {
       userPerms: [], // User permissions needed to run command. Leave empty if nothing.
       aliases: ['utiliser','used'], // Aliases 
       bankSpace: 3, // Amount of bank space to give when command is used.
-      cooldown: 0.1 // Command Cooldown
+      cooldown: 5 // Command Cooldown
   }

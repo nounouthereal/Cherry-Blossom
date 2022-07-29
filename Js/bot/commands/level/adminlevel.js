@@ -5,6 +5,8 @@ const Prizes = require('../../models/PrizesModel');
 
 module.exports.run = async (bot, message, args) => {
 
+    
+
     let user = message.mentions.users.first() || bot.users.cache.get(args[0]) || message.author;
     let levelData = await Levels.findOne({ guildId: message.guild.id, userId: user.id });
 

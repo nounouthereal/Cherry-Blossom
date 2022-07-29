@@ -41,9 +41,11 @@ module.exports.run = async (bot, message, args) =>  {
             .map(r => r)
             .join(",");
             console.log(rolemap)
-            if (rolemap.length > 1024) rolemap = ":warning: Il y a trop de roles à afficher";
+            //if (rolemap.length > 1024) rolemap = ":warning: Il y a trop de roles à afficher";
             if (!rolemap) rolemap = ":warning: Aucun role";
     const emojis =  message.guild.emojis.cache.size 
+
+    let role_var = 0
 
     let embed = new MessageEmbed()
 
@@ -154,7 +156,9 @@ module.exports.run = async (bot, message, args) =>  {
     embed.addField("🌍 Région :",`**${region}**`, false)
     embed.addField("👥 Nombre de membres :", `**${memberCount}**`, false) 
     embed.addField("🟢 Nombre de membres en ligne :", `**${message.guild.members.cache.filter(member => member.presence?.status !== undefined).size}**`, false) 
+       
     embed.addField(`🎭 Roles[${total_roles}] :`, `${rolemap}`, false)
+    
     embed.addField(`😀 Emojis[${emojis}] :`, `${emojismap}`, false)
     embed.addField("💠 Nombre de boosts ( niveau de boost ) :", `**${total_boosts}** Boosts ( Niveau **${boost_level}** )`, false)
     embed.addField("🗺 Nombre de salons :", `**${ChannelCount}**`, false)

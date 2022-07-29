@@ -1,27 +1,24 @@
 
-from ast import Str
-from importlib import reload
+from ctypes.wintypes import HHOOK
 from io import BytesIO
 import sqlite3
-from tkinter import Image
-from unicodedata import category
-from wsgiref.simple_server import sys_version
+from unicodedata import name
 import discord
 from discord.ext import commands
 import time
 import asyncio
-from datetime import datetime, timedelta
+from datetime import datetime
 import random
-from matplotlib.pyplot import title
 import requests
 import sys
 import humanfriendly
 import datetime as tiime
 from discord.ui import Button, View
 from PIL import Image
-import os
 from better_profanity import profanity
 import psutil
+from discord import Interaction
+from discord.commands import option, ApplicationContext, Option
 
 
 weather_key = 'a95f57e8f8b93ef367d40c4e364323f0'
@@ -165,8 +162,19 @@ async def on_ready():
     cur.execute('''CREATE TABLE IF NOT EXISTS automod
                 (idMember int,
                 count int DEFAULT '0',
-                server int,
-                activated bool DEFAULT '0')''')
+                server int)''')
+
+    cur.execute('''CREATE TABLE IF NOT EXISTS config
+                (server int,
+                automodActivated bool DEFAULT '1')''')
+
+    cur.execute('''CREATE TABLE IF NOT EXISTS automodChannelIgnored
+                (server int,
+                channel text)''')
+
+    cur.execute('''CREATE TABLE IF NOT EXISTS automodRoleIgnored
+                (server int,
+                role text)''')
 
     print('Base SQLite chargée')
     
@@ -184,8 +192,10 @@ async def on_message(message):
     await bot.process_commands(message)
 
     ctx = await bot.get_context(message)
+    automodActivated = cur.execute(f'SELECT automodActivated FROM config WHERE server={message.guild.id}')
 
-    if profanity.contains_profanity(message.content) == True:
+
+    if profanity.contains_profanity(message.content) == True and automodActivated == True or automodActivated == '1'  :
 
         if message.author.guild_permissions.administrator or message.author.guild_permissions.ban_members or message.author.guild_permissions.kick_members == True:
             return
@@ -210,8 +220,9 @@ async def on_message(message):
         con.commit()
         con.close()
 
+
         sent1 = await message.channel.send(message.author.mention)
-        emb = discord.Embed(title = ":warning: Automod", description=f"🚫 **Votre message a été supprimé car il contenait un mot interdit sur le serveur.**\n En l'occurence le mot : `{censored_text}`\nCeci est votre **{count_member_automod}** avertissement",color = warned)
+        emb = discord.Embed(title = ":warning: Automod", description=f"🚫 **Votre message a été supprimé car il contenait un mot interdit ou grossier sur le serveur.**\n En l'occurence le mot : `{censored_text}`\nCeci est votre **{count_member_automod}** avertissement",color = warned)
         emb.set_footer(text="🤖 BOT AUTOMOD SYSTEM")
         sent = await message.channel.send(embed = emb)
 
@@ -223,9 +234,10 @@ async def on_message(message):
             emb.set_footer(text="🤖 BOT AUTOMOD SYSTEM")
             sent = await message.author.send(embed = emb)
             await message.channel.send(embed = emb)
-            await do_warn(ctx, message.author,'BOT AUTOMOD SYSTEM: Mot interdits envoyés a 3 reprises')
+            await do_warn(ctx, message.author,'BOT AUTOMOD SYSTEM: Mot grossiers envoyés a 3 reprises')
 
-
+        if count_member_automod == 3 or 6 or 8:
+            await sent.delete()
 
         elif count_member_automod == 6:
             sent1 = await message.channel.send(message.author.mention)
@@ -233,7 +245,7 @@ async def on_message(message):
             emb.set_footer(text="🤖 BOT AUTOMOD SYSTEM")
             await message.author.send(embed = emb)
             sent = await message.channel.send(embed = emb)
-            await do_mute(ctx, message.author, '1h', 'BOT AUTOMOD SYSTEM: Mot interdits envoyés a 6 reprises')
+            await do_timeout(ctx, message.author, '1h', 'BOT AUTOMOD SYSTEM: Mot grossiers envoyés a 6 reprises')
 
 
 
@@ -244,7 +256,7 @@ async def on_message(message):
             emb.set_footer(text="🤖 BOT AUTOMOD SYSTEM")
             await message.author.send(embed = emb)
             sent = await message.channel.send(embed = emb)
-            await do_mute(ctx, message.author, '2h', 'BOT AUTOMOD SYSTEM: Mot interdits envoyés a 8 reprises')
+            await do_timeout(ctx, message.author, '2h', 'BOT AUTOMOD SYSTEM: Mot grossiers envoyés a 8 reprises')
         await asyncio.sleep(10)
         await sent.delete()
         await sent1.delete()
@@ -266,6 +278,12 @@ async def botinfo(ctx):
 
     memory_still_all = psutil.virtual_memory().available * 100 / psutil.virtual_memory().total
     memory_still = round(memory_still_all,3)
+
+    if is_verified_bot == False:
+        is_verified_bot == "Non"
+
+    if is_verified_bot == True:
+        is_verified_bot == "Oui"
 
     serversembed = discord.Embed( title = f'📝 Informations sur {bot.user.name}', color=ctx.guild.me.top_role.color)
     serversembed.add_field(name = '🤖 | Bot certifié :', value = is_verified_bot)
@@ -289,13 +307,129 @@ async def botinfo(ctx):
 
 @bot.command()
 async def uptime(ctx):
-        text = f'{round(time.time() - upTime)}'
-        embed = discord.Embed(colour=soft_color)
-        embed.add_field(name="🕰 Bot Uptime", value=f'`{text} secondes`')
-        try:
-            await ctx.send(embed=embed)
-        except discord.HTTPException:
-            await ctx.send("Current uptime: " + text)
+    text = f'{round(time.time() - upTime)}'
+    embed = discord.Embed(colour=soft_color)
+    embed.add_field(name="🕰 Bot Uptime", value=f'`{text} secondes`')
+    try:
+        await ctx.send(embed=embed)
+    except discord.HTTPException:
+        await ctx.send("Current uptime: " + text)
+
+@bot.command()
+async def automod(ctx):
+    """ let embed_help1 = new MessageEmbed()
+    embed_help1.setColor('#57c478')
+    embed_help1.setTitle('Merci de choisir une option:','')
+    embed_help1.addField('━━━━━━━━━━━━━━━━━━━━━━━━',''> \`on\'' → Active le système de niveaux\n> \`off\` → Désactive le système de niveaux\n> \`prize\` → Configure/Affiche le système de récompenses`)
+ """
+    embed_help1 = discord.Embed(title='🔧 Merci de choisir une option:',color=0x57c478)
+    embed_help1.add_field(name='━━━━━━━━━━━━━━━━━━━━━━━━',value='> `on`→ Active le système d\'auto modération\n> `off` → Désactive le système d\'auto modération\n> `roleIngore` → Permet à l\'automodération d\'ignorer un role\n> `channelIngore` → Permet à l\'automodération d\'ignorer un channel (Canal)')
+
+    buttonOn = Button(label='On', style=discord.ButtonStyle.green)
+    buttonOff = Button(label='Off', style=discord.ButtonStyle.red)
+    buttonChanIgnore = Button(label='channelIgnore', style=discord.ButtonStyle.red)
+    buttonRoleIgnore = Button(label='roleIgnore', style=discord.ButtonStyle.red)
+    buttonChanAdd = Button(label="Ajouter",style= discord.ButtonStyle.green)
+    buttonRoleAdd = Button(label="Ajouter",style= discord.ButtonStyle.green)
+    buttonRoleRemove = Button(label="Retirer",style= discord.ButtonStyle.blurple)
+    buttonChanremove = Button(label="Retirer",style= discord.ButtonStyle.blurple)
+
+    view = View()
+    view.add_item(buttonOn)
+    view.add_item(buttonOff)
+    view.add_item(buttonChanIgnore)
+    view.add_item(buttonRoleIgnore)
+
+
+    sent = await ctx.send(embed=embed_help1, view=view)
+    embedErrorOn = discord.Embed(title=':warning: Erreur',description="L'automod est déjà activé")
+
+    con = sqlite3.connect(f'{db_name}')
+    cur = con.cursor()
+    automodActivated = cur.execute(f'SELECT automodActivated FROM automod WHERE server={ctx.guild.id}')
+    async def button_callbackOn(interaction):
+        if interaction.user.id != ctx.author.id:
+            await interaction.response.send_message(embed = button_false_user_emb,ephemeral=True)
+            return
+        
+        if automodActivated == '1' or automodActivated == True:
+            return await ctx.send(embedErrorOn)
+            
+
+        
+        em1 = discord.Embed(description="✅ Automod activé")
+
+        await interaction.response.send_message(embed = em1)
+        buttonOn.callback = button_disabled
+        buttonOff.callback = button_disabled
+        cur.execute(f'UPDATE config SET automodActivated = 0 WHERE server = {ctx.guild.id}')
+        await asyncio.sleep(10)
+        await sent.delete()
+        return
+
+    async def button_callbackOff(interaction):
+        if interaction.user.id != ctx.author.id:
+            await interaction.response.send_message(embed = button_false_user_emb,ephemeral=True)
+            return
+
+        if automodActivated == '0' or automodActivated == False:
+            return await ctx.send(embedErrorOn)
+            
+
+        
+        em1 = discord.Embed(description="✅ Automod désactivé")
+
+        await interaction.response.send_message(embed = em1)
+        buttonOn.callback = button_disabled
+        buttonOff.callback = button_disabled
+        cur.execute(f'UPDATE config SET automodActivated = 0 WHERE server = {ctx.guild.id}')
+        await asyncio.sleep(10)
+        await sent.delete()
+        return
+
+    async def button_callbackRoleIgnore(interaction):
+        if interaction.user.id != ctx.author.id:
+            await interaction.response.send_message(embed = button_false_user_emb,ephemeral=True)
+            return
+
+
+        buttonOn.callback = button_disabled
+        buttonOff.callback = button_disabled
+        await asyncio.sleep(10)
+        await sent.delete()
+        return
+
+    async def button_callbackChanIgnore(interaction):
+        if interaction.user.id != ctx.author.id:
+            await interaction.response.send_message(embed = button_false_user_emb,ephemeral=True)
+            return
+
+        buttonOn.callback = button_disabled
+        buttonOff.callback = button_disabled
+        await asyncio.sleep(10)
+        await sent.delete()
+        return
+    
+    async def button_disabled(interaction):
+        return
+
+
+    buttonOn.callback = button_callbackOn
+    buttonOff.callback = button_callbackOff
+    buttonChanIgnore.callback = button_callbackChanIgnore
+    buttonRoleIgnore.callback = button_callbackRoleIgnore
+
+    view = View()
+    view.add_item(buttonOn)
+    view.add_item(buttonOff)
+    view.add_item(buttonChanIgnore)
+    view.add_item(buttonRoleIgnore)
+
+
+    sent = await ctx.send(embed=embed_help1, view=view)
+
+
+
 
 @bot.command(aliases=['btc','bitcoins','BTC'])
 async def bitcoin(ctx):
@@ -452,6 +586,81 @@ async def iplookup(ctx, *, ippadr: str = '9.9.9.9'):
     view.add_item(buttonMP)
     sent = await ctx.send(embed=warnemb, view=view)
 
+@bot.command(description="Mutes the specified user.")
+@commands.has_permissions(manage_messages=True)
+async def mute(ctx, member: discord.Member, *, reason=None):
+    if member == bot.user:
+            member_author_embed = discord.Embed(title='❌ Erreur !',description="`Impossible de me mute moi même ! (+mute @membre raison)`",color = red) 
+            await ctx.send(embed = member_author_embed)
+            return
+
+    if reason == None:
+            reason_none_embed = discord.Embed(title='❌ Erreur !',description="`Merci de spécifier la raison du kick ! (+mute @membre raison)`",color = red) 
+            await ctx.send(embed = reason_none_embed)
+            return
+
+    if member == ctx.author:
+            member_author_embed = discord.Embed(title='❌ Erreur !',description="`Impossible de vous mute vous même ! (+mute @membre raison)`",color = red) 
+            await ctx.send(embed = member_author_embed)
+            return
+
+    if member == None:
+            member_author_embed = discord.Embed(title='❌ Erreur !',description="`Merci de spécifier le membre a mute ! (+mute @membre raison)`",color = red) 
+            await ctx.send(embed = member_author_embed)
+            return
+
+
+    
+    guild = ctx.guild
+    mutedRole = discord.utils.get(guild.roles, name="Muted")
+
+    if not mutedRole:
+        mutedRole = await guild.create_role(name="Muted")
+
+        for channel in guild.channels:
+            await channel.set_permissions(mutedRole, speak=False, send_messages=False, read_message_history=True, read_messages=False)
+
+    await member.add_roles(mutedRole, reason=reason)
+    emb1 = discord.Embed(title="✅ Le membre est muet ", color=green)
+    emb1.add_field(name='Modérateur / administrateur :',value= ctx.message.author.mention,inline=False)
+    emb1.add_field(name='Membre muet :',value=member.mention,inline=False)
+    emb1.add_field(name='Serveur :',value=f'{member.guild.name}',inline=False)
+    emb1.add_field(name='Raison :',value=f'`{reason}`',inline=False)
+
+    await ctx.send(embed = emb1)
+
+    embed2 = discord.Embed(title=f'👮 Vous avez été mute de {ctx.guild.name}', color=soft_color)
+    embed2.add_field(name='Modérateur / administrateur :',value= ctx.message.author,inline=False)
+    embed2.add_field(name='Membre muet :',value=member.mention,inline=False)
+    embed2.add_field(name='Serveur :',value=f'{member.guild.name}',inline=False)
+    embed2.add_field(name='Raison :',value=f'`{reason}`',inline=False)
+
+    
+    await member.send(embed=embed2)
+
+    con = sqlite3.connect(f'{db_name}')
+    cur = con.cursor()
+
+    count_member_kicks = cur.execute(f'SELECT COUNT(*) FROM mute WHERE idMember={member.id}').fetchone()[0]
+    print(count_member_kicks)
+
+    
+
+    current_timestamp = datetime.now().timestamp()
+    #print(f'{datetime.fromtimestamp(current_timestamp)}')
+    cur.execute(f"INSERT INTO Mute VALUES ({ctx.author.id},{member.id},'{current_timestamp}','{reason}','Mute',{ctx.guild.id})")
+    con.commit()
+    con.close()
+
+@bot.command(description="Unmutes a specified user.")
+@commands.has_permissions(manage_messages=True)
+async def unmute(ctx, member: discord.Member):
+    mutedRole = discord.utils.get(ctx.guild.roles, name="Muted")
+
+    await member.remove_roles(mutedRole)
+    await ctx.send(f"Unmuted {member.mention}")
+    await member.send(f"You were unmuted in the server {ctx.guild.name}")
+
 @bot.command()
 async def wanted(ctx, member: discord.Member = None):
     if member == None:
@@ -602,7 +811,7 @@ async def dm(ctx, user: discord.User, *, message: str):
         except discord.Forbidden:
             await ctx.send("❌ Erreur. Il est possible que cet utilisateur m'ai bloqué ou que vous soyez actuellement muet ...")
 
-@bot.command()
+#@bot.command()
 @commands.has_permissions(administrator=True)
 async def test(ctx):
     await ctx.send(f"{ctx.author} a utilisée la commande test, regarde si utilisable par l'utilisateur")
@@ -650,23 +859,28 @@ async def kick(ctx, member: discord.Member, *, reason=None):
  
         sent = None
 
+        if member == bot.user:
+            member_author_embed = discord.Embed(title='❌ Erreur !',description="`Impossible de me ban moi même ! (+kick @membre raison)`",color = red) 
+            await ctx.send(embed = member_author_embed)
+            return
+
         if reason == None:
-            reason_none_embed = discord.Embed(title='❌ Erreur !',description="`Merci de spécifier la raison du kick ! (**+kick @membre raison**)`",color = red) 
+            reason_none_embed = discord.Embed(title='❌ Erreur !',description="`Merci de spécifier la raison du kick ! (+kick @membre raison)`",color = red) 
             await ctx.send(embed = reason_none_embed)
             return
 
         if member == ctx.author:
-            member_author_embed = discord.Embed(title='❌ Erreur !',description="`Impossible de vous expulser vous même ! (**+kick @membre raison**)`",color = red) 
+            member_author_embed = discord.Embed(title='❌ Erreur !',description="`Impossible de vous expulser vous même ! (+kick @membre raison)`",color = red) 
             await ctx.send(embed = member_author_embed)
             return
 
         if member == None:
-            member_author_embed = discord.Embed(title='❌ Erreur !',description="`Merci de spécifier le membre a expulser ! (**+kick @membre raison**)`",color = red) 
+            member_author_embed = discord.Embed(title='❌ Erreur !',description="`Merci de spécifier le membre a expulser ! (+kick @membre raison)`",color = red) 
             await ctx.send(embed = member_author_embed)
             return
 
         if member == ctx.author:
-            member_author_embed = discord.Embed(title='❌ Erreur !',description="`Vous ne pouvez pas vous kick vous même ! (**+kick @membre raison**)`",color = red) 
+            member_author_embed = discord.Embed(title='❌ Erreur !',description="`Vous ne pouvez pas vous kick vous même ! (+kick @membre raison)`",color = red) 
             await ctx.send(embed = member_author_embed)
             return
         
@@ -687,21 +901,18 @@ async def kick(ctx, member: discord.Member, *, reason=None):
             await message.edit(content = "✅ Chargement complet")
 
             emb1 = discord.Embed(title="Membre expulsé avec succés ✅ ", color=green)
-            emb1.add_field(name="Kick pour : ", value=f"Raison : {reason}", inline=False)
-            emb1.add_field(name="User expulsée: ", value=f"{member.mention}", inline=False)
-            emb1.add_field(name="Expulsée par : ", value=f'{ctx.author}', inline=False)
-            emb1.set_author(name = ctx.author, icon_url = ctx.author.avatar)
+            emb1.add_field(name='Modérateur / administrateur :',value= ctx.message.author.mention,inline=False)
+            emb1.add_field(name='Membre expulsée :',value=member.mention,inline=False)
+            emb1.add_field(name='Serveur :',value=f'{member.guild.name}',inline=False)
+            emb1.add_field(name='Raison :',value=f'`{reason}`',inline=False)
 
             await interaction.response.send_message(embed = emb1)
 
-            await member.send(f'Vous avez été expulsée mais vous pouvez toujours rejoindre le serveur {ctx.guild.name} Expulsé pour **{reason}**!')
-            await member.send("Si c'est une erreur ou bavure merci de contacter **nounou#4483**")
-
-            embed2 = discord.Embed(title='👮 Vous avez été expulsée', color=soft_color)
+            embed2 = discord.Embed(title=f'👮 Vous avez été expulsée de {ctx.guild.name}', color=soft_color)
             embed2.add_field(name='Modérateur / administrateur :',value= ctx.message.author,inline=False)
-            embed2.add_field(name='User expulsée :',value=member.mention,inline=False)
+            embed2.add_field(name='Membre expulsée :',value=member.mention,inline=False)
             embed2.add_field(name='Serveur :',value=f'{member.guild.name}',inline=False)
-            embed2.add_field(name='Raison :',value=reason,inline=False)
+            embed2.add_field(name='Raison :',value=f'`{reason}`',inline=False)
 
             con = sqlite3.connect(f'{db_name}')
             cur = con.cursor()
@@ -912,7 +1123,7 @@ async def kickings(ctx, *, member: discord.Member = None):
     con.close()
 
 
-@bot.command(aliases = ['clearchannel'])
+@bot.command(aliases = ['clearchannel','chanelclear','clearchan'])
 @commands.has_permissions(administrator=True)
 async def nuke(ctx, channel: discord.TextChannel = None):
 
@@ -1926,7 +2137,7 @@ async def unban(ctx, member = None ,* , reason = None ):
         await ctx.send('`💡 Astuce: Pour les membre banni avec des espaces dans leurs pseudo. Mettez leur pseudo entre guillaumets.` `Ex: +unban "Ikko le vrai" raison`, `Ex 2: +unban "Thomas zozo #1234" Raison`')
 
 
-async def do_mute(ctx, member: discord.Member = None , time = None, reason = None):
+async def do_timeout(ctx, member: discord.Member = None , time = None, reason = None):
 
     time1 =  humanfriendly.parse_timespan(time)
     await member.timeout(until= discord.utils.utcnow() + tiime.timedelta(seconds = time1), reason=reason)
@@ -1936,7 +2147,7 @@ async def do_mute(ctx, member: discord.Member = None , time = None, reason = Non
 
 
 
-    emb = discord.Embed(title="✅ L'utilisateur est réduit au silence !",color=green)
+    emb = discord.Embed(title="✅ L'utilisateur est timeout !",color=green)
     emb.set_author(name = ctx.author, icon_url = ctx.author.avatar)
     emb.add_field(name='Modérateur / administrateur :',value=ctx.author.mention,inline=False)
     emb.add_field(name='Membre réduit au silence :',value=member.mention,inline=False)
@@ -1944,7 +2155,7 @@ async def do_mute(ctx, member: discord.Member = None , time = None, reason = Non
     emb.add_field(name="Serveur :", value=f'*{ctx.guild.name}*')
     emb.add_field(name='Raison :',value=f'`{reason}`',inline=False)
     await ctx.send(embed = emb)
-    emb2 = discord.Embed(title="👮 Vous êtes muet ! ",color=green)
+    emb2 = discord.Embed(title=f"👮 Vous êtes timeout sur {ctx.guild.name} ! ",color=green)
     emb.set_author(name = ctx.author, icon_url = ctx.author.avatar)
     emb2.add_field(name='Modérateur / administrateur :',value=ctx.author,inline=False)
     emb2.add_field(name='Membre réduit au silence :',value=member.mention,inline=False)
@@ -1963,16 +2174,16 @@ async def do_mute(ctx, member: discord.Member = None , time = None, reason = Non
 
     current_timestamp = datetime.now().timestamp()
     #print(f'{datetime.fromtimestamp(current_timestamp)}')
-    cur.execute(f"INSERT INTO mute VALUES ({ctx.author.id},{member.id},'{current_timestamp}','{reason}','{time}','Mute',{ctx.guild.id})")
+    cur.execute(f"INSERT INTO mute VALUES ({ctx.author.id},{member.id},'{current_timestamp}','{reason}','{time}','Timeout',{ctx.guild.id})")
     con.commit()
     con.close()
 
 
 
         
-@bot.command(aliases=['Timeout','timeout'])
+@bot.command(aliases=['Timeout','exclure','exclusion'])
 @commands.has_permissions(kick_members = True)
-async def mute(ctx, member: discord.Member = None , time = None, *, reason = None):
+async def timeout(ctx, member: discord.Member = None , time = None, *, reason = None):
 
     #print(f'time: {time}')
     time_unit = time[-1]
@@ -1983,27 +2194,27 @@ async def mute(ctx, member: discord.Member = None , time = None, *, reason = Non
 
 
     if reason == None:
-        reason_none_embed = discord.Embed(title='❌ Erreur !',description="`Merci de spécifier la raison du bannissement !`\n\n `(+mute @membre <raison>)`",color = red) 
+        reason_none_embed = discord.Embed(title='❌ Erreur !',description="`Merci de spécifier la raison de l'exclusion !`\n\n `(+timeout @membre <raison>)`",color = red) 
         await ctx.send(embed = reason_none_embed)
         return
 
     if member == ctx.author:
-        member_author_embed = discord.Embed(title='❌ Erreur !',description="`Impossible de vous bannir vous même !`\n\n `(+mute @membre <raison>)`",color = red) 
+        member_author_embed = discord.Embed(title='❌ Erreur !',description="`Impossible de vous exclure vous même !`\n\n `(+timeout @membre <raison>)`",color = red) 
         await ctx.send(embed = member_author_embed)
         return
 
     if member == None:
-        member_author_embed = discord.Embed(title='❌ Erreur !',description="`Merci de spécifier le membre a mute !`\n\n `(+mute @membre <raison>)`",color = red) 
+        member_author_embed = discord.Embed(title='❌ Erreur !',description="`Merci de spécifier le membre a exclure !`\n\n `(+timeout @membre <raison>)`",color = red) 
         await ctx.send(embed = member_author_embed)
         return
 
 
     if time == None:
-        await ctx.send("**❌ Merci de préciser un chiffre suivi d'une lettre exprimant la durée** `(d pour jours, h pour heures, m pour minutes, s pour secondes)`.")
+        await ctx.send("**❌ Merci de préciser un chiffre suivi d'une lettre exprimant la durée** `(d pour jours, h pour heures, m pour minutes, s pour secondes. Ex: 1h ; 3d ; 5m)`.")
         return
         
     if time_duration.isdigit() == False :
-        await ctx.send("**❌ Merci de préciser un chiffre suivi d'une lettre exprimant la durée** `(d pour jours, h pour heures, m pour minutes, s pour secondes. Ex: 1 h ; 3 d ; 5 m)`.")
+        await ctx.send("**❌ Merci de préciser un chiffre suivi d'une lettre exprimant la durée** `(d pour jours, h pour heures, m pour minutes, s pour secondes. Ex: 1h ; 3d ; 5m)`.")
         return
 
 
@@ -2022,7 +2233,7 @@ async def mute(ctx, member: discord.Member = None , time = None, *, reason = Non
     emb = discord.Embed(title="✅ L'utilisateur est réduit au silence !",color=green)
     emb.set_author(name = ctx.author, icon_url = ctx.author.avatar)
     emb.add_field(name='Modérateur / administrateur :',value=ctx.author.mention,inline=False)
-    emb.add_field(name='Membre réduit au silence :',value=member.mention,inline=False)
+    emb.add_field(name='Membre :',value=member.mention,inline=False)
     emb.add_field(name='Temps :', value = f'`{time}`')
     emb.add_field(name='Raison :',value=f'`{reason}`',inline=False)
     await ctx.send(embed = emb)
@@ -2045,7 +2256,7 @@ async def mute(ctx, member: discord.Member = None , time = None, *, reason = Non
 
     current_timestamp = datetime.now().timestamp()
     #print(f'{datetime.fromtimestamp(current_timestamp)}')
-    cur.execute(f"INSERT INTO mute VALUES ({ctx.author.id},{member.id},'{current_timestamp}','{reason}','{time}','Mute')")
+    cur.execute(f"INSERT INTO mute VALUES ({ctx.author.id},{member.id},'{current_timestamp}','{reason}','{time}','Timeout',{ctx.guild.id})")
     con.commit()
     con.close()
 
@@ -2112,36 +2323,37 @@ async def mutings(ctx, *, member: discord.Member = None):
     con.close()
 
 
-@bot.command(aliases= ['untimeout','detimeout','demute'])
+@bot.command(aliases= ['detimeout'])
 @commands.has_permissions(kick_members = True)
-async def unmute(ctx, member: discord.Member = None , *, reason = None):
+async def untimeout(ctx, member: discord.Member = None , *, reason = None):
 
     if reason == None:
-        reason_none_embed = discord.Embed(title='❌ Erreur !',description="`Merci de spécifier la raison du unmute !`\n\n `(+unmute @membre <raison>)`",color = red) 
+        reason_none_embed = discord.Embed(title='❌ Erreur !',description="`Merci de spécifier la raison du untimeout !`\n\n `(+untimeout @membre <raison>)`",color = red) 
         await ctx.send(embed = reason_none_embed)
         return
 
     if member == ctx.author:
-        member_author_embed = discord.Embed(title='❌ Erreur !',description="`Impossible de vous unmute vous même !`\n\n `(+unmute @membre <raison>)`",color = red) 
+        member_author_embed = discord.Embed(title='❌ Erreur !',description="`Impossible de vous untimeout vous même !`\n\n `(+untimeout @membre <raison>)`",color = red) 
         await ctx.send(embed = member_author_embed)
         return
 
     if member == None:
-        member_author_embed = discord.Embed(title='❌ Erreur !',description="`Merci de spécifier le membre a unmute !`\n\n `(+unmute @membre <raison>)`",color = red) 
+        member_author_embed = discord.Embed(title='❌ Erreur !',description="`Merci de spécifier le membre a untimeout !`\n\n `(+untimeout @membre <raison>)`",color = red) 
         await ctx.send(embed = member_author_embed)
         return
     
     await member.timeout(until= None, reason=reason)
-    emb = discord.Embed(title="👮 L'utilisateur a été unmute avec succés ! ",color=green)
+    emb = discord.Embed(title="👮 L'utilisateur a été untimeout avec succés ! ",color=green)
     emb.set_author(name = ctx.author, icon_url = ctx.author.avatar)
     emb.add_field(name='Modérateur / administrateur :',value= ctx.author.mention,inline=False)
-    emb.add_field(name='Membre unmute :',value=member.mention,inline=False)
+    emb.add_field(name='Membre :',value=member.mention,inline=False)
     emb.add_field(name='Raison :',value=f'`{reason}`',inline=False)
     await ctx.send(embed=emb)
     emb2 = discord.Embed(title="✅ Vous etes plus muet !",color=green)
     emb2.set_author(name = ctx.author, icon_url = ctx.author.avatar)
     emb2.add_field(name='Modérateur / administrateur :',value=ctx.author.mention,inline=False)
-    emb2.add_field(name='Membre unmute :',value=member.mention,inline=False)
+    emb2.add_field(name='Membre :',value=member.mention,inline=False)
+    emb2.add_field(name='Serveur :',value=f'`{ctx.guild.name}`',inline=False)
     emb2.add_field(name='Raison :',value=f'`{reason}`',inline=False)
     await member.send(embed = emb2)
 
@@ -2727,14 +2939,14 @@ async def baninfo(ctx, *, name):
         em = discord.Embed()
         em.color = green
         em.set_author(name=str(ban.user), icon_url=ban.user.avatar_url)
-        em.add_field(name='Reason', value=ban.reason or 'None')
+        em.add_field(name='Reason', value=ban.reason or 'Aucune')
         em.set_thumbnail(url=ban.user.avatar_url)
         em.set_footer(text=f'User ID: {ban.user.id}')
 
         await ctx.send(embed=em)
 
 
-@bot.command(name="toggle",alases=['disable' , 'enable'], description="Enable or disable a command!")
+@bot.command(name="toggle",aliases=['disable' , 'enable'], description="Enable or disable a command!")
 @commands.is_owner()
 async def toggle(ctx, *, command):
         command = bot.get_command(command)
@@ -2785,28 +2997,243 @@ async def clear(ctx, amount=0):
             await ctx.send(embed = emb3)
 
 
+################################################
+################################################
+#Slash commands
+################################################
+################################################
+################################################
+#Sash commands
+################################################
+################################################
+################################################
+
+@bot.slash_command(name="test")
+async def test(interaction: Interaction, option1: str, option2: int):
+    await interaction.response.send_message(f"{option1} is to {option2}")
+
+@bot.slash_command(name="ping",description = '🏓 Send an embed with ping information')
+async def ping(interaction: Interaction):
+    em = discord.Embed(title=f'🏓 Pong ! : ',description = f'Mon ping est de : **{round(bot.latency * 1000)} ms**',color=soft_color)
+
+    button = Button(label='Relancer', style=discord.ButtonStyle.blurple , emoji="🔄")
+
+    view = View()
+    view.add_item(button)
+
+    async def butrton_callback(interaction1):
+        em1 = discord.Embed(title=f'🏓 Pong ! : ',description = f'Mon ping est de : **{round(bot.latency * 1000)} ms**',color=soft_color)
+        await interaction1.response.send_message(embed = em1 , view = view)
+
+    button.callback = butrton_callback
+
+    await interaction.response.send_message(embed=em, view=view)
+
+@bot.slash_command(name = "clear",description = "⭕️ Supprime jusqu'a 300 messages")
+@commands.cooldown(1, 20 ,commands.BucketType.user)
+@commands.has_permissions(manage_messages=True)
+async def clear(interaction: Interaction, amount: int):
+
+
+        if amount == 0:
+            emb1 = discord.Embed(title= "❌ Erreur" , description = "Merci de spécifier le nombres de messages à supprimer !" , color = red)
+            await interaction.response.send_message(embed = emb1)
+        elif amount <= 0:  # lower then 0
+            emb2 = discord.Embed(title='❌ Erreur' , description = "Le nombre doit être supérieur à 0 !", color=red)
+            await interaction.response.send_message(embed = emb2)
+
+        elif amount > 300:  # lower then 300
+            emb2 = discord.Embed(title='❌ Erreur' , description = "Le nombre se doit d'être en dessous de 300 !", color=red)
+            await interaction.response.send_message(embed = emb2)
+        else:
+            emb3 = discord.Embed(title='✅ Commande executé avec succés', color = green)
+            emb3.add_field(name = "Nombre de messages supprimés :" , value = f"Vous avez supprimé **{amount}** message(s)")
+            emb3.add_field(name='Modérateur / administrateur :',value= interaction.author.mention,inline=False)
+            await interaction.channel.purge(limit=amount)
+            sent = await interaction.response.send_message(embed = emb3)
+            await asyncio.sleep(10)
+            await sent.delete_original_message()
+
+
+
+
+@bot.slash_command(name='bans',description = '🧾 Send a list of banned members')
+@commands.cooldown(1, 20, commands.BucketType.user)
+@commands.has_permissions(ban_members=True)
+async def bans(interaction: Interaction):
+        '''See a list of banned users in the guild'''
+        
+
+        try:
+            bans = await interaction.guild.bans()
+        except:
+            return await interaction.response.send_message(embed = discord.Embed(title = f"❌ Permission non valide !", description = f"{interaction.author.mention}, vous n'avez pas les droits nécessaires!" , color = red), ephemeral=True)
+
+        if len(bans) == 0:
+            await interaction.response.send_message(interaction.author.mention)
+            return await interaction.response.send_message(embed = discord.Embed(title = f":warning: Erreur !", description = f"{interaction.author.mention}, Il semblerait qu'aucun membre soit ban!" , color = warned),ephemeral=True)
+
+
+        em = discord.Embed(title=f'🛡 Liste des membres ban (**{len(bans)}**):')
+        em.description = f'\n '.join([str(b.user) for b in bans])
+        em.color = interaction.guild.me.top_role.color
+
+        await interaction.response.send_message(embed=em)
+
+@bot.slash_command(name="timeout",description = "🔇 Timeout a member. Optionnal: time, reason")
+@commands.has_permissions(kick_members = True)
+@option(
+    "duration", 
+    description="The duration of the timeout (Example: 20h for 20 hours) (0 for nothing)",
+)
+@option(
+    "member", 
+    description="The member to timeout (Example: @Flower man)"
+)
+@option(
+    "reason", 
+    description="The reason of the timeout (Example: Spamming in general channel) (none for nothing)",
+    required=True,
+)
+async def timeout( ctx : ApplicationContext, member: discord.Member , duration = str,reason = str):
+
+    #print(f'time: {time}')
+    time_unit = duration[-1]
+    time_duration = duration[:-1] 
+    
+    print(f'time_unit: {time_unit}')
+    print(f'time_duration: {time_duration}')
+
+
+    if reason == 'none':
+        print('Blocked')
+        reason = "Raison indéfini"
+
+    if member == ctx.author:
+        member_author_embed = discord.Embed(title='❌ Erreur !',description="`Impossible de vous bannir vous même !`\n\n `(/timeout @membre <raison>)`",color = red) 
+        await ctx.send(embed = member_author_embed)
+        return
+
+
+    if member == None:
+        member_author_embed = discord.Embed(title='❌ Erreur !',description="`Merci de spécifier le membre a mute !`\n\n `(/timeout @membre <raison>)`",color = red) 
+        await ctx.send(embed = member_author_embed)
+        return
+
+    duration_str = duration
+
+    if duration == "None str" or '0':
+        duration = '3650d'
+        duration_str = "Durée indéfini"
+        
+    
+    ###if time_unit != 'd' or 's' or 'm' or 'h' and duration != '3650d':
+     ##   await ctx.send("**❌ Merci de préciser un chiffre suivi d'une lettre exprimant la durée** `(d pour jours, h pour heures, m pour minutes, s pour secondes)`.")
+     #   return
+
+    time1 =  humanfriendly.parse_timespan(duration)
+    await member.timeout(until= discord.utils.utcnow() + tiime.timedelta(seconds = time1), reason=reason) 
+    guild = ctx.guild
+
+    emb = discord.Embed(title="✅ L'utilisateur est timeout !",color=green)
+    emb.set_author(name = ctx.author, icon_url = ctx.author.avatar)
+    emb.add_field(name='Modérateur / administrateur :',value=ctx.author.mention,inline=False)
+    emb.add_field(name='Membre :',value=member.mention,inline=False)
+    emb.add_field(name='Temps :', value = f'`{duration_str}`')
+    emb.add_field(name='Raison :',value=f'`{reason}`',inline=False)
+    await ctx.send(embed = emb)
+    emb2 = discord.Embed(title="👮 Vous êtes timeout ! ",color=green)
+    emb.set_author(name = ctx.author, icon_url = member.avatar)
+    emb2.add_field(name='Modérateur / administrateur :',value=ctx.author,inline=False)
+    emb2.add_field(name='Membre :',value=member.mention,inline=False)
+    emb2.add_field(name='Serveur :', value = f'`{ctx.guild.name}`')
+    emb2.add_field(name='Temps :', value = f'`{duration_str}`')
+    emb2.add_field(name='Raison :',value=f'`{reason}`',inline=False)
+    await member.send(embed = emb2)
+
+    con = sqlite3.connect(f'{db_name}')
+    cur = con.cursor()
+
+    count_member_kicks = cur.execute(f'SELECT COUNT(*) FROM mute WHERE idMember={member.id}').fetchone()[0]
+    print(count_member_kicks)
+
+    if count_member_kicks >= 3:
+        print(f'{member.mention} a dejà été réduit au silence au moins 3 fois !')
+
+    current_timestamp = datetime.now().timestamp()
+    #print(f'{datetime.fromtimestamp(current_timestamp)}')
+    cur.execute(f"INSERT INTO mute VALUES ({ctx.author.id},{member.id},'{current_timestamp}','{reason}','{duration_str}','Timeout',{ctx.guild.id})")
+    con.commit()
+    con.close()
+
+@bot.slash_command(name="mute",aliases=['Untimeout','untimeout','detimeout'],description = "🔈 Remove timeout a member.")
+@commands.has_permissions(kick_members = True)
+@option(
+    "member", 
+    description="The member to timeout (Example: @Flower man)",
+    required=True,
+)
+@option(
+    "reason", 
+    description="The reason of the timeout (Example: Spamming in genral channel)",
+    required=True,
+)
+async def untimeout(ctx: ApplicationContext, member: discord.Member ,reason = str):
+
+    if reason == None:
+        reason_none_embed = discord.Embed(title='❌ Erreur !',description="`Merci de spécifier la raison du untimeout !`\n\n `(/untimeout @membre <raison>)`",color = red) 
+        await ctx.send(embed = reason_none_embed)
+        return
+
+    if member == ctx.author:
+        member_author_embed = discord.Embed(title='❌ Erreur !',description="`Impossible de vous untimeout vous même !`\n\n `(/untimeout @membre <raison>)`",color = red) 
+        await ctx.send(embed = member_author_embed)
+        return
+
+    if member == None:
+        member_author_embed = discord.Embed(title='❌ Erreur !',description="`Merci de spécifier le membre a untimeout !`\n\n `(/untimeout @membre <raison>)`",color = red) 
+        await ctx.send(embed = member_author_embed)
+        return
+    
+    await member.timeout(until= None, reason=reason)
+    emb = discord.Embed(title="👮 L'utilisateur a été untimeout avec succés ! ",color=green)
+    emb.set_author(name = ctx.author, icon_url = ctx.author.avatar)
+    emb.add_field(name='Modérateur / administrateur :',value= ctx.author.mention,inline=False)
+    emb.add_field(name='Membre :',value=member.mention,inline=False)
+    emb.add_field(name='Raison :',value=f'`{reason}`',inline=False)
+    await ctx.send(embed=emb)
+    emb2 = discord.Embed(title="✅ Vous etes plus muet !",color=green)
+    emb2.set_author(name = ctx.author, icon_url = ctx.author.avatar)
+    emb2.add_field(name='Modérateur / administrateur :',value=ctx.author.mention,inline=False)
+    emb2.add_field(name='Membre :',value=member.mention,inline=False)
+    emb2.add_field(name='Serveur :',value=f'`{ctx.guild.name}`',inline=False)
+    emb2.add_field(name='Raison :',value=f'`{reason}`',inline=False)
+    await member.send(embed = emb2)
+
 #Error handeler
 
 @accept.error
 @userinfo.error
+@nagaroshi.error
 @ban.error
 @bans.error
 @clear.error
 @kick.error
 @tempban.error
 @member_update.error
-@mute.error
+#@mute.error
 @dm.error
 @nick.error
 @refuse.error
 @test.error
 @toggle.error
-@unmute.error
+@untimeout.error
 @infractions.error
 @warn.error
 @unban.error
 @addrole.error
 @warnings.error
+#@timeout.error
 async def error_handler(ctx , error):
     coderror = 'None'
     if isinstance(error, commands.MissingPermissions):

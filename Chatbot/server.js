@@ -18,7 +18,7 @@ client.on("messageCreate", async (message) => {
     const helpArray = ['Here is a bit of help.','Oh. You asked for help','Tsssk, you don\'t even know to talk to me I feel vexed.','Help, really ?','So badly I don\'t want to send you help because I want to sleep','You need help because you don\'t know how to talk to me because you are mentally retarded' ]
     const randomHelpmsg = randomUniqArray(helpArray)
 
-    if (message.content.toLowerCase().includes(`chat!help`)) {
+    if (message.content.toLowerCase().startsWith(`chat!help`)) {
         totallyrandomed = randomHelpmsg()
         message.reply({
             content: totallyrandomed

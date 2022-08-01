@@ -8,6 +8,7 @@
         "cld": "^2.8.2",
         "discord.js": "^13.6.0",
         "languagedetect": "^2.0.0",
+        "node-fetch": "^3.2.10",
         "random": "^3.0.6",
         "random-uniq-array": "^1.0.1",
         "smartestchatbot": "^2.0.2",

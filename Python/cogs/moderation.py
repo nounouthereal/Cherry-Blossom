@@ -1,4 +1,5 @@
 
+from ast import alias
 from ctypes.wintypes import HHOOK
 from io import BytesIO
 import sqlite3
@@ -595,7 +596,7 @@ async def mute(ctx, member: discord.Member, *, reason=None):
             return
 
     if reason == None:
-            reason_none_embed = discord.Embed(title='❌ Erreur !',description="`Merci de spécifier la raison du kick ! (+mute @membre raison)`",color = red) 
+            reason_none_embed = discord.Embed(title='❌ Erreur !',description="`Merci de spécifier la raison du mute ! (+mute @membre raison)`",color = red) 
             await ctx.send(embed = reason_none_embed)
             return
 
@@ -624,14 +625,12 @@ async def mute(ctx, member: discord.Member, *, reason=None):
     emb1 = discord.Embed(title="✅ Le membre est muet ", color=green)
     emb1.add_field(name='Modérateur / administrateur :',value= ctx.message.author.mention,inline=False)
     emb1.add_field(name='Membre muet :',value=member.mention,inline=False)
-    emb1.add_field(name='Serveur :',value=f'{member.guild.name}',inline=False)
     emb1.add_field(name='Raison :',value=f'`{reason}`',inline=False)
 
     await ctx.send(embed = emb1)
 
     embed2 = discord.Embed(title=f'👮 Vous avez été mute de {ctx.guild.name}', color=soft_color)
     embed2.add_field(name='Modérateur / administrateur :',value= ctx.message.author,inline=False)
-    embed2.add_field(name='Membre muet :',value=member.mention,inline=False)
     embed2.add_field(name='Serveur :',value=f'{member.guild.name}',inline=False)
     embed2.add_field(name='Raison :',value=f'`{reason}`',inline=False)
 
@@ -644,23 +643,58 @@ async def mute(ctx, member: discord.Member, *, reason=None):
     count_member_kicks = cur.execute(f'SELECT COUNT(*) FROM mute WHERE idMember={member.id}').fetchone()[0]
     print(count_member_kicks)
 
+    time = "Durée indéfinie"
     
 
     current_timestamp = datetime.now().timestamp()
     #print(f'{datetime.fromtimestamp(current_timestamp)}')
-    cur.execute(f"INSERT INTO Mute VALUES ({ctx.author.id},{member.id},'{current_timestamp}','{reason}','Mute',{ctx.guild.id})")
+    cur.execute(f"INSERT INTO Mute VALUES ({ctx.author.id},{member.id},'{current_timestamp}','{reason}',{time},'Mute',{ctx.guild.id})")
     con.commit()
     con.close()
 
 @bot.command(description="Unmutes a specified user.")
 @commands.has_permissions(manage_messages=True)
-async def unmute(ctx, member: discord.Member):
+async def unmute(ctx, member: discord.Member, *, reason='Non spécifiée'):
+
+    if member == bot.user:
+            member_author_embed = discord.Embed(title='❌ Erreur !',description="`Impossible de me unmute moi même ! (+mute @membre raison)`",color = red) 
+            await ctx.send(embed = member_author_embed)
+            return
+
+    if reason == None:
+            reason_none_embed = discord.Embed(title='❌ Erreur !',description="`Merci de spécifier la raison du unmute ! (+mute @membre raison)`",color = red) 
+            await ctx.send(embed = reason_none_embed)
+            return
+
+    if member == ctx.author:
+            member_author_embed = discord.Embed(title='❌ Erreur !',description="`Impossible de vous unmute vous même ! (+mute @membre raison)`",color = red) 
+            await ctx.send(embed = member_author_embed)
+            return
+
+    if member == None:
+            member_author_embed = discord.Embed(title='❌ Erreur !',description="`Merci de spécifier le membre a unmute ! (+mute @membre raison)`",color = red) 
+            await ctx.send(embed = member_author_embed)
+            return
+
     mutedRole = discord.utils.get(ctx.guild.roles, name="Muted")
 
     await member.remove_roles(mutedRole)
-    await ctx.send(f"Unmuted {member.mention}")
-    await member.send(f"You were unmuted in the server {ctx.guild.name}")
 
+    emb1 = discord.Embed(title="✅ Le membre est unmute", color=green)
+    emb1.add_field(name='Modérateur / administrateur :',value= ctx.message.author.mention,inline=False)
+    emb1.add_field(name='Membre unmute :',value=member.mention,inline=False)
+    emb1.add_field(name='Raison :',value=f'`{reason}`',inline=False)
+
+    await ctx.send(embed = emb1)
+
+    embed2 = discord.Embed(title=f'👮 Vous avez été unmute de {ctx.guild.name}', color=soft_color)
+    embed2.add_field(name='Modérateur / administrateur :',value= ctx.message.author,inline=False)
+    embed2.add_field(name='Serveur :',value=f'{member.guild.name}',inline=False)
+    embed2.add_field(name='Raison :',value=f'`{reason}`',inline=False)
+
+    
+    await member.send(embed=embed2)
+    
 @bot.command()
 async def wanted(ctx, member: discord.Member = None):
     if member == None:
@@ -1497,10 +1531,11 @@ async def warnings(ctx, *, member: discord.Member = None):
                 idMember = row[1]
                 date = f'{datetime.fromtimestamp(row[2]).strftime("%A %d %b %Y %H:%M:%S")}'
                 reason= row[3]
+                type = row[4]
 
                 emb1.add_field(
                     name=f"ID: {idMember}",
-                    value=f'**Utilisateur:** <@{idMember}> (`{idMember}`) \n**Modérateur:** <@{idAuthor}> \n**Date:** `{date}`\n**Raison:** *{reason}*', inline=False)
+                    value=f'**Utilisateur:** <@{idMember}> (`{idMember}`) \n**Modérateur:** <@{idAuthor}> \n**Date:** `{date}`\n**Raison:** *{reason}*\n**Type:** *{type}*', inline=False)
     else:
         count_member_warns = cur.execute(f'SELECT COUNT(*) FROM warn WHERE idMember = {member.id}').fetchone()[0]
         emb1 = discord.Embed(description= f'Cet utilisateur compte un total de **{count_member_warns}** avertissement(s)' , color = green)
@@ -1519,10 +1554,11 @@ async def warnings(ctx, *, member: discord.Member = None):
                 idMember = row[1]
                 date = f'{datetime.fromtimestamp(row[2]).strftime("%A %d %b %Y %H:%M:%S")}'
                 reason= row[3]
+                type = row[4]
 
                 emb1.add_field(
                     name=f"ID: {idMember}",
-                    value=f'**Modérateur:** <@{idAuthor}> \n**Date:** `{date}`\n**Raison:** *{reason}*', inline=False)
+                    value=f'**Modérateur:** <@{idAuthor}> \n**Date:** `{date}`\n**Raison:** *{reason}*\n**Type:** *{type}*', inline=False)
     
     await ctx.send(embed = emb1)
 
@@ -1654,7 +1690,7 @@ async def nick(ctx, member: discord.Member, nick):
 
 
 
-@bot.command()
+@bot.command(aliases = ['giverole','addRole'])
 @commands.has_permissions(administrator=True)
 async def addrole(ctx,member: discord.Member,*,arg):
     role =  discord.utils.get(member.guild.roles, name=arg)
@@ -1688,7 +1724,7 @@ async def reboot(ctx):
 async def refuse(ctx , member: discord.Member , *, reason = None):
     if reason == None:
         reason = 'Raison non fournie vous avez le droit de demander une réponse au modérateur'
-    emb = discord.Embed(title="❌ Vous avez été refusée  !", description = 'Vous pouvez passer la canditature dans une semaine' , color=red)
+    emb = discord.Embed(title="❌ Vous avez été refusée  !", description = 'Vous pouvez passer la canditature au prochain' , color=red)
     emb.set_author(name = ctx.author, icon_url = ctx.author.avatar)
     emb.add_field(name='Modérateur / administrateur :',value=ctx.message.author ,inline=False)
     emb.add_field(name='Membre refusé :',value=member.mention,inline=False)
@@ -1703,7 +1739,7 @@ async def refuse(ctx , member: discord.Member , *, reason = None):
     await ctx.send(embed = emb1)
 
 
-@bot.command()
+@bot.command(aliases=['staff_accept','staffaccept','staffAccept'])
 @commands.has_permissions(manage_roles = True)
 async def accept(ctx , member: discord.Member , role: discord.Role, *, reason = 'Vous avez été accepté'  ):
     emb = discord.Embed(title="✅ Vous avez été accepté !", description = "Bienvenue dans le staff" , color=green)
@@ -1918,7 +1954,7 @@ async def ban(ctx, member: discord.Member = None, *, reason = None):
         sent = await ctx.send(embed=warnemb, view=view)
 
 
-@bot.command(aliases = ['count_bans','inf_ban','infraction_banings','tempbanings'])
+@bot.command(aliases = ['count_bans','inf_ban','infraction_banings','tempbanings','softbanings'])
 @commands.has_permissions(kick_members=True)
 async def banings(ctx, *, member: discord.Member = None):
 
@@ -1929,8 +1965,13 @@ async def banings(ctx, *, member: discord.Member = None):
     await ctx.send(ctx.author.mention)
 
     for row in cur.execute('SELECT * FROM ban'):
-        server = row[5]
-        if server == guild.id:
+        for row1 in cur.execute('SELECT * FROM softban'):
+            for row2 in cur.execute('SELECT * FROM tempban'):
+                server = row[5]
+                server1 = row1[5]
+                server2 = row2[5]
+
+        if server == guild.id or server1 == guild.id or server2 == guild.id:
             pass
         elif member == None:
                 emb2=discord.Embed(title=':warning: Erreur :' , description=f'{guild.name}  ne compte aucun banissement' , color=warned)
@@ -2099,7 +2140,7 @@ async def unban(ctx, member = None ,* , reason = None ):
         
         if member_name == ban_entry_user.name :
             if member_discriminator == None :
-                print(f'Etes-vous sur de vouloir unban  {ban_entry_user}?')
+                print(f'Etes-vous sur de vouloir unban {ban_entry_user} ?')
                 #TODO
 
                 await ctx.guild.unban(ban_entry_user)
@@ -2113,7 +2154,7 @@ async def unban(ctx, member = None ,* , reason = None ):
                 print(f'Ban user {ban_entry_user} exists but the specified discriminator {member_discriminator} is not the same')
 
     if is_ban == False :
-        await ctx.send("**❌ Ce membre n'existe pas ou n'est pas ban, voici la liste des membres banni pour vous aider :**")
+        await ctx.send("**❌ Ce membre est inccorte, n'existe pas ou n'est pas ban, voici la liste des membres banni pour vous aider :**")
         try:
             bans = await ctx.guild.bans()
         except:
@@ -2261,7 +2302,7 @@ async def timeout(ctx, member: discord.Member = None , time = None, *, reason = 
     con.close()
 
 
-@bot.command(aliases = ['count_mutes'])
+@bot.command(aliases = ['count_mutes','timeoutings'])
 @commands.has_permissions(kick_members=True)
 async def mutings(ctx, *, member: discord.Member = None):
 
@@ -2275,11 +2316,11 @@ async def mutings(ctx, *, member: discord.Member = None):
 
     if member == None:
         count_server_mutes = cur.execute(f'SELECT COUNT(*) FROM mute').fetchone()[0]
-        emb1 = discord.Embed(description= f'Ce serveur compte un total de **{count_server_mutes}** mute(s)' , color = green)
+        emb1 = discord.Embed(description= f'Ce serveur compte un total de **{count_server_mutes}** mute(s) ou timeout(s)' , color = green)
         emb1.set_author(name = guild, icon_url = guild.icon)
 
         if count_server_mutes == 0:
-            emb2=discord.Embed(title=':warning: Erreur :' , description=f'{guild.name}  ne compte aucun mute' , color=warned)
+            emb2=discord.Embed(title=':warning: Erreur :' , description=f'{guild.name}  ne compte aucun mute ou timeout' , color=warned)
             emb2.set_author(name = guild, icon_url = guild.icon)
             await ctx.send(embed = emb2)
             return
@@ -2291,17 +2332,18 @@ async def mutings(ctx, *, member: discord.Member = None):
                 date = f'{datetime.fromtimestamp(row[2]).strftime("%A %d %b %Y %H:%M:%S")}'
                 reason= row[3]
                 time = row[4]
+                type = row[5]
 
                 emb1.add_field(
                     name=f"ID: {idMember}",
-                    value=f'**Utilisateur:** <@{idMember}> (`{idMember}`) \n**Modérateur:** <@{idAuthor}> \n**Date:** `{date}` \n**Temps:** `{time}` \n**Raison:** *{reason}*', inline=False)
+                    value=f'**Utilisateur:** <@{idMember}> (`{idMember}`) \n**Modérateur:** <@{idAuthor}> \n**Date:** `{date}` \n**Temps:** `{time}` \n**Raison:** *{reason}* \n**Type:** *{type}*', inline=False)
     else:
         count_member_mutes = cur.execute(f'SELECT COUNT(*) FROM mute WHERE idMember = {member.id}').fetchone()[0]
-        emb1 = discord.Embed(description= f'Cet utilisateur compte un total de **{count_member_mutes}** mute(s)' , color = green)
+        emb1 = discord.Embed(description= f'Cet utilisateur compte un total de **{count_member_mutes}** mute(s) ou timeout(s)' , color = green)
         emb1.set_author(name = f'{member} ({member.id})', icon_url = member.avatar)
 
         if count_member_mutes == 0:
-                    emb3=discord.Embed(title=':warning: Erreur :' , description=f'**{member.name}  ne compte aucun mute**' , color=warned)
+                    emb3=discord.Embed(title=':warning: Erreur :' , description=f'**{member.name}  ne compte aucun mute ou timeout**' , color=warned)
                     emb3.set_author(name = f'{member} ({member.id})', icon_url = member.avatar)
                     await ctx.send(embed = emb3)
                     return
@@ -2313,17 +2355,19 @@ async def mutings(ctx, *, member: discord.Member = None):
                 idMember = row[1]
                 date = f'{datetime.fromtimestamp(row[2]).strftime("%A %d %b %Y %H:%M:%S")}'
                 reason= row[3]
+                time = row[4]
+                type = row[5]
 
                 emb1.add_field(
                     name=f"ID: {idMember}",
-                    value=f'**Modérateur:** <@{idAuthor}> \n**Date:** `{date}` \n**Temps:** `{time}` \n**Raison:** *{reason}*', inline=False)
+                    value=f'**Modérateur:** <@{idAuthor}> \n**Date:** `{date}` \n**Temps:** `{time}` \n**Raison:** *{reason}* \n**Type:** *{type}*', inline=False)
     
     await ctx.send(embed = emb1)
 
     con.close()
 
 
-@bot.command(aliases= ['detimeout'])
+@bot.command(aliases= ['detimeout','stoptimeout'])
 @commands.has_permissions(kick_members = True)
 async def untimeout(ctx, member: discord.Member = None , *, reason = None):
 
@@ -2349,7 +2393,7 @@ async def untimeout(ctx, member: discord.Member = None , *, reason = None):
     emb.add_field(name='Membre :',value=member.mention,inline=False)
     emb.add_field(name='Raison :',value=f'`{reason}`',inline=False)
     await ctx.send(embed=emb)
-    emb2 = discord.Embed(title="✅ Vous etes plus muet !",color=green)
+    emb2 = discord.Embed(title=f"✅ Vous n'êtes plus timeout de {ctx.guild.name} !",color=green)
     emb2.set_author(name = ctx.author, icon_url = ctx.author.avatar)
     emb2.add_field(name='Modérateur / administrateur :',value=ctx.author.mention,inline=False)
     emb2.add_field(name='Membre :',value=member.mention,inline=False)
@@ -2381,15 +2425,15 @@ async def softban(ctx, member: discord.Member , *, reason):
     inv = await ctx.channel.create_invite(max_uses=1)
     emb = discord.Embed(title= '👮 Vous avez été softban' , color = soft_color)
     emb.add_field(name='Modérateur / administrateur :',value= ctx.message.author.mention,inline=False)
-    emb.add_field(name = 'Reviens nous voir avec le lien' , value = f'{inv}')
-    emb.add_field(name='User softban :',value=member.mention,inline=False)
-    emb.add_field(name='Raison :',value=reason,inline=False)
+    emb.add_field(name='Membre softban :',value=member.mention,inline=False)
+    emb.add_field(name='Serveur :',value=f"{ctx.guild.name}")
+    emb.add_field(name='Raison :',value=f"`{reason}`",inline=False)
     await member.send(embed = emb)
     await ctx.send(ctx.author.mention)
     emb1 = discord.Embed(title= '✅ Softban executé avec succés' , color = green)
     emb1.add_field(name='Modérateur / administrateur :',value= ctx.message.author.mention,inline=False)
-    emb1.add_field(name='User softban :',value=member.mention,inline=False)
-    emb1.add_field(name='Raison :',value=reason,inline=False)
+    emb1.add_field(name='Membre softban :',value=member.mention,inline=False)
+    emb1.add_field(name='Raison :',value=f"`{reason}`",inline=False)
     await ctx.send(embed = emb1)
     await ctx.guild.ban(member)
     await asyncio.sleep(0.1)
@@ -2410,9 +2454,8 @@ async def softban(ctx, member: discord.Member , *, reason):
     con.commit()
     con.close()
 
-    print(f"{member} got softbanned from {ctx.guild.name}")
 
-@bot.command(aliases = ['count_softbans'])
+""" @bot.command(aliases = ['count_softbans'])
 @commands.has_permissions(kick_members=True)
 @commands.cooldown(1, 10, commands.BucketType.user)
 async def softbanings(ctx, *, member: discord.Member = None):
@@ -2473,7 +2516,7 @@ async def softbanings(ctx, *, member: discord.Member = None):
 
     con.close()
 
-
+ """
 @bot.command()
 @commands.has_permissions(ban_members=True)
 @commands.cooldown(1, 10, commands.BucketType.user)
@@ -2813,7 +2856,7 @@ async def infractions(ctx, *, member: discord.Member = None):
                 if "BOT AUTOMOD" in reason: 
                     emb1.add_field(
                         name=f"ID: {idMember}",
-                        value=f'**Modérateur:** `BOT AUTOMOD SYSTEM:` (<@{bot_id}>) \n**Date:** `{date}`\n**Raison:** *{reason}* \n**Temps:** `{time}` \n**Type:** *System Automod: Mute*', inline=False)
+                        value=f'**Modérateur:** `BOT AUTOMOD SYSTEM:` (<@{bot_id}>) \n**Date:** `{date}`\n**Raison:** *{reason}* \n**Temps:** `{time}` \n**Type:** *System Automod: Timeout*', inline=False)
 
                 emb1.add_field(
                     name=f"ID: {idMember}",
@@ -3170,7 +3213,7 @@ async def timeout( ctx : ApplicationContext, member: discord.Member , duration =
 @commands.has_permissions(kick_members = True)
 @option(
     "member", 
-    description="The member to timeout (Example: @Flower man)",
+    description="The member to mute (Example: @Flower man)",
     required=True,
 )
 @option(

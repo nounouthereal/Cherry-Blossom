@@ -1,0 +1,25 @@
+{
+    "name": "chatbot",
+    "version": "1.0.0",
+    "description": "A simple Node app built on Express, instantly up and running.",
+    "main": "server.js",
+    "dependencies": {
+        "chatbot-zero": "^1.1.0",
+        "cld": "^2.8.2",
+        "discord.js": "^13.6.0",
+        "languagedetect": "^2.0.0",
+        "random": "^3.0.6",
+        "random-uniq-array": "^1.0.1",
+        "smartestchatbot": "^2.0.2",
+        "translate": "^1.4.1"
+    },
+    "engines": {
+        "node": "16.x"
+    },
+    "license": "MIT",
+    "keywords": [
+        "node",
+        "glitch",
+        "express"
+    ]
+}

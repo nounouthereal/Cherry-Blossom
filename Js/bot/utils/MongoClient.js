@@ -118,7 +118,7 @@ class MongoClient extends Client {
         let allitem = await economy.findOne({itemid: itemsome});
         if (!allitem) {
             const newItem = new economy({
-                userId: [],
+                userId: userId,
                 items: [],
                 resistance: parseInt(amount)
             });

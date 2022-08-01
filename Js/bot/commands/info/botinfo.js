@@ -11,11 +11,12 @@ module.exports.run = async (bot, message, args) =>  {
     .addField("📋 Nom :", `${bot.user.username}`, true)
     .addField("🔗 Tag :", "#" + `${bot.user.discriminator}`, true)
     .addField("📊 Utilisateurs :", `${bot.users.cache.size}`, true)
+    .addField("🛠 Ma version :", `Bêta`, true)
     .addField("🔧 Version de discord.js :", `${discordjsVersion}`, true)
-    .addField("🔨 Version de node.js :", `�undefined�`, true)
+    .addField("🔨 Version de node.js :", process.version.match(/^v(\d+\.\d+)/)[1], true)
     .addField("🟢 En ligne depuis :", (Math.round(bot.uptime / (1000 * 60 * 60))) + ' heures ' + (Math.round(bot.uptime / (1000 * 60)) % 60) + ' minutes ' + (Math.round(bot.uptime / 1000) % 60) + ' secondes ', true)
     .addField("💾 __Mémoire__ :", `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}` + " MB", true)
-    .addField(" Développeurs :", "**nounou#0001** , **Deku Midoriya**", true)
+    .addField(" Développeurs :", "**nounou#4483**", true)
     .setFooter(`${bot.user.tag}`, bot.user.displayAvatarURL)
 
     .setColor("RANDOM")
@@ -31,6 +32,6 @@ module.exports.config = {
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
     aliases: ['bi','infobot'], // Aliases 
-    bankSpace: 3, // Amount of bank space to give when command is used.
+    bankSpace: 0, // Amount of bank space to give when command is used.
     cooldown: 5 // Command Cooldown
 }

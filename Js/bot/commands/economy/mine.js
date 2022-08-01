@@ -22,7 +22,7 @@ let founditem = user.items.find(x => x.itemId.toLowerCase() === 'pickaxe');
               let use3embed = new MessageEmbed()
               .setColor("RED")
               .setDescription(`❌ **${member.user.username}** : Vous ne possédez pas de \`PICKAXE\`, vous devez en acheter un pour utiliser cette commande.`);
-              return message.channel.send(use3embed);
+              return message.channel.send({embeds: [use3embed]});
         //////return message.channel.send("you don't have this item");
     }
   

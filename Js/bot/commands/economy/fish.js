@@ -17,42 +17,38 @@ let founditem = user.items.find(x => x.itemId.toLowerCase() === 'fishingrod');
     if (!founditem) {
               let use3embed = new MessageEmbed()
               .setColor("RED")
-              .setDescription(`❌ **${member.user.username}** : Vous n'avez pas de \`FISHINGROD\`, vous devez en acheter une pour utiliser cette commande.`);
-              return message.channel.send(use3embed);
+              .setDescription(`:warning: **${member.user.username}** : Vous n'avez pas de \`FISHINGROD\`, vous devez en acheter une pour utiliser cette commande.`);
+              return message.channel.send({embeds: [use3embed]});
         //////return message.channel.send("you don't have this item");
     }
   
   
 
 const randomMessage = [
-  'missed',
+  
+  'junk',
+  'junk',
+  'junk',
+  'junk',
+  'commun',
+  'commun',
+  'commun',
+  'commun',
+  'commun',
   'commun',
   'atypique',
+  'atypique',
+  'atypique',
+  'atypique',
+  'rare',
+  'rare',
   'rare',
   'epic',
-  'legendary',
+  'epic',
+  'missed',
+  'missed',
+  'legendary'
 
-  'junk',
-  'junk',
-  'junk',
-  'junk',
-  'commun',
-  'commun',
-  'commun',
-  'commun',
-  'atypique',
-  'atypique',
-  'atypique',
-  'atypique',
-  'rare',
-  'rare',
-  'rare',
-  'epic',
-  'epic',
-  'epic',
-  'missed',
-  'missed',
-  'legendary',
     ];
   
     const response = randomMessage[Math.floor((Math.random() * randomMessage.length))];
@@ -65,18 +61,24 @@ const randomMessage = [
         const data = await bot.fetchUser(message.author.id);
         const Embedcommon = new MessageEmbed()
         .setTitle('🎣 Résultat de pêche')
-        .setDescription(`🎣  **${member.user.username}** : Tu es allé pêcher et tu es revenu avec **${fishAmount}** x Poisson commun 🐟`)
+        .setDescription(`🎣  **${member.user.username}** : Tu es allé pêcher et tu es revenu avec **x${fishAmount}** Poisson commun 🐟`)
         .setColor("WHITE")
-        message.channel.send(Embedcommon);
+        message.channel.send({embeds: [Embedcommon]});
         //message.channel.send(`You went fishing and came back with **${fishAmount}** x  Common Fish 🐟`);
         const findItem = data.items.find(i => i.itemId == 'commonfish');
+        const findInItems = itemss.find(i => i.itemId == 'commonfish');
         let userInv = data.items.filter(i => i.itemId !== 'commonfish ');
+        console.log(findInItems)
+
+
         if (findItem) {
-            userInv.push({ itemId: 'commonfish', amount: (findItem.amount + fishAmount), description: 'Vend le pour faire de l\'argent. (+sell commonfish || +sell poissoncommun) (Vous possédez déjà une copie de cet objet)' });
+            findInItems.amount = findInItems.amount + fishAmount
+            userInv.push(findInItems);
             data.items = userInv;
             await data.save();
         } else {
-            userInv.push({ itemId: 'commonfish', amount: fishAmount, description: 'Vend le pour faire de l\'argent. (+sell commonfish || +sell poissoncommun)' });
+            findInItems.amount = fishAmount
+            userInv.push(findInItems);
             data.items = userInv;
             await data.save();
         }
@@ -87,16 +89,22 @@ const randomMessage = [
         .setTitle('🎣 Résultat de pêche')
         .setDescription(`🎣  **${member.user.username}** : Tu es allé pêcher et tu es revenu avec **${fishAmount}** x Poisson atypique 🐠`)
         .setColor("GREEN")
-        message.channel.send(Embeduncommon);
+        message.channel.send({embeds: [Embeduncommon]});
         //message.channel.send(`You went fishing and came back with **${fishAmount}** x  Uncommon Fish 🐠`);
-        const findItem = data.items.find(i => i.itemId.toLowerCase() == 'uncommonfish');
-        let userInv = data.items.filter(i => i.itemId.toLowerCase() !== 'uncommonfish');
+        const findItem = data.items.find(i => i.itemId == 'uncommonfish');
+        const findInItems = itemss.find(i => i.itemId == 'uncommonfish');
+        let userInv = data.items.filter(i => i.itemId !== 'uncommonfish');
+        console.log(findInItems)
+
+
         if (findItem) {
-            userInv.push({ itemId: 'uncommonfish', amount: (findItem.amount + fishAmount), description: 'Vend le pour faire de l\'argent. (+sell uncommonfish || +sell poissonatypique) (Vous possédez déjà une copie de cet objet)' });
+            findInItems.amount = findInItems.amount + fishAmount
+            userInv.push(findInItems);
             data.items = userInv;
             await data.save();
         } else {
-            userInv.push({ itemId: 'uncommonfish', amount: fishAmount, description: 'Vend le pour faire de l\'argent. (+sell uncommonfish || +sell poissonatypique)' });
+            findInItems.amount = fishAmount
+            userInv.push(findInItems);
             data.items = userInv;
             await data.save();
         }
@@ -111,15 +119,23 @@ const randomMessage = [
         message.channel.send(Embedrare);
         //message.channel.send(`You went fishing and came back with **${fishAmount}** x  Rare Fish 🦑`);
         const findItem = data.items.find(i => i.itemId == 'rarefish');
+        const findInItems = itemss.find(i => i.itemId == 'rarefish');
         let userInv = data.items.filter(i => i.itemId !== 'rarefish');
+        console.log(findInItems)
+
+
+
         if (findItem) {
-            userInv.push({ itemId: 'rarefish', amount: (findItem.amount + fishAmount), description: 'Vend le pour faire de l\'argent. (+sell rarefish || +sell poissonrare) (Vous possédez déjà une copie de cet objet)' });
+            findInItems.amount = findInItems.amount + fishAmount
+            userInv.push(findInItems);
             data.items = userInv;
             await data.save();
         } else {
-            userInv.push({ itemId: 'rarefish', amount: fishAmount, description: 'Vend le pour faire de l\'argent. (+sell rarefish || +sell poissonrare)' });
+            findInItems.amount = fishAmount
+            userInv.push(findInItems);
             data.items = userInv;
             await data.save();
+            
         }
           } else if (response == 'epic') {
 
@@ -129,16 +145,20 @@ const randomMessage = [
         .setTitle('🎣 Résultat de pêche')
         .setDescription(`🎣  **${member.user.username}** : Tu es allé pêcher et tu es revenu avec **${fishAmount}** x Poisson épique 🐡`)
         .setColor("PURPLE")
-        message.channel.send(Embedveryrare);
+        message.channel.send({embeds: [Embedveryrare]});
         //message.channel.send(`You went fishing and came back with **${fishAmount}** x  Very Rare Fish 🐡`);
-        const findItem = data.items.find(i => i.itemId.toLowerCase() == 'veryrarefish');
-        let userInv = data.items.filter(i => i.itemId.toLowerCase() !== 'veryrarefish');
+        const findItem = data.items.find(i => i.itemId == 'veryrarefish');
+        const findInItems = itemss.find(i => i.itemId == 'veryrarefish');
+        let userInv = data.items.filter(i => i.itemId !== 'veryrarefish');
+        
         if (findItem) {
-            userInv.push({ itemId: 'veryrarefish', amount: (findItem.amount + fishAmount), description: 'Vend le pour faire de l\'argent. (+sell epicfish || +sell poissonépique) (Vous possédez déjà une copie de cet objet)' });
+            findInItems.amount = findInItems.amount + fishAmount
+            userInv.push(findInItems);
             data.items = userInv;
             await data.save();
         } else {
-            userInv.push({ itemId: 'veryrarefish', amount: fishAmount, description: 'Vend le pour faire de l\'argent. (+sell epicfish || +sell poissonépique)' });
+            findInItems.amount = fishAmount
+            userInv.push(findInItems);
             data.items = userInv;
             await data.save();
         }
@@ -150,16 +170,22 @@ const randomMessage = [
         .setTitle('🎣 Résultat de pêche')
         .setDescription(`🎣  **${member.user.username}** : Tu es allé pêcher et tu es revenu avec **${fishAmount}** x Poisson légendaire 🐋.`)
         .setColor("ORANGE")
-        message.channel.send(Embedled);
+        message.channel.send({embeds: [Embedled]});
         //message.channel.send(`You went fishing and came back with **${fishAmount}** x  Legendary Fish 🐋`);
-        const findItem = data.items.find(i => i.itemId.toLowerCase() == 'legendaryfish');
-        let userInv = data.items.filter(i => i.itemId.toLowerCase() !== 'legendaryfish');
+        const findItem = data.items.find(i => i.itemId == 'legendaryfish');
+        let userInv = data.items.filter(i => i.itemId !== 'legendaryfish');
+        const findInItems = itemss.find(i => i.itemId == 'legendaryfish');
+
+        console.log(findInItems)
+
         if (findItem) {
-            userInv.push({ itemId: 'legendaryfish', amount: (findItem.amount + fishAmount), description: `Vend le pour faire de l\'argent. (+sell legendaryfish || +sell poissonlégendaire) (Vous possédez déjà une copie de cet objet)` });
+            findInItems.amount = findInItems.amount + fishAmount
+            userInv.push(findInItems);
             data.items = userInv;
             await data.save();
         } else {
-            userInv.push({ itemId: 'legendaryfish', amount: fishAmount, description: `Vend le pour faire de l\'argent. (+sell legendaryfish || +sell poissonlégendaire)`});
+            findInItems.amount = fishAmount
+            userInv.push(findInItems);
             data.items = userInv;
             await data.save();
         }
@@ -168,30 +194,36 @@ const randomMessage = [
         const data = await bot.fetchUser(message.author.id);
         const Embedjunk = new MessageEmbed()
         .setTitle('🎣 Résultat de pêche')
-        .setDescription(`🎣  **${member.user.username}** : Tu es allé pêcher et tu es revenu avec **${fishAmount}** x déchets 👞.`)
+        .setDescription(`🎣  **${member.user.username}** : Tu es allé pêcher et tu es revenu avec **${Amount}** x déchets 👞.`)
         .setColor("GREY")
         message.channel.send(Embedjunk);
         //message.channel.send(`You went hunting and came back with **${deerAmount}** x Fox 🦊`);
-        const findItem = data.items.find(i => i.itemId.toLowerCase() == 'junk');
-        let userInv = data.items.filter(i => i.itemId.toLowerCase() !== 'junk');
+        const findItem = data.items.find(i => i.itemId == 'junk');
+        let userInv = data.items.filter(i => i.itemId !== 'junk');
+        const findInItems = itemss.find(i => i.itemId == 'junk');
+
+
         if (findItem) {
-            userInv.push({ itemId: 'junk', amount: (findItem.amount + Amount), description: `Vend le pour faire de l\'argent. (+sell rarefish || +sell poissonrare) (Vous possédez déjà une copie de cet objet)` });
+            findInItems.amount = findInItems.amount + Amount
+            userInv.push(findInItems);
             data.items = userInv;
             await data.save();
+            
         } else {
-            userInv.push({ itemId: 'junk', amount: Amount, description: `Vend le pour faire de l\'argent. (+sell junk || +sell dechets)` });
+            findInItems.amount = Amount
+            userInv.push(findInItems);
             data.items = userInv;
             await data.save();
+            
         }
         } else if (response == 'missed') {
         const Embedmissed = new MessageEmbed()
         .setTitle('🎣 Résultat de pêche')
-        .setDescription(` **${member.user.username}** : Vous avez rien pêché.`)
+        .setDescription(`**${member.user.username}** : Vous avez rien pêché.`)
         .setColor("BLACK")
-        message.channel.send(Embedmissed);
+        message.channel.send({embeds: [Embedmissed]});
         }
 
-    await bot.giveResistance(item.itemId, -1)
 }
 module.exports.config = {
     name: 'fish', // Command Name

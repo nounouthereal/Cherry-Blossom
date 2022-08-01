@@ -16,7 +16,7 @@ module.exports = bot => {
         });
     });
 
-    fs.readdir('/Users/nouhame/Bot_des_cerisiers/Js/bot/commands/commands', (err, files) => {
+    fs.readdir('/Users/nouhame/Bot_des_cerisiers/Js/bot/commands/info', (err, files) => {
         if (err) console.log(err);
         const file = files.filter(f => f.split('.').pop() === 'js');
         if (file.length < 1) {
@@ -24,14 +24,14 @@ module.exports = bot => {
         }
 
         file.forEach(f => {
-            const pull = require(`/Users/nouhame/Bot_des_cerisiers/Js/bot/commands/commands/${f}`);
+            const pull = require(`/Users/nouhame/Bot_des_cerisiers/Js/bot/commands/info/${f}`);
             bot.commands.set(pull.config.name, pull);
             console.log(`Commande ${pull.config.name} loaded`)
             pull.config.aliases.forEach(alias => bot.aliases.set(alias, pull.config.name));
         });
     });
 
-    fs.readdir('/Users/nouhame/Bot_des_cerisiers/Js/bot/commands/level', (err, files) => {
+    fs.readdir('/Users/nouhame/Bot_des_cerisiers/Js/bot/commands/ranking', (err, files) => {
         if (err) console.log(err);
         const file = files.filter(f => f.split('.').pop() === 'js');
         if (file.length < 1) {
@@ -39,7 +39,7 @@ module.exports = bot => {
         }
 
         file.forEach(f => {
-            const pull = require(`/Users/nouhame/Bot_des_cerisiers/Js/bot/commands/level/${f}`);
+            const pull = require(`/Users/nouhame/Bot_des_cerisiers/Js/bot/commands/ranking/${f}`);
             bot.commands.set(pull.config.name, pull);
             console.log(`Commande ${pull.config.name} loaded`)
             pull.config.aliases.forEach(alias => bot.aliases.set(alias, pull.config.name));

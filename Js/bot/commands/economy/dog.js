@@ -13,7 +13,7 @@ module.exports.run = async (bot, message, args) => {
    const member = message.member;
        let likes = new MessageEmbed()
     .setColor("GREEN")
-    .setDescription(`✅ **${member.user.username}** : Votre photo de chien a reçu ${random.toLocaleString()} likes (Donc ${random} :dollar:).`);
+    .setDescription(`✅ **${member.user.username}** : Votre photo de chien a reçu ${random.toLocaleString()} likes (Donc ${random} :coin:).`);
    fetch('https://api.thedogapi.com/v1/images/search')
     .then(res => res.json())
     .then(json => {
@@ -21,7 +21,7 @@ module.exports.run = async (bot, message, args) => {
       .setDescription(`${i} **${member.user.username}** : A posté cette photo sur reddit.`)
       .setImage(json[0].url)
       .setColor("BLUE")
-      message.channel.send(embed).then(message.channel.send(likes));
+      message.channel.send({embeds: [embed]}).then(message.channel.send(likes));
       
       bot.giveCoins(message.author.id, random);
     })

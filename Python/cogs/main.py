@@ -2,11 +2,11 @@
 import discord
 import random
 
-
 bot_prefix = '+'
 api_key = 'OTQ0NTcyODYxODc0NjAyMDU0.YhDkBw.KRmLc21SzhOd8WqtJcAIjEsMl9k'
 version = 'bêta'
 prefix = '+'
+
 bad_words = [
 'anal',
 'anus',

@@ -1,20 +1,10 @@
-const lock = '<:shinelock:780056966604390430>'
 const rifle = '<:New_AR_icon:962344070016020570>'
-const axe = '<:HYDRA_AXE:780435571700138024>'
 const pick = '⛏'
-const rc = '<a:HYDRA_RAINBOW_COIN_GIF:780463422927536128>' //RAINBOW
-const gc = '<a:HYDRA_GOLD_COIN_GIF:780447095878189057>' // :HYDRA_GOLD_COIN_GIF:
-const sc = '<a:HYDRA_SILVER_COIN_GIF:780447045126455326>' // :HYDRA_SILVER_COIN_GIF:
-const bc = '<a:HYDRA_BRONZE_COIN_GIF:780446979452698674>' // :HYDRA_BRONZE_COIN_GIF: 
-const ht = '<a:HYDRA_THROPHY:780446245612945409>' // :HYDRA_THROPHY:
-const hc = '<:HYDRA_CLOVER:780473481590210560>'
-const junkemoji = '<:HYDRA_JUNK:781846282473046016>'
-const legfish = '<:HYDRA_FISH_LEG:781936373325365268>'
-const hd = '<:HYDRA_D:782294387676938280>'
-const hr = '<:HYDRA_RUBY:782295231734743070>'
-const hg = '<:HYDRA_GADE:782295694806745139>'
-const ha = '<:HYDRA_AMETHYST:782298032624107550>'
-const hp = '<:HYDRA_PRECIOUS:782300656362979379>'
+const hd = '<:diamond:996751128391852052>'
+const hr = '<:rubis:996751140874113105>'
+const hg = '<:gade:996751131957018705>'
+const ha = '<:saphir:996751134704279582>'
+const hp = '<:precious:996751142639915008>'
 
 const array = [{
     name: '🍪 **Cookie**',
@@ -400,7 +390,7 @@ const array = [{
     }
 },
 {
-    name: `${ha} Saphir`,
+    name: `${ha} **Saphir**`,
     description: `Vend le saphir pour faire de l'argent. (+sell saphir || +sell saphirgem)`,
     canUse: false,
     canBuy: false,

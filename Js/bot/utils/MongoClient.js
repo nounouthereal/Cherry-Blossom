@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const { Intents, MessageEmbed } = require('discord.js');
 const economy = require('../models/EconomyModel');
 const ItemManager = require('./ItemManager');
+const SkillManager = require('./SkillManager');
 const itemss = require('/Users/nouhame/Bot_des_cerisiers/Js/bot/utils/items.js');
 
 
@@ -18,6 +19,7 @@ class MongoClient extends Client {
         console.log('Connected to MongoDB')
         this.economy = economy;
         this.items = new ItemManager();
+        this.skills = new SkillManager();
         this.commandsUsed = 1;
     }
 
@@ -106,29 +108,7 @@ class MongoClient extends Client {
         return user;
     }
 
-    /**
-     * 
-     * @param {string} itemid - A item ID.
-     * @param {number} amount - Amount of resistance to give.
-     */
 
-    async giveResistance(itemid, amount) {
-        const itemsome = itemss.find(x => x.itemId.toLowerCase() === itemid.toString().toLowerCase());;
-        if (!itemsome) return false;
-        let allitem = await economy.findOne({itemid: itemsome});
-        if (!allitem) {
-            const newItem = new economy({
-                userId: userId,
-                items: [],
-                resistance: parseInt(amount)
-            });
-            newItem.save();
-            return newItem;
-        }
-        item.resistance += parseInt(amount);
-        await allitem.save();
-        return allitem;
-    }
 
 }
 

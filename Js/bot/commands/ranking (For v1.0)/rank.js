@@ -21,13 +21,13 @@ module.exports.run = async (bot, message, args) => {
     let activeData = await Levels.findOne({ guildId: message.guild.id });
 
 
-    if (activeData.activated = false){
+    if (levelData.activated == false){
         let embedInactive = new MessageEmbed()
         .setColor('YELLOW')
         .setDescription(':warning: Le systéme de niveaux est désactivé sur le serveur')
         message.channel.send({embeds: [embedInactive]})
     }
-  
+
     let rank = await Levels.find({ guildId: message.guild.id }).sort({ totalXp: -1 }).exec();
     rank = rank.filter(x => message.guild.members.cache.has(x.userId)).findIndex(x => x.userId == user.id) + 1;
     let level_emoji = ":warning: Erreur avec l'emoji"
@@ -52,7 +52,7 @@ module.exports.run = async (bot, message, args) => {
     }
     else if (levelData <= 50) {
         level_emoji = "<:Level_41_50:1000485729908043876>"
-        embed.setThumbnail("")
+        embed.setThumbnail("https://discords.com/_next/image?url=https%3A%2F%2Fcdn.discordapp.com%2Femojis%2F907659192863715378.png%3Fv%3D1&w=64&q=75")
     }
     else if (levelData <= 60) {
         level_emoji = "<:Level_51_60:1000485732126834748>"
@@ -68,15 +68,15 @@ module.exports.run = async (bot, message, args) => {
     }
     else if (levelData <= 90) {
         level_emoji = "<:Level_81_90:1000486109509329007>"
-        embed.setThumbnail("")
+        embed.setThumbnail("https://discords.com/_next/image?url=https%3A%2F%2Fcdn.discordapp.com%2Femojis%2F907659193115365376.png%3Fv%3D1&w=64&q=75")
     }
     else if (levelData <= 100) {
         level_emoji = "<:Level_91_100:1000486113976254484>"
-        embed.setThumbnail("")
+        embed.setThumbnail("https://discords.com/_next/image?url=https%3A%2F%2Fcdn.discordapp.com%2Femojis%2F907659192951771226.png%3Fv%3D1&w=64&q=75")
     }
     else {
         level_emoji = "<:Level_101Max:1000486118363512932>"
-        embed.setThumbnail("")
+        embed.setThumbnail("https://discords.com/_next/image?url=https%3A%2F%2Fcdn.discordapp.com%2Femojis%2F889847777671123004.png%3Fv%3D1&w=64&q=75")
     }
 
     let rankmessage = `${leaderboard_emoji} ` + rank + '/' +  message.guild.memberCount

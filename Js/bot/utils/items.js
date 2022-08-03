@@ -120,7 +120,7 @@ const array = [{
 },
 {
     name: '🐋 **Poisson légendaire**',
-    description: `Vend le pour faire de l\'argent. (+sell epicfish || +sell veryrarefish)`,
+    description: `Vend le pour faire de l\'argent. (+sell legendaryfish || +sell poissonlegendaire)`,
     canUse: false,
     canBuy: false,
     itemId: 'legendaryfish' ||'poissonlegendaire'||'poissonlégendaire',

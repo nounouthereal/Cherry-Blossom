@@ -7,6 +7,9 @@ module.exports = async (bot, message) => {
     let levelData = await Levels.findOne({ guildId: message.guild.id, userId: message.author.id });
     let rankData = await Prizes.findOne({ guildId: message.guild.id});
   
+    if (levelData.activated) {
+        return
+    }
 
     if (!rankData) {
         let newRank = new Prizes({

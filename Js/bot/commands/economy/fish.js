@@ -224,6 +224,8 @@ const randomMessage = [
         message.channel.send({embeds: [Embedmissed]});
         }
 
+    
+
 }
 module.exports.config = {
     name: 'fish', // Command Name

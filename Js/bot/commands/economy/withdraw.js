@@ -6,19 +6,24 @@ const { MessageEmbed } = require('discord.js');
 module.exports.run = async (bot, message, args) => {
     let data = await bot.fetchUser(message.author.id);
    const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member;
-    if (args.join(' ') === 'all') {
+    if (args.join(' ') === 'all'|| args.join(' ') === 'max') {
                   if (data.coinsInBank === 0) {
             let bankerrorembed = new MessageEmbed()
             .setColor("RED")
             .setDescription(`❌ **${member.user.username}** : Ta banque est vide.`);
-            return message.channel.send(bankerrorembed).catch();
+            return message.channel.send({embeds: [bankerrorembed]}).catch();
                   }
         data.coinsInWallet += data.coinsInBank;{
           
-                let with2embed = new MessageEmbed()
+              let with2embed = new MessageEmbed()
               .setColor("BLUE")
-              .setDescription(`🏦 **${member.user.username}** : A retiré **${data.coinsInBank.toLocaleString()}** :dollar: || Tu dispose maintenant de ${data.coinsInBank} :dollar:.`);
-              await message.channel.send(with2embed);
+              .setThumbnail()
+              .setTitle(`🏦 Dêpot banquaire réalisé`)
+              .setFooter(message.guild.name)
+              .addField(`💰 Argent retiré:`,`**${parseInt(args[0]).toLocaleString()}** :coin:`)
+              .addField(`💸 Argent en banque:`,`**${data.coinsInBank}** :coin:`)
+              .addField(`🏦 Espace banquaire restant:`,`**${data.coinsInBank+data.bankSpace}** d'espace banquaire`)
+              await message.channel.send({embeds:[with2embed]});
           ////await message.channel.send(`Withdrawed **${data.coinsInBank}** coins.`);
           
         }
@@ -31,7 +36,7 @@ module.exports.run = async (bot, message, args) => {
             if (withAmount === 0) {
             let bankerrorembed = new MessageEmbed()
             .setColor("RED")
-            .setDescription(`❌ **${member.user.username}** : Tu ne peux retirer 0 dollar.`);
+            .setDescription(`❌ **${member.user.username}** : Tu ne peux retirer 0 :coin:.`);
             return message.channel.send(bankerrorembed).catch();
                   }
         if (isNaN(withAmount)) {
@@ -39,7 +44,7 @@ module.exports.run = async (bot, message, args) => {
             .setColor("RED")
             .setDescription(`❌ **${member.user.username}** : Ce n'est pas un nombre.`);
 
-            return message.channel.send(numbererrorembed).catch();
+            return message.channel.send({embeds: [numbererrorembed]}).catch();
             //return message.channel.send('That\'s not a number.');
         }
 
@@ -47,16 +52,20 @@ module.exports.run = async (bot, message, args) => {
                let with3embed = new MessageEmbed()
               .setColor("BLUE")
               .setDescription(`:warning: **${member.user.username}** : Tu n'as pas cette argent en banque.`);
-              return message.channel.send(with3embed);
+              return message.channel.send({embeds: [with3embed]});
             //return message.channel.send('You do not have that much coins.');
         }
 
         data.coinsInWallet += parseInt(withAmount); {
-              let with4embed = new MessageEmbed()
-              .setColor("BLUE")
-              .setTitle("🏦 Argent retiré avec succès")
-              .setDescription(`🏦 **${member.user.username}** : A retiré **${(withAmount).toLocaleString()}** :dollar: || Tu dispose maintenant de ${data.coinsInBank} :dollar:.`);
-              await message.channel.send(with4embed);
+            let with4embed = new MessageEmbed()
+            .setColor("BLUE")
+            .setThumbnail()
+            .setTitle(`🏦 Dêpot banquaire réalisé`)
+            .setFooter(message.guild.name)
+            .addField(`💰 Argent retiré:`,`**${parseInt(args[0]).toLocaleString()}** :coin:`)
+            .addField(`💸 Argent en banque:`,`**${data.coinsInBank}** :coin:`)
+            .addField(`🏦 Espace banquaire restant:`,`**${data.coinsInBank+data.bankSpace}** d'espace banquaire`)
+              await message.channel.send({embeds: [with4embed]});
           ///await message.channel.send(`Withdrawed **${args[0]}** coins.`);
         }
 

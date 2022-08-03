@@ -25,17 +25,17 @@ module.exports.run = async (bot, message, args) => {
     const usertag = message.member;
     const random = Math.round(Math.random() * 100);
     const randomMessage = [
-        `**Elon Musk** vous a donné ${random.toLocaleString()} :coin:.`,
-        `**Bill Gates** vous a donné ${random.toLocaleString()} :coin:.`,
-        `Un **riche** vous a donné ${random.toLocaleString()} :coin:.`,
-        `Emmanuel macron vous a donné ${random.toLocaleString()} :coin:.`,
+        `**Elon Musk** gived you ${random.toLocaleString()} :coin:.`,
+        `**Bill Gates** gived you ${random.toLocaleString()} :coin:.`,
+        `A **rich** gived you ${random.toLocaleString()} :coin:.`,
+        `Joe robinet🚰 biden gived you ${random.toLocaleString()} :coin:.`,
     ];
   
     const response = randomMessage[Math.floor((Math.random() * randomMessage.length))];
   
     let begembed = new MessageEmbed()
     .setColor("#57c478")
-    .addField(`${tick} Vous avez reçu de l'argent`,` **${usertag.user.username}** : ${response}`)
+    .addField(`${tick} You received money:`,` **${usertag.user.username}** : ${response}`)
     await message.channel.send({embeds: [begembed]}).catch();
   
     await bot.giveCoins(message.author.id, random);
@@ -43,10 +43,10 @@ module.exports.run = async (bot, message, args) => {
 
 module.exports.config = {
     name: 'beg', // Command Name
-    description: 'Demande a des gens de l\'argent', // Description
+    description: 'Ask people for money', // Description
     usage: '+beg', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
-    userPerms: [], // User permissions needed to run command. Leave empty if nothing.
+    userPerms: ['beggin\''], // User permissions needed to run command. Leave empty if nothing.
     aliases: [], // Aliases 
     bankSpace: 13, // Amount of bank space to give when command is used.
     cooldown: 120 // Command Cooldown

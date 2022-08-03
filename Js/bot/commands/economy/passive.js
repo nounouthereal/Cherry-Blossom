@@ -16,7 +16,7 @@ module.exports.run = async (bot, message, args) => {
         .setColor("BLUE")
         .setDescription(`💁 **${member.user.username}** : Votre mode passif est actuellement en : ${status}.`);
 
-            return message.channel.send(passive1embed).catch();
+            return message.channel.send({embeds: [passive1embed]}).catch();
         //return message.channel.send(`Your passive mode is ${status}`);
     }
     if (enable.includes(args[0].toString().toLowerCase())) {
@@ -24,7 +24,7 @@ module.exports.run = async (bot, message, args) => {
         .setColor("BLUE")
         .setDescription(`💁 **${member.user.username}** : Votre mode passif est déjà \`ENABLED\` (activé).`);
 
-        if (userData.passive == true) return message.channel.send(passive2embed).catch();
+        if (userData.passive == true) return message.channel.send({embeds: [passive2embed]}).catch();
         //if (userData.passive == true) return message.reply(`You're already in passive mode`)
 
         userData.passive=true;
@@ -34,14 +34,14 @@ module.exports.run = async (bot, message, args) => {
         .setColor("GREEN")
         .setDescription(`✅ **${member.user.username}** : J'ai \`ENABLED\` (activé) votre mode passif`);
 
-        message.channel.send(passive3embed).catch();
+        message.channel.send({embeds: [passive3embed]}).catch();
         //message.reply(`I have enabled your passive mode`);
     } else if (disable.includes(args[0].toString().toLowerCase())) {
          let passive4embed = new MessageEmbed()
         .setColor("BLUE")
         .setDescription(`💁 **${member.user.username}** : Votre mode passif est actuellement : \`DISABLED\` (désactivé).`);
 
-        if (userData.passive == false) return message.channel.send(passive4embed).catch();
+        if (userData.passive == false) return message.channel.send({embeds: [passive4embed]}).catch();
         //if (userData.passive == false) return message.reply(`You're not passive mode`);
         userData.passive=false;
         await userData.save();
@@ -49,14 +49,14 @@ module.exports.run = async (bot, message, args) => {
         .setColor("GREEN")
         .setDescription(`✅ **${member.user.username}** : J'ai \`DISABLED\` (désactivé) votre mode passif.`);
 
-        message.channel.send(passive5embed).catch();
+        message.channel.send({embeds: [passive5embed]}).catch();
         //message.reply(`I have disabled your passive mode`);
     } else {
         let passive6embed = new MessageEmbed()
         .setColor("RED")
         .setDescription(`❌ **${member.user.username}** : Cette option n'est pas valide.`);
 
-        message.channel.send(passive6embed).catch();
+        message.channel.send({embeds: [passive6embed]}).catch();
 
         //message.reply(`Dude that's not a valid option`);
             
@@ -65,7 +65,7 @@ module.exports.run = async (bot, message, args) => {
 module.exports.config = {
     name: 'passive', // Command Name
     description: 'Enable / Disable passive mode.', // Description
-    usage: '+passive <on or off>', // Usage
+    usage: '+passive <on ou off>', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
     aliases: ['passif'], // Aliases 

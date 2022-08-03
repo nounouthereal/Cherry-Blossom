@@ -21,7 +21,7 @@ module.exports.run = async (bot, message, args) => {
       .setDescription(`${i} **${member.user.username}** : A posté cette photo sur reddit.`)
       .setImage(json[0].url)
       .setColor("BLUE")
-      message.channel.send({embeds: [embed]}).then(message.channel.send(likes));
+      message.channel.send({embeds: [embed]}).then(message.channel.send({embeds: [likes]}));
       
       bot.giveCoins(message.author.id, random);
     })

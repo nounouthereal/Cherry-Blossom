@@ -115,7 +115,7 @@ module.exports.run = async (bot, message, args) => {
 module.exports.config = {
     name: 'inventory', // Command Name
     description: "Montre votre inventaire", // Description
-    usage: '+inventory', // Usage
+    usage: '+inventory Optionnel: <page>', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
     aliases: ['inv','inventaire'], // Aliases 

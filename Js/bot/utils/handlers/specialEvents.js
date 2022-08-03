@@ -9,7 +9,8 @@ const fs = require('fs');
 
     })};*/
 
-    module.exports = bot => {
+    //Waitinf for ranking v1.0
+    /* module.exports = bot => {
         fs.readdir('/Users/nouhame/Bot_des_cerisiers/Js/bot/specialsEvent', (err, files) => {
             if (err) console.log(err);
             files.forEach(file => {
@@ -20,4 +21,4 @@ const fs = require('fs');
                 delete require.cache[require.resolve(`/Users/nouhame/Bot_des_cerisiers/Js/bot/specialsEvent/${file}`)];
             });
         });
-    }
+    } */

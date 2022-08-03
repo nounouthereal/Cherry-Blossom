@@ -8,7 +8,9 @@ const EconomySchema = new mongoose.Schema({
     items: { type: Array, required: false, default: [] },
     dailyStreak: { type: Date, required: false, default: new Date(Date.now() - 86400000) },
     passive: { type: Boolean, required: false, default: false },
-    resistance: { type: Number, required: false, default: null }
+    resistance: { type: Number, required: false, default: null },
+    job: { type: Array, required: false, default: [] },
+    skills: { type: Array, required: false, default: [] }
 });
 
 module.exports = mongoose.model('economy', EconomySchema);

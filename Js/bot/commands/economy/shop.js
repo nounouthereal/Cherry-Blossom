@@ -7,9 +7,8 @@ const array = require('/Users/nouhame/Bot_des_cerisiers/Js/bot/utils/items.js');
 
 module.exports.run = async (bot, message, args) => {
  
-let items = Object.keys(itemss);
-let itemShop = itemss.filter(x => x.displayOnShop == true)
-let itemShops = Object.keys(itemShop);
+let items = Object.values(itemss);
+let itemShops = items.displayOnShop
 
 
 let embed = new MessageEmbed()
@@ -18,8 +17,29 @@ let embed = new MessageEmbed()
 .setFooter("For buying an item do +buy <itemId>")
 console.log(itemShops)
 
-for (let i in itemShops) {
-    embed.addField(`f`,`**${itemss[items[i]].name} (${itemss[items[i]].price} :coin:)**`)
+
+for (let i in items) {
+
+    if (items.rarety === "🔴 Mythique") {
+        items.rarety = "```diff\n-🔴 Mythique\n```"
+      }
+      if (items.rarety === "🟠 Légendaire") {
+        items.rarety = "```fix\n🟠 Légendaire\n```"
+      }
+      if (items.rarety === "🟣 Épique") {
+        items.rarety = "```yaml\n🟣 Épique\n```"
+      }
+      if (items.rarety === "🔵 Rare") {
+        console.log("rarety === Rare")
+        items.rarety = "```md\n# 🔵 Rare\n```"
+      }
+      if (items.rarety === "🟢 Atypique") {
+        items.rarety = "```diff\n+🟢 Atypique\n```"
+      }
+      if (items.rarety === "⚪️ Commun") {
+        items.rarety = "```\n⚪️ Commun\n```"
+      }
+    embed.addField(`━━━━━━━━━━━━━━━━━━━━━━━━`,`**📛 Nom:** ${items.name}\n\n**💰 Prix:** ${items.price} :coin:\n\n**🧾 Description:** ${items.description}\n\n**🆔 ID:** \`${items.itemId}\`\n\n**🎨 Rareté:** ${items.rarety}`)
 }
 
 message.channel.send({embeds: [embed]})

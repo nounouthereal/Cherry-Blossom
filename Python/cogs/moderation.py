@@ -1,9 +1,7 @@
 
 from ast import alias
-from ctypes.wintypes import HHOOK
 from io import BytesIO
 import sqlite3
-from unicodedata import name
 import discord
 from discord.ext import commands
 import time

@@ -31,7 +31,7 @@ module.exports.run = async (bot, message, args) => {
     let rob2embed = new MessageEmbed()
     .setColor("ORANGE")
     .setDescription(`🛡 **${usertag.user.username}** : L'utilisateur que vous avez essayé de voler a des protections`);
-    return message.channel.send(rob2embed);
+    return message.channel.send({embeds: [rob2embed]});
       //return message.channel.send(`You can't rob the bot devs lol.`);
     }
     
@@ -41,14 +41,14 @@ module.exports.run = async (bot, message, args) => {
     let rob3embed = new MessageEmbed()
     .setColor("RED")
     .setDescription(`❌ **${usertag.user.username}** : L'utilisateur que vous avez essayé de voler a passif \`ENABLED\`.`);
-    return message.channel.send(rob3embed);
+    return message.channel.send({embeds: [rob3embed]});
       //return message.channel.send(`Leave them alone... they are in passive mode`);
     }
     if (robbedUser.coinsInWallet < 1000) {
     let rob4embed = new MessageEmbed()
     .setColor("BLUE")
     .setDescription(`🛡 **${usertag.user.username}** : L'utilisateur que vous avez essayé de voler a des protections sur son solde pour le moment car il a un solde inférieur à \`1 000\` :dollar:.`);
-    return message.channel.send(rob4embed);
+    return message.channel.send({embeds: [rob4embed]});
         //return message.channel.send("This user doesn't have much coins, I wouldn't rob them");
     }
     if (user.items.find(x => x.name == 'luckyclover')) {
@@ -74,7 +74,7 @@ module.exports.run = async (bot, message, args) => {
               .setColor("WHITE")
               .setDescription(`🛡 **${usertag.user.username}** : A essayé de vous voler **${member.user.tag}** et il a été arrêter 👮 ! Il vous a payé une caution de ${cautionrecived} :dollar:.`)
               message.robbedUser.send(robb7emb)
-              return message.channel.send(rob5embed);
+              return message.channel.send({embeds: [rob5embed]});
             //return message.channel.send(`You tried to rob **${member.user.tag}** but got caught👮! Better luck next time.`);
         }
     }
@@ -88,7 +88,7 @@ module.exports.run = async (bot, message, args) => {
               .setColor("BLUE")
               .setTitle(`💸 Résultat du vol:`)
               .setDescription(`🛡 **${usertag.user.username}** : Vous avez essayée de voler **${member.user.tag}**, mais il a un **Cadenas**🔒. Essayez la prochaine fois.`);
-              message.channel.send(rob6embed);
+              message.channel.send({embeds:[rob6embed]});
         //message.channel.send(`You tried to rob **${member.user.tag}**, but they had a **Padlock**🔒. Try again next time.`);
       
         if (padlock.amount === 1) {

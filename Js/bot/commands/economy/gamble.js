@@ -51,7 +51,7 @@ module.exports.run = async (bot, message, args) => {
         .setColor('GREEN')
         .setThumbnail(member.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true }))
         .setFooter("https://top.gg/bot/679710920334639115/vote")
-        .setDescription(`Gamble V2 | Player : **${member.user.username}** \n\nFleur de cerisier rolled : \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\nWin Rate: \`${Math.floor(userChoice-botRoll)*10}%\`\n\nWinnings: **${wonCoins.toLocaleString()}** coins`)
+        .setDescription(`Gamble Bêta 1.0 | Player : **${member.user.username}** \n\nFleur de cerisier rolled : \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\nWin Rate: \`${Math.floor(userChoice-botRoll)*10}%\`\n\nWinnings: **${wonCoins.toLocaleString()}** coins`)
         message.channel.send(wonEmbed);
     } else if (botRoll == userChoice) {
       const tieCoins = parseInt(betAmount/2);
@@ -61,7 +61,7 @@ module.exports.run = async (bot, message, args) => {
         .setColor('YELLOW')
         .setThumbnail(member.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true }))
         .setFooter("https://top.gg/bot/679710920334639115/vote")
-        .setDescription(`Gamble V2 | Player : **${member.user.username}** \n\nFleur de cerisier rolled: \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\n**${member.user.username}** & **Hydra+**:Tied\n\nLost: **${tieCoins.toLocaleString()}** coins`)
+        .setDescription(`Gamble Bêta 1.0 | Player : **${member.user.username}** \n\nFleur de cerisier rolled: \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\n**${member.user.username}** & **Hydra+**:Tied\n\nLost: **${tieCoins.toLocaleString()}** coins`)
         message.channel.send(tieEmbed);
     } else if (botRoll > userChoice) {
         const lostCoins = (betAmount);
@@ -71,8 +71,8 @@ module.exports.run = async (bot, message, args) => {
         .setColor('RED')
         .setThumbnail(member.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true }))
         .setFooter("https://top.gg/bot/679710920334639115/vote")
-        .setDescription(`Gamble V2 | Player : **${member.user.username}** \n\nFleur de cerisier rolled: \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\nLost Rate: \`${Math.floor(botRoll-userChoice)*10}%\`\n\nlost: **${lostCoins.toLocaleString()}** coins`)
-        message.channel.send(lostEmbed);
+        .setDescription(`Gamble Bêta 1.0 | Player : **${member.user.username}** \n\nFleur de cerisier rolled: \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\nLost Rate: \`${Math.floor(botRoll-userChoice)*10}%\`\n\nlost: **${lostCoins.toLocaleString()}** coins`)
+        message.channel.send({embeds: [lostEmbed]});
     }
 }   
 module.exports.config = {

@@ -7,6 +7,9 @@ const levelSchema = mongoose.Schema({
     level: { type: Number, default: 1 },
     totalXp: { type: Number, default: 0 },
     xpToLevel: { type: Number, default: 123 },
-    channel: { type: String, default: null },});
+    channel: { type: Array, default: null },
+    activated: { type: Boolean, default: true },
+    channelIgnore: { type: Array, default: true },
+    roleIgnore: { type: Array, default: null }});
 
 module.exports = mongoose.model("Levels", levelSchema);

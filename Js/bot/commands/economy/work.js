@@ -4,10 +4,15 @@ const { MessageEmbed } = require("discord.js")
 
 module.exports.run = async (bot, message, args) => {
 
-    let user = message.author;
-    let author = await bot.fetchUser(`work_${message.guild.id}_${user.id}`)
+    const user = await bot.fetchUser(message.author.id);
+    console.log(work)
 
-    let timeout = 360;
+    let fireEmbed = new MessageEmbed()
+    .setColor("YELLOW")
+    .setDescription(":warning: Merci d'attendre la V1.0 avec les système de société pour avoir accès à cette commande")
+
+    message.channel.send({embeds: [fireEmbed]})
+    /*let timeout = 360;
     
     if (author !== null && timeout - (Date.now() - author) > 0) {
         let time = ms(timeout - (Date.now() - author));
@@ -15,7 +20,7 @@ module.exports.run = async (bot, message, args) => {
         let timeEmbed = new MessageEmbed()
         .setColor("BLUE")
         .setDescription(`🔒 **${user.user.username}** : Tu as déjà travaillé il y a peu de temps\n\nRéessaye dans : ${time.minutes}m ${time.seconds}s `);
-        message.channel.send(timeEmbed)
+        message.channel.send({embeds: [timeEmbed]})
       } else {
         let replies = ['🧑🏻‍💻 Informaticien','👷 Ouvrier','👩‍🍳 Cuisinier','🚛 Livreur','🧑🏻‍⚕️ Infirmier','🧑‍🔧 Méchanicien']
 
@@ -24,10 +29,10 @@ module.exports.run = async (bot, message, args) => {
         let embed1 = new MessageEmbed()
         .setColor("GREEN")
         .setDescription(`✅ Tu as travaillé comme ${replies[result]} et gagné ${amount} :dollar:`);
-        message.channel.send(embed1)
+        message.channel.send({embeds: [embed1]})
         
         bot.giveCoins(message.author.id, amount)
-    };
+    };*/
 }
 
 module.exports.config = {
@@ -38,5 +43,5 @@ module.exports.config = {
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
     aliases: ['travail','job','boulot'], // Aliases 
     bankSpace: 50, // Amount of bank space to give when command is used.
-    cooldown: 15 // Command Cooldown
+    cooldown: 45 // Command Cooldown
 }

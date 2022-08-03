@@ -16,7 +16,7 @@ module.exports.run = async (bot, message, args) => {
       
     }
     if (!args[1]) args[1] = '';
-    const item = itemss.find(x => x.itemId.toLowerCase() === args.join(' ').toString().toLowerCase() || x.itemId.toLowerCase() === args[0].toString().toLowerCase() || x.itemId.toLowerCase() === `${args[0].toString().toLowerCase()} ${args[1].toString().toLowerCase()}`);
+    const item = itemss.find(x => x.itemId === args.join(' ').toString() || x.itemId === args[0].toString().toLowerCase() || x.itemId === `${args[0].toString().toLowerCase()} ${args[1].toString().toLowerCase()}`);
     let sellAmount = args.join(' ').toString().match(/([1-9][0-9]*)/);
     if (!sellAmount) sellAmount = 1;
     else sellAmount = sellAmount[0]

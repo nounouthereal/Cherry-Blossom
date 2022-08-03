@@ -15,9 +15,12 @@ module.exports.run = async (bot, message, args) => {
         let amount = Math.floor(Math.random() * 4000) + 100;
         user.coinsInWallet += amount;
         const claimed = new MessageEmbed()
-            .setDescription(`✅ **${member.user.username}** : Vous avez réclamé ${amount} :dollar: (Vous avez maintenant ${user.coinsInWallet}) ||(Utilisez cette commande dans \`7 jours\` pour réclamer à nouveau votre récompense semestriel !)||`)
-            .setColor('GREEN');
-        message.channel.send(claimed);
+            .setTitle(`✅ Récompense réclamé`)
+            .setDescription(`Vous avez réclamé ${amount} :coin: (Utilisez cette commande dans \`7 jours\` pour réclamer à nouveau votre récompense hebdomadaire !)`)
+            .addField(`💸 Récompense:`,`${amount} :coin:`)
+            .addField(`💳 Balance:`,`${user.coinsInWallet.toLocaleString()} :coin:`)
+            .setColor('RANDOM');
+        message.channel.send({embeds: [claimed]});
        user.save().then(user.dailyStreak = new Date(Date.now()))
       
     }
@@ -25,11 +28,11 @@ module.exports.run = async (bot, message, args) => {
 
 module.exports.config = {
     name: 'weekly', // Command Name
-    description: 'Weekly Reward.', // Description
+    description: 'Récompense hebdomadaire.', // Description
     usage: '+weekly', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: [], // Aliases 
+    aliases: ['hebdomadaire','hebdo'], // Aliases 
     bankSpace: 100, // Amount of bank space to give when command is used.
     cooldown: 0.1 // Command Cooldown
 }

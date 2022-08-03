@@ -17,7 +17,7 @@ module.exports.run = async (bot, message, args) => {
         }).save();
     } else {
         if(prizeData.levelPrizes.find(x => x.level == level && x.role == role.id)) {
-            message.channel.send({embeds: [embed.setDescription(`❌ **${level}** Les récompenses de votre niveau incluent déjà ${role}!`),embed.setColor("RED")]});
+            message.channel.send({embeds: [embed.setDescription(`❌  Les récompenses du votre niveau **${level}** incluent déjà ${role}!`),embed.setColor("RED")]});
         } else {
             prizeData.levelPrizes.push({ level: level, role: role.id});
             prizeData.save();

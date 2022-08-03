@@ -30,7 +30,7 @@ module.exports.run = async (bot, message, args) => {
         )
         .setColor('RANDOM')
 
-    message.channel.send(profileEmbed);
+    message.channel.send({embeds: [profileEmbed]});
 }
 module.exports.config = {
     name: 'profile', // Command Name

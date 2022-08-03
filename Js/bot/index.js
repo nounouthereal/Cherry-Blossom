@@ -17,4 +17,4 @@ bot.cooldowns = new Collection();
 
 require('./utils/handlers/command')(bot);
 require('./utils/handlers/events')(bot);
-require('./utils/handlers/specialEvents')(bot);
+//require('./utils/handlers/specialEvents')(bot);

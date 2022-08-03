@@ -20,11 +20,11 @@ module.exports.run =  async (bot, message, args) => {
 
 
         const embed = new MessageEmbed()
-        .setTitle(`✅ Argent ajouté !`)
-        .addField(`👤 Membre:`, `<@${user.id}>`)
-        .addField(`👮 Administrateur:`,`<@${message.author.id}>`,false)
-        .addField(`💰 Balance ajouté:`, `${somme} :coin:`)
-        .addField(`🌐 Argent total:`, `${parseInt(args[1]) + parseInt(userData.coinsInWallet)} :coin:`)
+        .setTitle(`✅ Money added !`)
+        .addField(`👤 Member:`, `<@${user.id}>`)
+        .addField(`👮 Adminstrator:`,`<@${message.author.id}>`,false)
+        .addField(`💰 Balance added:`, `${somme} :coin:`)
+        .addField(`🌐 Total money:`, `${parseInt(args[1]) + parseInt(userData.coinsInWallet)} :coin:`)
         .setColor("GREEN")
         .setThumbnail(user.displayAvatarURL)
         .setFooter(message.guild.name)
@@ -36,8 +36,8 @@ module.exports.run =  async (bot, message, args) => {
 
 module.exports.config = {
     name: 'addmoney', // Command Name
-    description: 'Ajouter de l\'argent à un membre', // Description
-    usage: '+addmoney <somme> @membre', // Usage
+    description: 'Add money to a member', // Description
+    usage: '+addmoney <money> @membre', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: ['ADMINISTRATOR'], // User permissions needed to run command. Leave empty if nothing.
     aliases: ['addcredits','addbal','am','moneyadd'], // Aliases 

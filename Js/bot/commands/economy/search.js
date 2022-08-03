@@ -19,7 +19,7 @@ module.exports.run = async (bot, message, args) => {
     .setColor("GREEN")
     .setDescription(`🔍 **${usertag.user.username}** : ${response}`);
 
-    await message.channel.send(searchembed).catch();
+    await message.channel.send({embeds: [searchembed]}).catch();
     await bot.giveCoins(message.author.id, random);
 }
 
@@ -31,5 +31,5 @@ module.exports.config = {
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
     aliases: [], // Aliases 
     bankSpace: 15, // Amount of bank space to give when command is used.
-    cooldown: 5 // Command Cooldown
+    cooldown: 15 // Command Cooldown
 }

@@ -48,7 +48,7 @@ module.exports.run = async (bot, message, args) => {
         .setColor('GREEN')
         .setThumbnail(member.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true }))
         .setFooter("https://top.gg/bot/679710920334639115/vote")
-        .setDescription(`Dice V3 | Joueur **${member.user.username}** \n\nFleur de cerisier a joué: \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\nArgent gagné: **${wonCoins.toLocaleString()}** :coin:`)
+        .setDescription(`Dice Bêta | Joueur **${member.user.username}** \n\nFleur de cerisier a joué: \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\nArgent gagné: **${wonCoins.toLocaleString()}** :coin:`)
         message.channel.send({embeds: [wonEmbed]});
     } else if (botRoll == userChoice) {
         const tieCoins = parseInt(betAmount/2);
@@ -58,7 +58,7 @@ module.exports.run = async (bot, message, args) => {
         .setColor('YELLOW')
         .setThumbnail(member.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true }))
         .setFooter("https://top.gg/bot/679710920334639115/vote")
-        .setDescription(`Dice V2 | Joueur **${member.user.username}** \n\nFleur de cerisier rolled: \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\n**${member.user.username}** & **Fleur de cerisier+**: Nulle\n\nLost: **${tieCoins.toLocaleString()}** :coin:`)
+        .setDescription(`Dice Bêta | Joueur **${member.user.username}** \n\nFleur de cerisier a joué: \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\n**${member.user.username}** & **Fleur de cerisier+**: Nulle\n\nLost: **${tieCoins.toLocaleString()}** :coin:`)
         message.channel.send({embeds: [tieEmbed]});
     } else if (botRoll > userChoice) {
         const lostCoins = (betAmount);
@@ -68,7 +68,7 @@ module.exports.run = async (bot, message, args) => {
         .setColor('RED')
         .setThumbnail(member.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true }))
         .setFooter("https://top.gg/bot/679710920334639115/vote")
-        .setDescription(`Dice V1 | Joueur **${member.user.username}** \n\nFleur de cerisier rolled: \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\nLost: **${lostCoins.toLocaleString()}** :coin:`)
+        .setDescription(`Dice Bêta | Joueur **${member.user.username}** \n\nFleur de cerisier rolled: \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\nLost: **${lostCoins.toLocaleString()}** :coin:`)
         message.channel.send({embeds: [lostEmbed]});
     }
 }   

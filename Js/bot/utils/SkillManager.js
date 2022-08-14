@@ -1,26 +1,20 @@
 const skills = require('./skills');
 
-class ItemManager {
+class SkillManager {
     contructor() {
         this.skills = skills;
     }
     
-    find(item = '') {
-        const found = skills.find(x => x.name === item);
+    find(skill = '') {
+        const found = skills.find(x => x.name === skill);
         if (!found) return false;
         return found;
     }
 
-    usable(item = '') {
-        const found = skills.find(x => x.name === item);
-        if (!found) return false;
-        if (!found.canUse) return false;
-        return true; 
-    }
 
-    listitems() {
+    listskills() {
         return skills;
     }
 }
 
-module.exports = ItemManager;
+module.exports = SkillManager;

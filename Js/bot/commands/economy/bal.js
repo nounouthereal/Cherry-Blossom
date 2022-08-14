@@ -46,6 +46,14 @@ module.exports.run = async (bot, message, args) => {
     let guildname = message.guild.name;
     let bankspace_still = user.bankSpace  - user.coinsInBank;
 
+    if (!user) {
+        let moneyerrorembed = new MessageEmbed()
+          .setColor("RED")
+          .setTitle(`❌ Erreur!`)
+          .setDescription(`**${member.user.username}** : Your id is bugged in my database, sorry about this we will restore your account.`);
+        return message.channel.send({embeds: [moneyerrorembed]}).catch();
+      }
+
     const embed = new MessageEmbed()
         .setAuthor(`${member.user.username}`,avatar)
         .setTitle(`💰 Wallet of ${member.user.username}`)

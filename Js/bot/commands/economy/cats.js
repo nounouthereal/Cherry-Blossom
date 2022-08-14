@@ -12,7 +12,7 @@ module.exports.run = async (bot, message, args) => {
    const member = message.member;
        let likes = new MessageEmbed()
     .setColor("GREEN")
-    .setDescription(`✅ **${member.user.username}** : Votre photo de chat a reçu ${random.toLocaleString()} likes (Donc ${random} :dollar:).`);
+    .setDescription(`✅ **${member.user.username}** : Votre photo de chat a reçu ${random.toLocaleString()} likes (Donc ${random} :coin:).`);
    
     request('http://aws.random.cat/meow', function (error, body) {
       var result = JSON.parse(body.body)
@@ -30,9 +30,9 @@ module.exports.run = async (bot, message, args) => {
   }
 }
 module.exports.config = {
-    name: 'cat', // Command Name
+    name: 'cats', // Command Name
     description: 'Postez des photos de chats pour gagner de l\'argent.', // Description
-    usage: '+cat', // Usage
+    usage: '+cats', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
     aliases: [], // Aliases 

@@ -7,7 +7,7 @@ const tick = '<:verify:995696353252495441>'
 
 module.exports.run =  async (bot, msg, args) => {
 
-    const invites = await msg.guild.fetchInvites();
+    const invites = await msg.guild.invites.fetch();
     const topTen = invites.filter((inv) => inv.uses > 0).sort((a, b) => b.uses - a.uses).first(10);
 
     if(topTen.length === 0) return msg.cahnnel.send(`:warning: No invitations in ${message.guild.name}!`);
@@ -15,7 +15,8 @@ module.exports.run =  async (bot, msg, args) => {
     let embed = new MessageEmbed()
         .setTitle(`Top Invites in ${msg.guild.name}`)
         .setAuthor(msg.guild.name, msg.guild.iconURL())
-        .setDescription(topTen.map((inv) => `• **${inv.inviter.username}**'s invite **${inv.code}** has **${inv.uses.toLocaleString()}** uses.`).join("\n"));
+        .setDescription(topTen.map((inv) => `• **${inv.inviter.username}**'s invite **${inv.code}** has **${inv.uses.toLocaleString()}** uses.`).join("\n"))
+        .setColor(message.guild.me.displayHexColor);
     msg.channel.send({embeds: [embed]})
 };
     

@@ -1,7 +1,7 @@
 const slotItems = ["🍇", "🍉", "🍌", "🍎", "🍒", "🍋"];
 const { MessageEmbed } = require('discord.js');  
 const i = '<:infomation:779736273639440394>'
-const x = '<:bigx:779736072367505449>'
+const x = ':x:'
 const tick = '<:bigtick:779736050892931082>'
 
 module.exports.run = async (bot, message, args) => {
@@ -11,7 +11,7 @@ module.exports.run = async (bot, message, args) => {
   
     let passivewarn = new MessageEmbed()
     .setColor("RED")
-    .setDescription(`❌ **${member.user.username}** : Vous avez \`PASSIVE\` activé, vous devez le désactiver pour utiliser cette commande.`);
+    .setDescription(`❌ **${member.user.username}** : You have \`PASSIVE\` activated, you need to disable it to use this command.`);
   
         if (userData.passive == true) return message.channel.send({embeds: [passivewarn]});
            let betAmount = args[0];
@@ -24,7 +24,7 @@ module.exports.run = async (bot, message, args) => {
 
     let coinmin = new MessageEmbed()
     .setColor("RED")
-    .setDescription(`${x} **${member.user.username}** : ❌ **${member.user.username}** : Le minimum que vous pouvez jouer est de \`50\` :coin:.`);
+    .setDescription(`${x} **${member.user.username}** : **${member.user.username}** : Le minimum que vous pouvez miser est de \`50\` :coin:.`);
 
     if (betAmount < 50) return message.channel.send({embeds: [coinmin]});
   
@@ -33,7 +33,7 @@ module.exports.run = async (bot, message, args) => {
 
     let moneywarn = new MessageEmbed()
     .setColor("RED")
-    .setDescription(`❌ **${member.user.username}** : Tu ne dispose pas de \`${args[0]}\`.`);
+    .setDescription(`❌ **${member.user.username}** : Tu ne dispose pas de \`${args[0]}\` :coin:.`);
 
            if (betAmount > userData.coinsInWallet) {
            return message.channel.send({embeds: [moneywarn]});
@@ -68,8 +68,8 @@ module.exports.run = async (bot, message, args) => {
         .setColor("GREEN")
         .setThumbnail(member.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true }))
         .setTimestamp()
-        .setDescription(`**Slots Bêta v1** | Joueur : **${member.user.username}** \n\n 🎰 Résultat : ${slotItems[number[0]]} | ${slotItems[number[1]]} | ${slotItems[number[2]]} \n\n 💰 Argent remporté : **${betAmount.toLocaleString()}** :coin:`)
-        message.channel.send(slotsEmbed1)
+        .setDescription(`**Slots Bêta v1** | Joueur : **${member.user.username}** \n\n 🎰 Result : ${slotItems[number[0]]} | ${slotItems[number[1]]} | ${slotItems[number[2]]} \n\n 💰 Total gain : **${betAmount.toLocaleString()}** :coin:`)
+        message.channel.send({embeds: [slotsEmbed1]})
         bot.giveCoins(message.author.id, betAmount)
     } else {
       const lostCoins = (betAmount);
@@ -79,7 +79,7 @@ module.exports.run = async (bot, message, args) => {
         .setColor("RED")
         .setThumbnail(member.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true }))
         .setTimestamp()
-        .setDescription(`**Slots Bêta v1** | Joueur : **${member.user.username}** \n\nVous avez perdu **${betAmount.toLocaleString()}** :coin: \n\nBonne chance pour la prochaine fois`);
+        .setDescription(`**Slots Bêta v1** | Joueur : **${member.user.username}** \n\nYou lost: **${betAmount.toLocaleString()}** :coin: \n\nGood luck next time`);
         message.channel.send({embeds: [slotsEmbed]})
     }
 

@@ -10,12 +10,12 @@ module.exports.run = async (bot, message, args) => {
   if (command) {
         const embed = new MessageEmbed()
             .setThumbnail(member.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true }))
-            .addField('🧧 Nom', command.config.name, false)
+            .addField('🧧 Name', command.config.name, false)
             .addField('📑 Description', command.config.description, false)
             .addField('🎗 Usage', `\`${command.config.usage}\``, false)
-            .addField('🔂 Alias', `${command.config.aliases.join(' , ') ? command.config.aliases : "Aucun alias"}`, true)
+            .addField('🔂 Aliases', `${command.config.aliases.join(' , ') ? command.config.aliases : "No aliases"}`, true)
             .addField('🕰 Cooldown', `${ms(command.config.cooldown * 1000)}`, true)
-            .setColor('BLUE');
+            .setColor(message.guild.me.displayHexColor);
         return message.channel.send({embeds: [embed]});
     }
     let list = bot.commands.filter(x => x.config.name !== 'help' && x.config.name !== 'test');

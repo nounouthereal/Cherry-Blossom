@@ -16,6 +16,14 @@ module.exports.run =  async (bot, message, args) => {
 
         bot.giveCoins(user.id, parseInt(args[1]));
 
+        if (!userData) {
+                let moneyerrorembed = new MessageEmbed()
+                  .setColor("RED")
+                  .setTitle(`❌ Erreur!`)
+                  .setDescription(`**${member.user.username}** : Your id is bugged in my database, sorry about this we will restore your account.`);
+                return message.channel.send({embeds: [moneyerrorembed]}).catch();
+        }
+
         var somme = args[1]
 
 

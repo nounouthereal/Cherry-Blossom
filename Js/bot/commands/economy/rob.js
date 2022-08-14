@@ -14,16 +14,24 @@ module.exports.run = async (bot, message, args) => {
     .setDescription(`❌ **${usertag.user.username}** : Vous avez \`PASSIVE\` activé, vous devez le désactiver pour utiliser cette commande.`);
   
     if (user.passive == true) return message.channel.send({embeds: [passivewarn]});
+
+    let authorwarn = new MessageEmbed()
+    .setColor("RED")
+    .setDescription(`❌ **${usertag.user.username}** : You cannot rob yourself.`);
+  
+    if (member.id == message.author.id) return message.channel.send({embeds: [authorwarn]});
   
     if (!member) {
       
     let rob1embed = new MessageEmbed()
     .setColor("RED")
-    .setDescription(`❌ **${usertag.user.username}** : Vous avez oublié la personne que vous voulez voler .`);
+    .setDescription(`❌ **${usertag.user.username}** : Vous avez oublié la personne que vous voulez voler.`);
     return message.channel.send({embeds: [rob1embed]});
     //return message.channel.send("You think you can rob nobody?");
     {embeds: [embed]}
     }
+
+    
     const devs = ['404205935251292160'];
 
     if (devs.includes(member.user.id)) {

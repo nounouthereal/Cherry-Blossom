@@ -37,7 +37,7 @@ module.exports.run = async (bot, message, args) => {
     .setColor("#57c478")
     .addField(`${tick} You received money:`,` **${usertag.user.username}** : ${response}`)
     await message.channel.send({embeds: [begembed]}).catch();
-  
+
     await bot.giveCoins(message.author.id, random);
 }
 

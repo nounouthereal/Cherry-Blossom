@@ -160,6 +160,7 @@ module.exports.run = async (bot, message, args) =>  {
     embed.addField(`🎭 Roles[${total_roles}] :`, `${rolemap}`, false)
     
     embed.addField(`😀 Emojis[${emojis}] :`, `${emojismap}`, false)
+    embed.addField(`👅 Language :`, `${message.guild.preferredLocale}`, false)
     embed.addField("💠 Nombre de boosts ( niveau de boost ) :", `**${total_boosts}** Boosts ( Niveau **${boost_level}** )`, false)
     embed.addField("🗺 Nombre de salons :", `**${ChannelCount}**`, false)
     embed.addField("🏢 Nombre de catégories :", `**${total_categories}**`, false)

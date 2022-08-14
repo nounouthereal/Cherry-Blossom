@@ -47,7 +47,7 @@ module.exports.run = async (bot, message, args) => {
     let sendcoinsembed3 = new MessageEmbed()
     .setColor("RED")
     .setDescription(`❌ **${member.user.username}** : L'utilisateur à qui vous essayez de donner de l'argent a \`PASSIVE\` activé, il devra le désactiver pour pouvoir recevoir sa somme d'argent.`);
-    return message.channel.send(sendcoinsembed3).catch();
+    return message.channel.send({embeds: [sendcoinsembed3]}).catch();
       //return message.channel.send(`That user is in passive mode, they can't recive any coins`);
     }
                                   
@@ -66,7 +66,7 @@ module.exports.run = async (bot, message, args) => {
     .setColor("GREEN")
     .setTitle(`🏧 Payement réalisé`)
     .addField(`👤 Bénéficiaire:`,`<@${member.id}>`)
-    .setAuthor(message.author,message.author.iconURL())
+    .setAuthor(message.author,message.author.displayAvatarURL({ size: 1024, dynamic: true }))
     .addField(`💰 Montant du payement:`,`**${parseInt(toGive).toLocaleString()}** :coin:`)
     .addField(`🧾 Raison:`,`\`${reason}\``)
     .addField(`🎫 Auteur`,`<@${message.author.id}> `)
@@ -96,16 +96,25 @@ module.exports.run = async (bot, message, args) => {
     const usertag = message.member;
     let sendcoinsembed3 = new MessageEmbed()
     .setColor("GREEN")
-    .setTitle(`🏧 Payement réalisé`)
+    .setTitle(`🏧 Payment realisé`)
     .addField(`👤 Bénéficiaire:`,`<@${member.id}>`)
-    .setAuthor(message.author,message.author.iconURL())
+    .setAuthor(message.author,message.author.displayAvatarURL({ size: 1024, dynamic: true }))
     .addField(`💰 Montant du payement:`,`**${parseInt(toGive).toLocaleString()}** :coin:`)
     .addField(`🧾 Raison:`,`\`${reason}\``)
     .addField(`🎫 Auteur`,`<@${message.author.id}> `)
-    .setDescription(`💳 <@${message.author.id}> a donnée à ${member} **${parseInt(toGive).toLocaleString()}** :coin:`);
+    .setDescription(`💳 <@${message.author.id}> payed ${member} **${parseInt(toGive).toLocaleString()}** :coin:, for: \`${reason}\``);
     message.channel.send({embeds: [sendcoinsembed3]}).catch();
-    }
 
+    let sendcoinsembed4 = new MessageEmbed()
+    .setColor("GREEN")
+    .setTitle(`🏧 You have been payed`)
+    .addField(`🎫 Author`,`<@${message.author.id}> `)
+    .setAuthor(member.usertag,member.displayAvatarURL({ size: 1024, dynamic: true }))
+    .addField(`💰 Payment amount:`,`**${parseInt(toGive).toLocaleString()}** :coin:`)
+    .addField(`🧾 Reason:`,`\`${reason}\``)
+    .setDescription(`💳 ${message.author.usertag} payed ${member} **${parseInt(toGive).toLocaleString()}** :coin:, for: \`${reason}\``);
+    member.send({embeds: [sendcoinsembed4]}).catch();
+    }
 }
 module.exports.config = {
     name: 'give', // Command Name

@@ -19,7 +19,7 @@ module.exports.run = async (bot, message, args) => {
         
                 let use2embed = new MessageEmbed()
                 .setColor("RED")
-                .setDescription(`❌ **${member.user.username}** : Tu n'as pas cette item sois sur de l'avoir entré \`l'id\` correctement.`);
+                .setDescription(`❌ **${member.user.username}** : Tu n'as pas cette item, sois sur de l'avoir entré \`l'id\` correctement.`);
                 return message.channel.send({embeds: [use2embed]});
           //////return message.channel.send("can't use this item");
         
@@ -39,7 +39,7 @@ module.exports.run = async (bot, message, args) => {
       if (!founditem) {
                 let use3embed = new MessageEmbed()
                 .setColor("RED")
-                .setDescription(`❌ **${member.user.username}** : Tu n'as pas cette item sois sur de l'avoir entré correctement \`id\`.`);
+                .setDescription(`❌ **${member.user.username}** : Tu n'as pas cette item, sois sur de l'avoir entré correctement \`id\`.`);
                 return message.channel.send({embeds: [use3embed]});
           //////return message.channel.send("you don't have this item");
       }

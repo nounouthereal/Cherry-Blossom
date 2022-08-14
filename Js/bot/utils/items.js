@@ -20,8 +20,8 @@ const array = [{
     run: async (bot, message, args) => {
         const cookieRandom = [
             '🙂 Vous avez mangé un cookie car vous aviez faim.',
-             '🥵 Tu t\'es étouffé avec un cookie et tu as failli mourir.',
-             '👍 Le cookie avait bon goût.'
+            '🥵 Tu t\'es étouffé avec un cookie et tu as failli mourir.',
+            '👍 Le cookie avait bon goût.'
         ];
         const yes = cookieRandom[Math.floor(Math.random() * cookieRandom.length)];
         message.channel.send(`${yes}`);

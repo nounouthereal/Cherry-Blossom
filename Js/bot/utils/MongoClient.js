@@ -35,7 +35,8 @@ class MongoClient extends Client {
         if (!user) {
             const newUser = new economy({
                 userId: userId,
-                items: [] 
+                items: [],
+                skills: []
             });
             newUser.save();
             return newUser;
@@ -56,7 +57,8 @@ class MongoClient extends Client {
         if (!user) {
             const newUser = new economy({
                 userId: userId,
-                items: []
+                items: [],
+                skills: []
             });
             newUser.save();
             return newUser;
@@ -78,7 +80,8 @@ class MongoClient extends Client {
         if (!user) return false;
         const newUser = new economy({
             userId: userId,
-            items: []
+            items: [],
+            skills: []
         });
         newUser.save();
         return newUser;
@@ -98,6 +101,7 @@ class MongoClient extends Client {
             const newUser = new economy({
                 userId: userId,
                 items: [],
+                skills: [],
                 coinsInWallet: parseInt(amount)
             });
             newUser.save();

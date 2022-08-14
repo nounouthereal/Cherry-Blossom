@@ -29,7 +29,7 @@ module.exports.run = async (bot, message, args, ) => {
           let moneyerrorembed = new MessageEmbed()
             .setColor("RED")
             .setTitle(`❌ Erreur!`)
-            .setDescription(`**${member.user.username}** : Euh, eh bien en voilà une erreur bizzare contacte nounou#4483.`);
+            .setDescription(`**${member.user.username}** : Your id is bugged in my database, sorry about this we will restore your account.`);
           return message.channel.send({embeds: [moneyerrorembed]}).catch();
         }
       if (betAmount > userData.coinsInWallet) {

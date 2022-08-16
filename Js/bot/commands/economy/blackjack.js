@@ -2,7 +2,6 @@ const { MessageEmbed } = require('discord.js');
 const i = '<:infomation:779736273639440394>'
 const x = '<:no:994948190606475334>'
 const tick = '<:verify:995696353252495441>'
-const pa = "Hors banque"
 
 module.exports.run = async (bot, message, args, ) => {
         const userData = await bot.fetchUser(message.author.id);
@@ -18,8 +17,8 @@ module.exports.run = async (bot, message, args, ) => {
         if (!betAmount || betAmount < 1 || betAmount > userData) {
           let numbererrorembed = new MessageEmbed()
           .setColor("RED")
-          .setTitle(`❌ Erreur!`)
-          .setDescription(`**${member.user.username}** : La somme du pari est indéfini ou n'est pas un nombre.`);
+          .setTitle(`❌ Error!`)
+          .setDescription(`<@${member.user.id}> : The sum of the bet is undefined or isn't a number`);
             return message.channel.send({embeds: [numbererrorembed]}).catch();
             //return message.channel.send('That\'s not a number.');
           return
@@ -28,26 +27,25 @@ module.exports.run = async (bot, message, args, ) => {
         if (!userData) {
           let moneyerrorembed = new MessageEmbed()
             .setColor("RED")
-            .setTitle(`❌ Erreur!`)
-            .setDescription(`**${member.user.username}** : Your id is bugged in my database, sorry about this we will restore your account.`);
+            .setTitle(`❌ Error!`)
+            .setDescription(`<@${member.user.id}> : Your id is bugged in my database, sorry about this we will restore your account.`);
           return message.channel.send({embeds: [moneyerrorembed]}).catch();
         }
       if (betAmount > userData.coinsInWallet) {
       let moneywarn = new MessageEmbed()
     .setColor("YELLOW")
-    .setDescription(`:warning: **${member.user.username}** : Vous n'avez pas assez de thunes : https://www.youtube.com/watch?v=aIVsz5Pj0eE || Votre montant ${userData.coinsInWallet} :dollar: (${pa}).`);
+    .setDescription(`:warning: <@${member.user.id}> : You can't afford that : https://www.youtube.com/watch?v=aIVsz5Pj0eE || You currently have ${userData.coinsInWallet} :coin:.`);
 
            return message.channel.send({embeds: [moneywarn]});
            }
   if (betAmount < 200) {
   let coinmin = new MessageEmbed()
     .setColor("RED")
-    .setDescription(`${x} **${member.user.username}** : Le minimum que vous pouvez jouer est de \`200\` :coin:.`);
+    .setDescription(`${x} **${member.user.username}** : The minimum you can bet is \`200\` :coin:.`);
 
   return message.channel.send({embeds: [coinmin]});
   }
 
-        // ** BEGIN Javascript blackjack game from echohatch1. Modified for Grape.
 
         var numCardsPulled = 0;
         var gameOver = false;
@@ -176,8 +174,8 @@ module.exports.run = async (bot, message, args, ) => {
             const gambleEmbed = new MessageEmbed()
                 .setColor('#dd2de0')
                 .setTitle(message.author.username + ` Blackjack` )
-                .addField('🃏 Vos cartes', cardsMsg)
-                .addField('🂠 Cartes du dealer', dealerMsg)
+                .addField('🃏 Your cards', cardsMsg)
+                .addField('🂠 Dealer cards', dealerMsg)
                 .addField(title, msg)
                 .setThumbnail(member.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true }))
                 .setFooter(message.guild.name,message.guild.iconURL());
@@ -189,36 +187,36 @@ module.exports.run = async (bot, message, args, ) => {
             if (player.score === 21) {
                 bet('win');
                 gameOver = true;
-                await endMsg("Vous gagnez", "Vous avez 21! Vous gagnez!", true)
+                await endMsg("You win", `👑 You have 21! Winner! (You won \`${wonCoins}\` :coin:)`, true)
             }
             if (player.score > 21) {
                 bet('lose');
                 gameOver = true;
-                await endMsg("Tu as perdu", `Vous avez plus de 21 hors jeu`, true)
+                await endMsg("You lost", `😭 You have more than 21 off-side (You lost \`${betAmount}\` :coin:)`, true)
             }
             if (dealer.score === 21) {
                 bet('lose');
                 gameOver = true;
-                await endMsg("Tu as perdu", "le croupier a eu 21", true)
+                await endMsg("You lost", `😭 The dealer had 21 (You lost \`${betAmount}\` :coin:)`, true)
             }
             if (dealer.score > 21) {
                 bet('win');
                 gameOver = true;
-                await endMsg("Vous gagnez !", "Croupier hors jeu. Vous gagnez", true)
+                await endMsg("You win", `👑 Dealer off-side! Winner! (You won \`${wonCoins}\` :coin:)`, true)
             }
             if (dealer.score >= 17 && player.score > dealer.score && player.score < 21) {
                 bet('win');
                 gameOver = true;
-                await endMsg("Vous gagnez !", "Le croupier s'arrête sur 17 ou plus et n'a toujours pas obtenu un titre supérieur à vous. Vous gagnez", true)
+                await endMsg("You win", `👑 The dealer stands on 17 or more and still hasn't gotten a score higher than you. Winner! (You won \`${wonCoins}\` :coin:)`, true)
             }
             if (dealer.score >= 17 && player.score < dealer.score && dealer.score < 21) {
                 bet('lose');
                 gameOver = true;
-                await endMsg("Tu as perdu", "Le croupier a gagné", true)
+                await endMsg("You lost", `😭 The dealer won (You lost \`${betAmount}\` :coin:)`, true)
             }
             if (dealer.score >= 17 && player.score === dealer.score && dealer.score < 21) {
                 gameOver = true;
-                await endMsg("Les cartes du croupier et du joueur totalisent la même chose", "nulle", true)
+                await endMsg("The dealer score is equal to your score", "😓 Draw!", true)
             }
         }
 
@@ -274,7 +272,7 @@ module.exports.run = async (bot, message, args, ) => {
                 } else if (fcollected.content === "stop"  || fcollected.content.includes("cancel") ||fcollected.content.includes("Stop") || fcollected.content.includes("Cancel"))  {
                         let cancel = new MessageEmbed()
                           .setColor("RED")
-                          .setDescription(`${x} **${member.user.username}** : Vous avez annulé le jeu, maintenant vous avez perdu votre pari de **${betAmount.toLocaleString()}** :coin:`);
+                          .setDescription(`${x} <@${member.user.id}> : You canceled the game. So you loosed: **${betAmount.toLocaleString()}** :coin:`);
                           return message.channel.send({embeds: [cancel]}).catch();
                     bet("lose");
                     return
@@ -282,7 +280,7 @@ module.exports.run = async (bot, message, args, ) => {
             }).catch(_ => {
                 let timeout = new MessageEmbed()
                     .setColor("RED")
-                    .setDescription(`${x} **${member.user.username}** : Tu as mis trop de temps à choisir, maintenant tu as perdu ton pari de **${betAmount.toLocaleString()}** :coin:`);
+                    .setDescription(`${x} <@${member.user.id}> : You took too long to choose so I dropped the time. You lost: **${betAmount.toLocaleString()}** :coin: **${betAmount.toLocaleString()}** :coin:`);
                 return message.channel.send({embeds: [timeout]}).catch();
                 bet("lose");
                 return
@@ -293,11 +291,11 @@ module.exports.run = async (bot, message, args, ) => {
     };
 module.exports.config = {
     name: 'blackjack', // Command Name
-    description: 'Parti de blackjack dans les régles 🚬 .', // Description
-    usage: '+bj', // Usage
+    description: '🃏 Bet your money in a blackjack party.', // Description
+    usage: '+blackjack <bet>', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['bj', 'blackjack'], // Aliases 
+    aliases: ['bj'], // Aliases 
     bankSpace: 15, // Amount of bank space to give when command is used.
-    cooldown: 1 // Command Cooldown
+    cooldown: 5 // Command Cooldown
 }

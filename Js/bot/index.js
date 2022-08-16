@@ -24,6 +24,7 @@ bot.discordUNO = new DiscordUNO("RED");
 bot.login("OTQ0NTcyODYxODc0NjAyMDU0.GCIs60.KrrHt4k2zPm7vahiuhsW2yb04cf0RITSoWZDKI");
 
 bot.commands = new Collection();
+bot.slashCommands = new Collection();
 bot.aliases = new Collection();
 bot.cooldowns = new Collection();
 
@@ -32,4 +33,5 @@ bot.cooldowns = new Collection();
 
 require('./utils/handlers/command')(bot);
 require('./utils/handlers/events')(bot);
+require('./utils/handlers/slashCommands')(bot);
 //require('./utils/handlers/specialEvents')(bot);

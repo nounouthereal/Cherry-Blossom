@@ -120,7 +120,7 @@ module.exports.run = async (bot, message, args) => {
                 .setColor("RED")
                 .setThumbnail(member.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true }))
                 .setTimestamp()
-                .setDescription(`Roulette V2 | Joueur : **${member.user.username}** \n\n 🎨 Couleur : 🔴 \n\n 🧮 Multiplicateur : **x1.5**  \n\n 💰 Argent remporté : **${betAmount.toLocaleString()}** :coin:`);
+                .setDescription(`Roulette V2 | Player : **${member.user.username}** \n\n 🎨 Color : 🔴 \n\n 🧮 Multiplicateur : **x1.5**  \n\n 💰 Gains : **${betAmount.toLocaleString()}** :coin:`);
             message.channel.send({embeds:[moneyEmbed2]})
           
           } else if (random == 1 && colour == 3) { 
@@ -130,7 +130,7 @@ module.exports.run = async (bot, message, args) => {
                 .setColor("YELLOW")
                 .setThumbnail(member.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true }))
                 .setTimestamp()
-                .setDescription(`Roulette V2 | Joueur : **${member.user.username}** \n\n 🎨 Couleur : 🟡 \n\n 🧮 Multiplicateur : **x2.5**  \n\n 💰 Argent remporté : **${betAmount.toLocaleString()}** :coin:`);
+                .setDescription(`Roulette V2 | Player : **${member.user.username}** \n\n 🎨 Color : 🟡 \n\n 🧮 Multiplicateur : **x2.5**  \n\n 💰 Gains : **${betAmount.toLocaleString()}** :coin:`);
             message.channel.send({embeds:[moneyEmbed4]})
             
         } else if (!isOdd(random) && colour == 0) { 
@@ -140,7 +140,7 @@ module.exports.run = async (bot, message, args) => {
                 .setColor("BLACK")
                 .setThumbnail(member.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true }))
                 .setTimestamp()
-                .setDescription(`Roulette V2 | Joueur : **${member.user.username}** \n\n 🎨 Couleur : ⚫ \n\n 🧮 Multiplicateur : **x2**  \n\n 💰 Argent remporté : **${betAmount.toLocaleString()}** :coin:`);
+                .setDescription(`Roulette Bêta | Player : **${member.user.username}** \n\n 🎨 Color : ⚫ \n\n 🧮 Multipliar : **x2**  \n\n 💰 Gains : **${betAmount.toLocaleString()}** :coin:`);
             message.channel.send({embeds:[moneyEmbed3]})
           
         } else { 
@@ -151,7 +151,7 @@ module.exports.run = async (bot, message, args) => {
                 .setColor("RED")
                 .setThumbnail(member.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true }))
                 .setTimestamp()
-                .setDescription(`Roulette V2 | Joueur : **${member.user.username}** \n\nVous avez perdu **${betAmount.toLocaleString()}** :coin: \n\nBonne chance pour la prochaine fois`);
+                .setDescription(`Roulette Bêta | Player : **${member.user.username}** \n\nVous avez perdu **${betAmount.toLocaleString()}** :coin: \n\nBonne chance pour la prochaine fois`);
             message.channel.send({embeds:[moneyEmbed4]})
         }
 

@@ -10,7 +10,7 @@ module.exports.run = async (bot, message, args) => {
     const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member;
     let passivewarn = new MessageEmbed()
     .setColor("RED")
-    .setDescription(`❌ **${member.user.username}** : Vous avez  \`PASSIVE\` d'activé, vous devez le désactiver pour utiliser cette commande.`);
+    .setDescription(`❌ <@${member.user.id}> : You have  \`PASSIVE\` activated, you need to desactivate it.`);
   
     if (userData.passive == true) return message.channel.send({embeds: [passivewarn]});
   
@@ -19,13 +19,13 @@ module.exports.run = async (bot, message, args) => {
   
     let coinswarn = new MessageEmbed()
     .setColor("RED")
-    .setDescription(`❌ **${member.user.username}** : Entrez la somme que vous vouler parier. `);
+    .setDescription(`❌ <@${member.user.id}> : You need to enter the amount of money you want to bet.`);
 
     if (!betAmount || isNaN(betAmount) && betAmount !== 'all' && betAmount !== 'max') return message.channel.send({embeds: [coinswarn]});
 
     let coinmin = new MessageEmbed()
-    .setColor("YELLOW")
-    .setDescription(`:warning: **${member.user.username}** : Le minimum que vous pouvez jouer est de \`200\` :coin:.`);
+    .setColor("RED")
+    .setDescription(`❌ <@${member.user.id}> : The minimum you can bet is \`200\` :coin:.`);
 
     if (betAmount < 200) return message.channel.send({embeds: [coinmin]});
 
@@ -33,8 +33,8 @@ module.exports.run = async (bot, message, args) => {
     else betAmount=parseInt(args[0]);
   
     let moneywarn = new MessageEmbed()
-    .setColor("YELLOW")
-    .setDescription(`:warning: **${member.user.username}** : Tu n'as pas assez d'argent.`);
+    .setColor("RED")
+    .setDescription(`:warning: <@${member.user.id}> : You don't have enough money. You need \`${betAmount - userData.coinsInWallet}\` :coin:`);
 
            if (betAmount > userData.coinsInWallet) {
            return message.channel.send({embeds: [moneywarn]});
@@ -47,8 +47,8 @@ module.exports.run = async (bot, message, args) => {
         const wonEmbed = new MessageEmbed()
         .setColor('GREEN')
         .setThumbnail(member.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true }))
-        .setFooter("https://top.gg/bot/679710920334639115/vote")
-        .setDescription(`Dice Bêta | Joueur **${member.user.username}** \n\nFleur de cerisier a joué: \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\nArgent gagné: **${wonCoins.toLocaleString()}** :coin:`)
+        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+        .setDescription(`Dice Beta V1 | Player **${member.user.username}** \n\n${bot.member.nickname} rolled: \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\nMoney gained: **${wonCoins.toLocaleString()}** :coin:`)
         message.channel.send({embeds: [wonEmbed]});
     } else if (botRoll == userChoice) {
         const tieCoins = parseInt(betAmount/2);
@@ -57,8 +57,8 @@ module.exports.run = async (bot, message, args) => {
         const tieEmbed = new MessageEmbed()
         .setColor('YELLOW')
         .setThumbnail(member.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true }))
-        .setFooter("https://top.gg/bot/679710920334639115/vote")
-        .setDescription(`Dice Bêta | Joueur **${member.user.username}** \n\nFleur de cerisier a joué: \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\n**${member.user.username}** & **Fleur de cerisier+**: Nulle\n\nLost: **${tieCoins.toLocaleString()}** :coin:`)
+        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+        .setDescription(`Dice Beta V1 | Player **${member.user.username}** \n\n${bot.member.nickname} rolled: \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\n**${member.user.username}** & **${bot.member.nickname}**: Draw\n\nLost: **${tieCoins.toLocaleString()}** :coin:`)
         message.channel.send({embeds: [tieEmbed]});
     } else if (botRoll > userChoice) {
         const lostCoins = (betAmount);
@@ -67,18 +67,18 @@ module.exports.run = async (bot, message, args) => {
         const lostEmbed = new MessageEmbed()
         .setColor('RED')
         .setThumbnail(member.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true }))
-        .setFooter("https://top.gg/bot/679710920334639115/vote")
-        .setDescription(`Dice Bêta | Joueur **${member.user.username}** \n\nFleur de cerisier rolled: \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\nLost: **${lostCoins.toLocaleString()}** :coin:`)
+        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+        .setDescription(`Dice Beta V1 | Player **${member.user.username}** \n\n${bot.member.nickname} rolled: \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\nLost: **${lostCoins.toLocaleString()}** :coin:`)
         message.channel.send({embeds: [lostEmbed]});
     }
 }   
 module.exports.config = {
     name: 'dice', // Command Name
-    description: 'Parier votre argent pour tenter de gagner gros.', // Description
+    description: 'Bet your money in a dice game', // Description
     usage: '+dice <amount>', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['bet','pari'], // Aliases 
+    aliases: ['dices'], // Aliases 
     bankSpace: 10, // Amount of bank space to give when command is used.
     cooldown: 5 // Command Cooldown
 }

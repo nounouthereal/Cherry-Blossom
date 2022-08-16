@@ -11,21 +11,24 @@ module.exports.run = async (bot, message, args) => {
     const usertag = message.member;
     const another = Math.round(Math.random() * 15);
 
-    const choicescrime = Math.random(['oui' , 'non'])
+    yesnoArray = ['oui','non']
+
+    const choicescrime = yesnoArray[Math.floor(Math.random()*yesnoArray.length)];
+
 
     const random = Math.round(Math.random() * 100);
     const randomMessage = [
-        `Vous avez assassiné **Bill Gates**, vous avez été payé ${random.toLocaleString()} :coin:.`,
-        `Vous avez volé une pauvre vieille grand-mère et elle n'avait que des pièces de ${random.toLocaleString()} :coin:.`,
-        `Vous avez fait une descente chez un trafiquant de drogue et trouvé des pièces de ${random.toLocaleString()} :coin:.`,
-        `Vous avez assassiné **Donald Trump**, vous avez été payé ${random.toLocaleString()} :coin:.`,
-        `Vous avez failli vous faire tirer dessus, mais vous aviez **nounou#4483** à vos côté et l'avez tué, vous avez été payé ${random.toLocaleString()} :coin:.`,
+        `You assasinated **Bill Gates**, and get payed ${random.toLocaleString()} :coin:.`,
+        `You stole a poor old grandma but she only had coins of ${random.toLocaleString()} :coin:.`,
+        `You raided a drug dealer and found pieces of ${random.toLocaleString()} :coin:.`,
+        `You assasinated **Donald Trump**, and get payed ${random.toLocaleString()} :coin:.`,
+        `You almost got shot, but you had **nounou#4483** by your side and killed him, you got paid ${random.toLocaleString()} :coin:.`,
     ];
     const response = randomMessage[Math.floor((Math.random() * randomMessage.length))];
 
     const randomMessage1 = [
-        `👮 Vous avez été arreté et avez payé une amende de ${random.toLocaleString()} :coin:.`,
-        `👮 Les flics vous ont eu en flagrant délis et vous avez payé une caution de ${random.toLocaleString()} :coin:.`
+        `👮 You were arrested and paid a caution of ${random.toLocaleString()} :coin:.`,
+        `👮 The cops caught you in the act and you posted bail of ${random.toLocaleString()} :coin:.`
     ];
     const responsebad = randomMessage1[Math.floor((Math.random() * randomMessage1.length))];
 
@@ -38,7 +41,7 @@ module.exports.run = async (bot, message, args) => {
     await bot.giveCoins(message.author.id, random);
     let begembed = new MessageEmbed()
     .setColor("BLUE")
-    .setTitle(`🥷 Vous avez commis un crime`)
+    .setTitle(`🥷 You have committed a crime`)
     .setDescription(`**${usertag.user.username}** : 🥷 ${response}`);
 
   await message.channel.send({embeds: [begembed]}).catch();
@@ -47,9 +50,9 @@ module.exports.run = async (bot, message, args) => {
   if (choicescrime === 'non'){
     let begembed = new MessageEmbed()
     .setColor("GREY")
-    .setTitle(`🚔 Vous avez été arrêté`)
+    .setTitle(`🚔 You had been arrested`)
     .setDescription(`**${usertag.user.username}** : ${responsebad}`);
-    await bot.removeCoins(message.author.id, random);
+    await bot.giveCoins(message.author.id, -random);
     if (userData.coinsInWallet < 2){
         await bot.setCoins(message.author.id, 0)
     }
@@ -60,11 +63,11 @@ module.exports.run = async (bot, message, args) => {
 
 module.exports.config = {
     name: 'crime', // Command Name
-    description: 'Vous faites des chose pas gentilles pour des :coin:', // Description
+    description: 'You do criminal deeds for money', // Description
     usage: '+crime', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['criminel'], // Aliases 
+    aliases: ['criminal'], // Aliases 
     bankSpace: 15, // Amount of bank space to give when command is used.
     cooldown: 5 // Command Cooldown
 }

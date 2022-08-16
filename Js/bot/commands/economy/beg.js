@@ -46,8 +46,8 @@ module.exports.config = {
     description: 'Ask people for money', // Description
     usage: '+beg', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
-    userPerms: ['beggin\''], // User permissions needed to run command. Leave empty if nothing.
+    userPerms: ['begging'], // User permissions needed to run command. Leave empty if nothing.
     aliases: [], // Aliases 
-    bankSpace: 13, // Amount of bank space to give when command is used.
+    bankSpace: 10, // Amount of bank space to give when command is used.
     cooldown: 120 // Command Cooldown
 }

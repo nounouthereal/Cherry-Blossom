@@ -9,7 +9,7 @@ module.exports.run = async (bot, message, args) => {
 
     let fireEmbed = new MessageEmbed()
     .setColor("YELLOW")
-    .setDescription(":warning: Merci d'attendre la V1.0 avec les système de société pour avoir accès à cette commande")
+    .setDescription(":warning: Thanks to wait the V1.0 with the comapany system to use this command")
 
     message.channel.send({embeds: [fireEmbed]})
     /*let timeout = 360;

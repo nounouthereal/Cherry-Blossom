@@ -9,7 +9,7 @@ module.exports.run = async (bot, message, args) => {
         
                 let use1embed = new MessageEmbed()
                 .setColor("RED")
-                .setDescription(`❌ **${member.user.username}** : Tu a oublié la valeur de l'item \`id\`.`);
+                .setDescription(`❌ **${member.user.username}** : Thanks to enter the \`itemId\` (Help: +inventory will show your items with their id).`);
                 return message.channel.send({embeds: [use1embed]});
           //////return message.channel.send("you can't use nothing lmao");
         
@@ -19,7 +19,7 @@ module.exports.run = async (bot, message, args) => {
         
                 let use2embed = new MessageEmbed()
                 .setColor("RED")
-                .setDescription(`❌ **${member.user.username}** : Tu n'as pas cette item, sois sur de l'avoir entré \`l'id\` correctement.`);
+                .setDescription(`❌ **${member.user.username}** : You don't have this item or the \`itemId\` is incorrect (Help: +inventory will show your items with their id).`);
                 return message.channel.send({embeds: [use2embed]});
           //////return message.channel.send("can't use this item");
         
@@ -28,7 +28,7 @@ module.exports.run = async (bot, message, args) => {
   
                 let use3embed = new MessageEmbed()
                 .setColor("RED")
-                .setDescription(`❌ **${member.user.username}** : Tu peux pas utiliser ces items.`);
+                .setDescription(`❌ **${member.user.username}** : This item can't be used.`);
                 return message.channel.send({embeds: [use3embed]});
           //////return message.channel.send(":thinking: You can't use this item");
   
@@ -39,7 +39,7 @@ module.exports.run = async (bot, message, args) => {
       if (!founditem) {
                 let use3embed = new MessageEmbed()
                 .setColor("RED")
-                .setDescription(`❌ **${member.user.username}** : Tu n'as pas cette item, sois sur de l'avoir entré correctement \`id\`.`);
+                .setDescription(`❌ **${member.user.username}** : You don't have this item or the \`itemId\` is incorrect (Help: +inventory will show your items with their id).`);
                 return message.channel.send({embeds: [use3embed]});
           //////return message.channel.send("you don't have this item");
       }

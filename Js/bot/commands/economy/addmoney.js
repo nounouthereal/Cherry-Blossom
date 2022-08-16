@@ -48,7 +48,7 @@ module.exports.config = {
     usage: '+addmoney <money> @membre', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: ['ADMINISTRATOR'], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['addcredits','addbal','am','moneyadd'], // Aliases 
+    aliases: ['moneyadd'], // Aliases 
     bankSpace: 0, // Amount of bank space to give when command is used.
     cooldown: 150 // Command Cooldown
   }

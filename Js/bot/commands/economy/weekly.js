@@ -8,7 +8,7 @@ module.exports.run = async (bot, message, args) => {
     let user = await bot.fetchUser(message.author.id);
     if ((Date.parse(user.dailyStreak) + 60480000) > Date.now()) {
         const embed = new MessageEmbed()
-            .setDescription(`${cd} **${member.user.username}** : This command is on cooldown\n You have to wait \`${ms((Date.parse(user.dailyStreak) + 60480000) - Date.now())}\` avant d'utiliser cette commande.\nThe default cooldown is \`1 week (7d)\`.`)
+            .setDescription(`${cd} **${member.user.username}** : You already claimed your weekly reward.\nYou have to wait \`${ms((Date.parse(user.dailyStreak) + 60480000) - Date.now())}\` before to reclaim your weekly reward.\nThe default cooldown is \`1 week (7d)\`.`)
             .setColor('#FFA500');
         return message.channel.send({embeds: [embed]});
     } else {
@@ -16,7 +16,7 @@ module.exports.run = async (bot, message, args) => {
         user.coinsInWallet += amount;
         const claimed = new MessageEmbed()
             .setTitle(`✅ Weekly reward claimed`)
-            .setDescription(`You claimed ${amount} :coin: (Utilisez cette commande dans \`7 jours\` pour réclamer à nouveau votre récompense hebdomadaire !)`)
+            .setDescription(`You claimed ${amount} :coin: (Reclaim your weekly reward in \`7 days\` !)`)
             .addField(`💸 Reward:`,`${amount} :coin:`)
             .addField(`💳 Balance:`,`${user.coinsInWallet.toLocaleString()} :coin:`)
             .setColor('RANDOM');
@@ -31,11 +31,11 @@ module.exports.run = async (bot, message, args) => {
 
 module.exports.config = {
     name: 'weekly', // Command Name
-    description: 'Récompense hebdomadaire.', // Description
+    description: '💰 Claim your weekly reward', // Description
     usage: '+weekly', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['hebdomadaire','hebdo'], // Aliases 
+    aliases: ['weeklyreward'], // Aliases 
     bankSpace: 100, // Amount of bank space to give when command is used.
-    cooldown: 0.1 // Command Cooldown
+    cooldown: 3 // Command Cooldown
 }

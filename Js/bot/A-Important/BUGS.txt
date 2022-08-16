@@ -1,0 +1,12 @@
+            CRITICAL (Bugs that make the majority or the totality of the bot out of function)
+
+
+            SEVERE (Bugs that totally affect a or many commands)
+
+            1. Fix buy skill bug "when skill is buyed more than two time he is remplaced by the new skill" (Cause: Unknown)
+
+            MEDIUM (Bugs that can disturb the user experience)
+
+            1. Slash Hangman command bug: "error [interaction_already_replied]: the reply to this interaction has already been sent or deferred." (Cause: deferReply())
+
+            MINOR (Bugs that can be ignored but I put it here)

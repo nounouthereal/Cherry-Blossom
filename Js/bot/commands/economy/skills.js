@@ -56,7 +56,9 @@ module.exports.run = async (bot, message, args) => {
         let array = [];
         array = user.skills.filter(x => x.id !== skill.id);
         if (foundskill) {
-            skill.levelskill = skill.levelskill + 1;
+            console.log(skill.levelskill)
+
+            skill.levelskill = skill.levelskill += 1;
             console.log(skill.levelskill)
             console.log('IF ______+_+_+_+++')
 
@@ -65,6 +67,7 @@ module.exports.run = async (bot, message, args) => {
             user.skills = array;
             user.coinsInWallet -= parseInt(skill.price);
             await user.save();
+            console.log(skill.levelskill)
 
         }
         else {
@@ -75,6 +78,8 @@ module.exports.run = async (bot, message, args) => {
             console.log(user.skills)
             console.log('ELSE ______+_+_+_+++')
         }
+        console.log(skill.levelskill)
+
 
     
 

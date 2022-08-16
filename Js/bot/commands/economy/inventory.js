@@ -67,7 +67,10 @@ module.exports.run = async (bot, message, args) => {
     }
     let items = user.items.slice(number - 5, number);
     if (items.length < 1) {
-        return message.channel.send(':warning: Aucun items disponible.');
+        let noItemsEmb = new MessageEmbed()
+        .setColor(`RED`)
+        .setDescription(`:warning: No items to display.`)
+        return message.channel.send({embeds: [noItemsEmb]});
     }
 
     let itemValues = Object.values(items);

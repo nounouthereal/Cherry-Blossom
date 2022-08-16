@@ -1,0 +1,33 @@
+FOR BÊTA V1.0
+
+1. Possibility to beg money to other users in beg.js
+2. Convert all current command in slash.
+3. Improve help command with select menus.
+4. Add context menu.
+5. Rebalancing economy system prices and revenues.
+6. Finish to traduce french to english
+7. In all commands use message.member or interaction.member or <@{member.id}> to get nickname or mention.
+8. Manage aliases
+9. Patch command
+10. Version command
+11. Bank command (Show user's coin in bank)
+
+|| 12. Remove cats and dogs command || DID
+
+
+FOR V1.5 OR V2
+
+1. Society (Company) system (Works, Employee, Revenues).
+2. For a user abk society possibility to do (+bank rob {bank})
+3. Fix bugs. 
+4. Add moderation (from python), fun (from python), NSWF, Games commands.
+5. Whenever the user can't buy or afford something we display him the money he need to afford it.
+6. Pass to v14 (When the V1.5 or V2 will be out v14 will surely be the new major version)
+7. Society system needs to be intersever
+
+FOR HIGHER VERSIONS
+
+1. Make commands work in DM (Pay attention to message.member need to be message.author (Add a new varible in module.exports.config : DM) (⚠️ Slash commands does not work in v13 and v14))
+3. Possible craft system.
+4. Interserver market where user's sell there items at their own prices
+2. Pass to v14 or higher if it was't did before.

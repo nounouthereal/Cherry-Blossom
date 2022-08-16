@@ -5,6 +5,7 @@ module.exports = bot => {
         if (err) console.log(err);
         files.forEach(file => {
             if (!file.endsWith('js')) return;
+            if (file == 'interactionCreate') return;
             const event = require(`../../events/${file}`);
             const eventName = file.split('.')[0];
             bot.on(eventName, event.bind(null, bot));

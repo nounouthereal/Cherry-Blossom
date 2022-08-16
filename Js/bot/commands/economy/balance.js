@@ -49,7 +49,7 @@ module.exports.run = async (bot, message, args) => {
     if (!user) {
         let moneyerrorembed = new MessageEmbed()
           .setColor("RED")
-          .setTitle(`❌ Erreur!`)
+          .setTitle(`❌ Error!`)
           .setDescription(`**${member.user.username}** : Your id is bugged in my database, sorry about this we will restore your account.`);
         return message.channel.send({embeds: [moneyerrorembed]}).catch();
       }
@@ -67,11 +67,8 @@ module.exports.run = async (bot, message, args) => {
 
 
     var background = message.guild.iconURL().split('.webp')
-    console.log(background)
     var background = background[0]
-    console.log(background)
     var background = background + '.jpeg'
-    console.log(background)
 
 
 /**     const rank = new canvacord.Rank()
@@ -92,10 +89,10 @@ module.exports.run = async (bot, message, args) => {
 module.exports.config = {
     name: 'balance',
     description: 'Donne des données sur l\'argent du membre',
-    usage: '+balance Optionnel: @membre',
+    usage: '+balance Optionnel: @member',
     botPerms: [],
     userPerms: [],
-    aliases: ['bal', 'bank','money','credits','portefeuille','argent'],
+    aliases: ['bal', 'wallet','money'],
     bankSpace: 0,
     cooldown: 10
 }

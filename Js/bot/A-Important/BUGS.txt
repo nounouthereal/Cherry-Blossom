@@ -8,5 +8,6 @@
             MEDIUM (Bugs that can disturb the user experience)
 
             1. Slash Hangman command bug: "error [interaction_already_replied]: the reply to this interaction has already been sent or deferred." (Cause: deferReply())
+            2. Context and command messageInfo has_components and is_an_embed are bugged (Cause: if value or else value of the variables)
 
             MINOR (Bugs that can be ignored but I put it here)

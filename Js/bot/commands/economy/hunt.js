@@ -15,8 +15,8 @@ let founditem = user.items.find(x => x.itemId === 'rifle');
     if (!founditem) {
               let use3embed = new MessageEmbed()
               .setColor("RED")
-              .setDescription(`❌ **${member.user.username}** : Vous ne possédez pas de \`RIFLE\`, vous devez en acheter un pour utiliser cette commande.`);
-              return message.channel.send(use3embed);
+              .setDescription(`❌ <@${member.user.id}> : You don't have a \`RIFLE\`, you must buy one to use this command.`);
+              return message.channel.send({embeds: [use3embed]});
         //////return message.channel.send("you don't have this item");
     }
   /*
@@ -88,8 +88,8 @@ const randomMessage = [
         const deerAmount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const EmbedBear = new MessageEmbed()
-        .setDescription(`🏹 **${member.user.username}** : Vous êtes allé à la chasse et êtes revenu avec x**${deerAmount}** Ours 🐻`)
-        .setColor("GREEN")
+        .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Bear(s) 🐻`)
+        .setColor("ORANGE")
         message.channel.send({embeds: [EmbedBear]});
         //message.channel.send(`You went hunting and came back with **${deerAmount}** x Bear 🐻`);
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'bear');
@@ -111,8 +111,10 @@ const randomMessage = [
         const deerAmount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const EmbedDeer = new MessageEmbed()
-        .setDescription(`🏹 **${member.user.username}** : Vous êtes allé à la chasse et êtes revenu avec **${deerAmount}**x Cerf 🦌`)
-        .setColor("GREEN")
+        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+        .setTimestamp()
+        .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Deer(s) 🦌`)
+        .setColor("PURPLE")
         message.channel.send({embeds: [EmbedDeer]});
         //message.channel.send(`You went hunting and came back with **${deerAmount}** x Deer 🦌`);
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'deer');
@@ -134,8 +136,10 @@ const randomMessage = [
         const deerAmount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const EmbedDuck = new MessageEmbed()
-        .setDescription(`🏹 **${member.user.username}** : Vous êtes allé à la chasse et êtes revenu avec x**${deerAmount}** Canard 🦆`)
-        .setColor("GREEN")
+        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+        .setTimestamp()
+        .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Duck(s) 🦆`)
+        .setColor("WHITE")
         message.channel.send({embeds: [EmbedDuck]});
         //message.channel.send(`You went hunting and came back with **${deerAmount}** x Duck 🦆`);
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'duck');
@@ -157,8 +161,10 @@ const randomMessage = [
         const deerAmount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const EmbedPig = new MessageEmbed()
-        .setDescription(`🏹 **${member.user.username}** : Vous êtes allé à la chasse et êtes revenu avec x**${deerAmount}** Cochon(s) 🐷`)
-        .setColor("GREEN")
+        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+        .setTimestamp()
+        .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Pig(s) 🐷`)
+        .setColor("WHITE")
         message.channel.send({embeds:[EmbedPig]});
         //message.channel.send(`You went hunting and came back with **${deerAmount}** x Pig 🐷`);
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'pig');
@@ -180,7 +186,9 @@ const randomMessage = [
         const deerAmount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const EmbedCow = new MessageEmbed()
-        .setDescription(`🏹 **${member.user.username}** : Vous êtes allé à la chasse et êtes revenu avec x**${deerAmount}** Vache(s) 🐮`)
+        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+        .setTimestamp()
+        .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Cow(s) 🐮`)
         .setColor("GREEN")
         message.channel.send({embeds: [EmbedCow]});
         //message.channel.send(`You went hunting and came back with **${deerAmount}** x Cow 🐮`);
@@ -203,8 +211,10 @@ const randomMessage = [
         const deerAmount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const EmbedFox = new MessageEmbed()
-        .setDescription(`🏹 **${member.user.username}** : Vous êtes allé à la chasse et êtes revenu avec **${deerAmount}**x Renard(s) 🦊`)
-        .setColor("GREEN")
+        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+        .setTimestamp()
+        .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Board Fox(es) 🦊`)
+        .setColor("BLUE")
         message.channel.send({embeds: [EmbedFox]});
         //message.channel.send(`You went hunting and came back with **${deerAmount}** x Fox 🦊`);
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'fox');
@@ -226,8 +236,10 @@ const randomMessage = [
         const deerAmount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const EmbedRabbit = new MessageEmbed()
-        .setDescription(`🏹 **${member.user.username}** : Vous êtes allé à la chasse et êtes revenu avec **${deerAmount}**x Lapin(s) 🐰`)
+        .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Rabbit(s) 🐰`)
         .setColor("GREEN")
+        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+        .setTimestamp()
         message.channel.send({embeds: [EmbedRabbit]});
         //message.channel.send(`You went hunting and came back with **${deerAmount}** x Rabbit 🐰`);
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'rabbit');
@@ -249,8 +261,10 @@ const randomMessage = [
         const deerAmount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const EmbedChicken = new MessageEmbed()
-        .setDescription(`🏹 **${member.user.username}** : Vous êtes allé à la chasse et êtes revenu avec x**${deerAmount}**x Poulets 🐔`)
-        .setColor("GREEN")
+        .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Chiken(s) 🐔`)
+        .setColor("WHITE")
+        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+        .setTimestamp()
         message.channel.send({embeds: [EmbedChicken]});
         //message.channel.send(`You went hunting and came back with **${deerAmount}** x Chicken 🐔`);
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'chicken');
@@ -272,8 +286,10 @@ const randomMessage = [
         const deerAmount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const EmbedBoar = new MessageEmbed()
-        .setDescription(`🏹 **${member.user.username}** : Vous êtes allé à la chasse et êtes revenu avec x**${deerAmount}** Sanglier 🐗`)
-        .setColor("GREEN")
+        .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Boar(s) 🐗`)
+        .setColor("RARE")
+        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+        .setTimestamp()
         message.channel.send({embeds: [EmbedBoar]});
         //message.channel.send(`You went hunting and came back with **${deerAmount}** x Boar 🐗`);
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'boar');
@@ -293,18 +309,20 @@ const randomMessage = [
         }
         } else if (response == 'missed') {
         const Embedmissed = new MessageEmbed()
-        .setDescription(`🏹 **${member.user.username}** : Vous êtes allé à la chasse, et n'avez vu aucun animal`)
-        .setColor("RED")
+        .setDescription(`🏹 **${member.user.username}** : You went hunting and saw no animals`)
+        .setColor("BLACK")
+        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+        .setTimestamp()
         message.channel.send({embeds: [Embedmissed]});
         }
 }
 module.exports.config = {
     name: 'hunt', // Command Name
-    description: 'Utilisez votre fusil pour chassez des animaux', // Description
+    description: 'Use your rifle tou hunt', // Description
     usage: '+hunt', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['chasse','chasser'], // Aliases 
+    aliases: ['hu'], // Aliases 
     bankSpace: 5, // Amount of bank space to give when command is used.
     cooldown: 1000// Command Cooldown
 }

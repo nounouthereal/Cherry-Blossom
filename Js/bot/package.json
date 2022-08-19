@@ -4,6 +4,7 @@
   "description": "Beta version soon",
   "main": "index.js",
   "dependencies": {
+    "@discordjs/builders": "^1.1.0",
     "@weky/inlinereply": "^0.0.0",
     "any-base": "^1.1.0",
     "ascii-table": "^0.0.9",
@@ -60,6 +61,7 @@
     "reconlx": "^2.5.6",
     "regenerator-runtime": "^0.13.9",
     "sax": "^1.2.4",
+    "strftime": "^0.10.1",
     "striptags": "^3.2.0",
     "timm": "^1.7.1",
     "tinycolor2": "^1.4.2",

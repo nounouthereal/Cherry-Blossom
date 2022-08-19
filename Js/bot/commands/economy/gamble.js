@@ -13,9 +13,9 @@ module.exports.run = async (bot, message, args) => {
 
     let passivewarn = new MessageEmbed()
     .setColor("RED")
-    .setDescription(`❌ **${member.user.username}** : Vous avez  \`PASSIVE\` d'activé, vous devez le désactiver pour utiliser cette commande`);
+    .setDescription(`❌ <@${member.user.id}> : You have  \`PASSIVE\` enabled, you need to disable it to use this command.`);
   
-        if (userData.passive == true) return message.channel.send(passivewarn);
+        if (userData.passive == true) return message.channel.send({embeds: [passivewarn]});
   
   
     let betAmount = args[0];
@@ -23,65 +23,69 @@ module.exports.run = async (bot, message, args) => {
   
     let coinswarn = new MessageEmbed()
     .setColor("YELLOW")
-    .setDescription(`:warning: **${member.user.username}** : Entrez le montant que vous voulez miser.`);
+    .setDescription(`:warning: <@${member.user.id}> : Enter your bet (+gamble <bet>).`);
 
-    if (!betAmount || isNaN(betAmount) && betAmount !== 'all' && betAmount !== 'max') return message.channel.send(coinswarn);
+    if (!betAmount || isNaN(betAmount) && betAmount !== 'all' && betAmount !== 'max') return message.channel.send({embeds: [coinswarn]});
   
     let coinmin = new MessageEmbed()
     .setColor("RED")
-    .setDescription(`❌ **${member.user.username}** : Le minimum que vous pouvez parier est de \`200\` :coin:.`);
+    .setDescription(`❌ <@${member.user.id}> : The minimum you can gamble is \`200\` :coin:.`);
 
-           if (betAmount < 200) return message.channel.send(coinmin);
+           
+    if (betAmount < 200) return message.channel.send({embeds: [coinmin]});
     if (betAmount == 'all' || betAmount == 'max') betAmount=userData.coinsInWallet;
     else betAmount=parseInt(args[0]);
   
     let moneywarn = new MessageEmbed()
     .setColor("RED")
-    .setDescription(`❌ **${member.user.username}** : Vous n'avez pas autant d'argent :coin: || Votre montant est de : ${userData.coinsInWallet} :coin: (${pa}).`);
+    .setDescription(`❌ <@${member.user.id}> : You can't afford \`${args[0]}\` :coin: || You need : ${args[0] - userData.coinsInWallet} :coin:.`);
 
            if (betAmount > userData.coinsInWallet) {
-           return message.channel.send(moneywarn);
+           return message.channel.send({embeds: [moneywarn]});
            }
   
     if (botRoll < userChoice) {
-        const wonCoins = parseInt(betAmount + (betAmount * 0.20));
+        const wonCoins = parseInt(betAmount + (betAmount * 0.50));
         userData.coinsInWallet += parseInt(wonCoins);
         await userData.save();
         const wonEmbed = new MessageEmbed()
         .setColor('GREEN')
+        .setTimestamp()
         .setThumbnail(member.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true }))
-        .setFooter("https://top.gg/bot/679710920334639115/vote")
-        .setDescription(`Gamble Bêta 1.0 | Player : **${member.user.username}** \n\nFleur de cerisier rolled : \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\nWin Rate: \`${Math.floor(userChoice-botRoll)*10}%\`\n\nWinnings: **${wonCoins.toLocaleString()}** coins`)
-        message.channel.send(wonEmbed);
+        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+        .setDescription(`Gamble Bêta 1.0 | Player : <@${member.user.id}> \n\n<@${bot.user.id}> played: \`${botRoll}\` \n<@${member.user.id}> played: \`${userChoice}\`\n\nWin Rate: \`${Math.floor(userChoice-botRoll)*10}%\`\n\nWinnings: **${wonCoins.toLocaleString()}** :coin:`)
+        message.channel.send({embeds: [wonEmbed]});
     } else if (botRoll == userChoice) {
       const tieCoins = parseInt(betAmount/2);
         userData.coinsInWallet -= parseInt(tieCoins);
         await userData.save();
         const tieEmbed = new MessageEmbed()
         .setColor('YELLOW')
+        .setTimestamp()
         .setThumbnail(member.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true }))
-        .setFooter("https://top.gg/bot/679710920334639115/vote")
-        .setDescription(`Gamble Bêta 1.0 | Player : **${member.user.username}** \n\nFleur de cerisier rolled: \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\n**${member.user.username}** & **Hydra+**:Tied\n\nLost: **${tieCoins.toLocaleString()}** coins`)
-        message.channel.send(tieEmbed);
+        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+        .setDescription(`Gamble Bêta 1.0 | Player : <@${member.user.id}> \n\n<@${bot.user.id}> played: \`${botRoll}\` \n<@${member.user.id}> played: \`${userChoice}\`\n\n<@${member.user.id}> & <@${bot.user.id}> Tied\n\nLost: **${tieCoins.toLocaleString()}** :coin:`)
+        message.channel.send({embeds: [tieEmbed]});
     } else if (botRoll > userChoice) {
         const lostCoins = (betAmount);
         userData.coinsInWallet -= parseInt(betAmount);
         await userData.save();
         const lostEmbed = new MessageEmbed()
         .setColor('RED')
+        .setTimestamp()
         .setThumbnail(member.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true }))
-        .setFooter("https://top.gg/bot/679710920334639115/vote")
-        .setDescription(`Gamble Bêta 1.0 | Player : **${member.user.username}** \n\nFleur de cerisier rolled: \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\nLost Rate: \`${Math.floor(botRoll-userChoice)*10}%\`\n\nlost: **${lostCoins.toLocaleString()}** coins`)
+        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+        .setDescription(`Gamble Bêta 1.0 | Player : <@${member.user.id}> \n\n<@${bot.user.id}> played: \`${botRoll}\` \n<@${member.user.id}> played: \`${userChoice}\`\n\nLost Rate: \`${Math.floor(botRoll-userChoice)*10}%\`\n\nLost: **${lostCoins.toLocaleString()}** :coin:`)
         message.channel.send({embeds: [lostEmbed]});
     }
 }   
 module.exports.config = {
     name: 'gamble', // Command Name
-    description: 'gamble your coins away or gain big.', // Description
-    usage: '+gamble <amount>', // Usage
+    description: '💰 Gamble your coins away or gain big.', // Description
+    usage: '+gamble <bet>', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['pari'], // Aliases 
+    aliases: ['gambling'], // Aliases 
     bankSpace: 5, // Amount of bank space to give when command is used.
     cooldown: 5 // Command Cooldown
 }

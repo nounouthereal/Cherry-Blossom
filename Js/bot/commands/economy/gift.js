@@ -1,8 +1,4 @@
 const itemss = require('/Users/nouhame/Bot_des_cerisiers/Js/bot/utils/items.js');
-const i = '<:infomation:779736273639440394>'
-const x = '<:bigx:779736072367505449>'
-const tick = '<:bigtick:779736050892931082>'
-const { MessageEmbed } = require("discord.js");
 
 module.exports.run = async (bot, message, args) => {
     const usertag = message.member;
@@ -10,25 +6,30 @@ module.exports.run = async (bot, message, args) => {
     const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(member => member.user.username === args.slice(0).join(' ') || member.user.username === args[0]);
     if (!member) {let gifttooembed = new MessageEmbed()
         .setColor("RED")
-        .setDescription(`❌ **${usertag.user.username}** : À qui donnez-vous des articles ?`);
+        .setDescription(`❌ <@${usertag.user.id}> : Please precise the user which will receive the gift.`);
         return message.channel.send({embeds: [gifttooembed]}).catch();
     }
     
     if (member.user.id == message.author.id){
         let giftselfembed = new MessageEmbed()
         .setColor("RED")
-        .setDescription(`❌ **${usertag.user.username}** : Vous ne pouvez pas vous donner des objets a vous même.`);
+        .setDescription(`❌ <@${usertag.user.id}> : You can't send gift to yourself.`);
         return message.channel.send({embeds: [giftselfembed]}).catch();
     } 
     //if (member.user.id == message.author.id) return message.channel.send(`Lol you can't gift your self.`);
 
-    let nogiftembed = new MessageEmbed() 
-    .setColor("RED")
-    .setDescription(`❌ **${usertag.user.username}** : Vous avez oublié de saisir l'élément \`id\`.`);
+    if (member.user.bot == true){
+        let giftbotembed = new MessageEmbed()
+        .setColor("RED")
+        .setDescription(`❌ <@${usertag.id}> : You can't send gift to a bot.`);
+        return interaction.followUp({embeds: [giftbotembed]}).catch();
+    } 
+
+    
     if (!args[1]){
         let nogiftembed = new MessageEmbed() 
         .setColor("RED")
-        .setDescription(`❌ **${usertag.user.username}** : Vous avez oublié de saisir l'élément \`id\`.`);
+        .setDescription(`❌ <@${usertag.user.id}> : You didn't precise the itemId.`);
         return message.channel.send({embeds: [nogiftembed]}).catch();
     } 
     //if (!args[1]) return message.channel.send(`So you are giving nothing to them???`);
@@ -42,7 +43,7 @@ module.exports.run = async (bot, message, args) => {
     if (!itemToGive) { 
         let giftnothingembed = new MessageEmbed()
         .setColor("RED")
-        .setDescription(`❌ **${usertag.user.username}** : L'item que vous essayez d'offrir n'existe pas, ou vous avez tapé le mauvais article \`id\`.`);
+        .setDescription(`❌ <@${usertag.user.id}> : The item you are trying to offer does not exist, or you typed the wrong itemId (\`+shop to show items with their id\`).`);
         return message.channel.send({embeds: [giftnothingembed]}).catch();
     }
 
@@ -50,7 +51,7 @@ module.exports.run = async (bot, message, args) => {
     if (!authorItem) { 
         let noitemgidtembed = new MessageEmbed()
         .setColor("RED")
-        .setDescription(`❌ **${usertag.user.username}** : Vous ne possédez pas cet item.`);
+        .setDescription(`❌ <@${usertag.user.id}> : You do not own this item.`);
         return message.channel.send({embeds: [noitemgidtembed]}).catch();
     }
     
@@ -67,7 +68,7 @@ module.exports.run = async (bot, message, args) => {
     if (parseInt(giveAmount) > parseInt(authorItem.amount)){
         let itemamountembed = new MessageEmbed()
         .setColor("RED")
-        .setDescription(`❌ **${usertag.user.username}** : Vous n'avez que **${parseInt(authorItem.amount).toLocaleString()}** de cet item.`);
+        .setDescription(`❌ <@${usertag.user.id}> : You only have **x${parseInt(authorItem.amount).toLocaleString()}** of this item.`);
         return message.channel.send({embeds: [itemamountembed]}).catch();
     } 
     //if (parseInt(giveAmount) > parseInt(authoItem.amount)) return message.channel.send(`You only have **${parseInt(authoItem.amount).toLocaleString()}** of that item`);
@@ -105,20 +106,59 @@ module.exports.run = async (bot, message, args) => {
     authoData.items = authorArray;
     await authoData.save();
 
+    if (itemToGive.rarety === "🔴 Mythique") {
+        itemToGive.rarety = "```diff\n-🔴 Mythique\n```"
+      }
+      if (itemToGive.rarety === "🟠 Légendaire") {
+        itemToGive.rarety = "```fix\n🟠 Légendaire\n```"
+      }
+      if (itemToGive.rarety === "🟣 Épique") {
+        itemToGive.rarety = "```yaml\n🟣 Épique\n```"
+      }
+      if (itemToGive.rarety === "🔵 Rare") {
+        itemToGive.rarety = "```md\n# 🔵 Rare\n```"
+      }
+      if (itemToGive.rarety === "🟢 Atypique") {
+        itemToGive.rarety = "```diff\n+🟢 Atypique\n```"
+      }
+      if (itemToGive.rarety === "⚪️ Commun") {
+        itemToGive.rarety = "```\n⚪️ Commun\n```"
+      }
+
+    let messagemembergifted = new MessageEmbed()
+    
+    .setColor("BLUE")
+    .setTitle(`🎁 You received a gift`)
+    .addField(`👑 Offerer:`,usertag.user.tag)
+    .addField(`Item:`,`${itemToGive.name}`)
+    .addField(`🎨 Item rarety:`, itemToGive.rarety)
+    .addField(`🧮 Quantity:`,parseInt(giveAmount).toLocaleString())
+    .setFooter(`Sent by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+    .setTimestamp()
+    message.channel.send({embeds: [messagemembergifted]}).catch();
+
+
     let messageembeditem = new MessageEmbed()
     .setColor("BLUE")
-    .setDescription(`🎁 **${usertag.user.username}** : Vous avez offert **${parseInt(giveAmount).toLocaleString()}** x \`${itemToGive.itemId}\` à ${member.user}.`);
+    .setTitle(`🎁 You sent a gift`)
+    .addField(`🎁 Beneficiary:`,`<@${member.user.id}>`)
+    .addField(`Item:`,`${itemToGive.name}`)
+    .addField(`🎨 Rarety:`, itemToGive.rarety)
+    .addField(`🧮 Quantity:`,parseInt(giveAmount).toLocaleString())
+    .setTimestamp()
+    .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+    .setDescription(`🎁 <@${usertag.user.id}> : You offered **x${parseInt(giveAmount).toLocaleString()}** ${itemToGive.name} to <@${member.user.id}>`);
     message.channel.send({embeds: [messageembeditem]}).catch();
     //message.channel.send(`${tick} You gave **${parseInt(giveAmount).toLocaleString()}** \`${itemToGive.name}\` to ${member.user}`);
 
 }
 module.exports.config = {
     name: 'gift', // Command Name
-    description: 'Offre un item a un membre du serveur', // Description
-    usage: '+gift @membre <item id> Optionnel: <quantité>', // Usage
+    description: 'Gift an item to someone', // Description
+    usage: '+gift @member <item id> Optionnal: <quantity>', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['offrir','cadeau','present'], // Aliases 
+    aliases: ['present'], // Aliases 
     bankSpace: 7, // Amount of bank space to give when command is used.
     cooldown: 5 // Command Cooldown
 }

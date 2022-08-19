@@ -170,7 +170,7 @@ const array = [{
     description: `Utilise le fusil pour chasser des animaux. (+hunt)`,
     canUse: false,
     canBuy: true,
-    itemId: 'fusil' || 'rifle',
+    itemId: 'rifle' || 'fusil',
     displayOnShop: true,
     sellAmount: 3000,
     price: 45000,

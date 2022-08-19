@@ -22,7 +22,10 @@ module.exports = async (bot) => {
         if (!file?.name) return;
         bot.slashCommands.set(file.name, file);
 
-        if (["MESSAGE", "USER"].includes(file.type)) delete file.description;
+        if (["MESSAGE", "USER"].includes(file.type)) {
+            delete file.description
+            console.log(`[Context] [${file.name}] loaded`)
+        };
         arrayOfSlashCommands.push(file);
     });
     bot.on("ready", async () => {

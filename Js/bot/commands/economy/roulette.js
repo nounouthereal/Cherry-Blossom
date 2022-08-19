@@ -10,7 +10,7 @@ module.exports.run = async (bot, message, args) => {
 
       let passivewarn = new MessageEmbed()
     .setColor("RED")
-    .setDescription(`❌ **${member.user.username}** : Vous avez \`PASSIVE\` activé, vous devez le désactiver pour utiliser cette commande.`);
+    .setDescription(`❌ **${member.user.username}** : You have  \`PASSIVE\` enabled, you need to disable it to use this command.`);
   
         if (userData.passive == true) return message.channel.send({embeds:[passivewarn]});
   

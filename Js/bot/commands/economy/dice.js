@@ -10,7 +10,7 @@ module.exports.run = async (bot, message, args) => {
     const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member;
     let passivewarn = new MessageEmbed()
     .setColor("RED")
-    .setDescription(`❌ <@${member.user.id}> : You have  \`PASSIVE\` activated, you need to desactivate it.`);
+    .setDescription(`❌ <@${member.user.id}> : You have  \`PASSIVE\` enabled, you need to disable it to use this command.`);
   
     if (userData.passive == true) return message.channel.send({embeds: [passivewarn]});
   

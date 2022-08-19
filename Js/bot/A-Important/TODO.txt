@@ -31,6 +31,7 @@ FOR V2
 9. Add economy system XP
 10. Add commands categories
 11. Pets/Horse system
+12. Switch page with buttons in inventory
 
 FOR HIGHER VERSIONS
 

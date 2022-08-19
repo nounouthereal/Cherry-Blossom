@@ -32,7 +32,7 @@ module.exports = {
         const usertag = interaction.member;
         const authorData = await bot.fetchUser(interaction.user.id);
         const member = interaction.guild.members.cache.get(args[0]) || interaction.guild.members.cache.find(member => member.user.username === args.slice(0).join(' ') || member.user.username === args[0]);
-        const reason = args[2]
+        let reason = args[2]
     
         if(!args[2]) reason = 'Reason not precised by the author of the payment'
     

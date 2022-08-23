@@ -21,7 +21,7 @@ let founditem = user.items.find(x => x.itemId.toLowerCase() === 'pickaxe');
     if (!founditem) {
               let use3embed = new MessageEmbed()
               .setColor("RED")
-              .setDescription(`❌ **${member.user.username}** : Vous ne possédez pas de \`PICKAXE\`, vous devez en acheter un pour utiliser cette commande.`);
+              .setDescription(`❌ **${member.user.username}** : You don't have a \`PICKAXE\`, you must buy one to use this command.`);
               return message.channel.send({embeds: [use3embed]});
         //////return message.channel.send("you don't have this item");
     }
@@ -46,7 +46,7 @@ const randomMessage = [
         const Amount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const Embeddiamond = new MessageEmbed()
-        .setDescription(`⛏ **${member.user.username}** : Vous êtes allé miner et êtes revenu avec **x${Amount}** ${hd} Diamants brute .`)
+        .setDescription(`⛏ **${member.user.username}** : You went mining and came back with **x${Amount}** Rough Diamonds ${hd}.`)
         .setColor("GREEN")
         message.channel.send({embeds: [Embeddiamond]});
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'diamond');
@@ -68,7 +68,7 @@ const randomMessage = [
         const Amount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const Embedruby = new MessageEmbed()
-        .setDescription(`⛏ **${member.user.username}** : Vous êtes allé miner et êtes revenu avec x**${Amount}** Rubis ${hr}.`)
+        .setDescription(`⛏ **${member.user.username}** : Vous êtes allé miner et êtes revenu avec **x${Amount}** Rubis ${hr}.`)
         .setColor("GREEN")
         message.channel.send({embeds: [Embedruby]});
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'ruby');
@@ -91,7 +91,7 @@ const randomMessage = [
         const Amount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const Embedgade = new MessageEmbed()
-        .setDescription(`⛏ **${member.user.username}** : Vous êtes allé miner et êtes revenu avec **${Amount}** x Pierre de jade(s) ${hg}.`)
+        .setDescription(`⛏ **${member.user.username}** : You went mining and came back with **x${Amount}** Jade ${hg}.`)
         .setColor("GREEN")
         message.channel.send({embeds: [Embedgade]});
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'gade');
@@ -114,7 +114,7 @@ const randomMessage = [
         const Amount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const Embedveryrare = new MessageEmbed()
-        .setDescription(`⛏ **${member.user.username}** : Vous êtes allé miner et êtes revenu avec x**${Amount}** Saphir ${ha}.`)
+        .setDescription(`⛏ **${member.user.username}** : You went mining and came back with x**${Amount}** Sapphire ${ha}.`)
         .setColor("GREEN")
         message.channel.send({embeds: [Embedveryrare]});
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'saphir');
@@ -168,7 +168,7 @@ module.exports.config = {
     usage: '+mine', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['minage'], // Aliases 
+    aliases: ['mi'], // Aliases 
     bankSpace: 5, // Amount of bank space to give when command is used.
     cooldown: 360// Command Cooldown
 }

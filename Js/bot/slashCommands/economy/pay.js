@@ -51,7 +51,7 @@ module.exports = {
         return interaction.followUp({embeds: [sendcoinsembed]}).catch();
             //return message.channel.send(`Who are you giving the coins to?`);
         }
-        if (member.user.id == message.author.id) {
+        if (member.user.id == interaction.user.id) {
         let sendcoinsembed1 = new MessageEmbed()
         .setColor("RED")
         .setDescription(`❌ <@${usertag.id}> : You cannot pay yourself.`);
@@ -106,26 +106,26 @@ module.exports = {
         .setColor("GREEN")
         .setTitle(`🏧 Payment realisé`)
         .addField(`👤 Beneficiary:`,`<@${member.id}>`)
-        .setAuthor(message.member.displayName,message.author.displayAvatarURL({ size: 1024, dynamic: true }))
+        .setAuthor(interaction.member.nickname,interaction.user.displayAvatarURL({ size: 1024, dynamic: true }))
         .addField(`💰 Payment amount:`,`**${parseInt(toGive).toLocaleString()}** :coin:`)
         .addField(`🧾 Reason:`,`\`${reason}\``)
-        .addField(`🎫 Author`,`<@${message.author.id}> `)
-        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+        .addField(`🎫 Author`,`<@${interaction.user.id}> `)
+        .setFooter(`Asked by ${interaction.member.nickname} • ${interaction.guild.name}`,interaction.guild.iconURL())
         .setTimestamp()
-        .setDescription(`💳 <@${message.author.id}> payed <@${member.user.id}> **${parseInt(toGive).toLocaleString()}** :coin:, for: \`${reason}\``);
-        message.channel.send({embeds: [sendcoinsembed3]}).catch();
+        .setDescription(`💳 <@${interaction.user.id}> payed <@${member.user.id}> **${parseInt(toGive).toLocaleString()}** :coin:, for: \`${reason}\``);
+        interaction.followUp({embeds: [sendcoinsembed3]}).catch();
         
     
         let sendcoinsembed4 = new MessageEmbed()
         .setColor("GREEN")
         .setTitle(`🏧 You have been payed`)
-        .addField(`🎫 Author`,`${message.author.tag}`)
+        .addField(`🎫 Author`,`${interaction.user.tag}`)
         .setAuthor(member.user.username,member.displayAvatarURL({ size: 1024, dynamic: true }))
         .addField(`💰 Payment amount:`,`**${parseInt(toGive).toLocaleString()}** :coin:`)
         .addField(`🧾 Reason:`,`\`${reason}\``)
-        .setFooter(`Sent by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+        .setFooter(`Sent by ${interaction.member.nickname} • ${interaction.guild.name}`,interaction.guild.iconURL())
         .setTimestamp()
-        .setDescription(`💳 ${message.author.tag} payed <@${member.user.id}> **${parseInt(toGive).toLocaleString()}** :coin:, for: \`${reason}\` in ${message.guild.name}`);
+        .setDescription(`💳 ${interaction.user.tag} payed <@${member.user.id}> **${parseInt(toGive).toLocaleString()}** :coin:, for: \`${reason}\` in ${interaction.guild.name}`);
         member.send({embeds: [sendcoinsembed4]}).catch();
          
     }

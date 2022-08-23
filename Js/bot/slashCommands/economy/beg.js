@@ -25,7 +25,7 @@ module.exports = {
     
         let begembed = new MessageEmbed()
         .setColor("#57c478")
-        .addField(`✅ You received money:`,` **${usertag.user.username}** : ${response}`)
+        .addField(`✅ You received money:`,` <@${usertag.user.id}> : ${response}`)
         await interaction.followUp({embeds: [begembed]}).catch();
 
         await bot.giveCoins(interaction.user.id, random);

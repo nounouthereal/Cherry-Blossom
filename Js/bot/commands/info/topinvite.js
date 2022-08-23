@@ -16,7 +16,7 @@ module.exports.run =  async (bot, msg, args) => {
         .setTitle(`Top Invites in ${msg.guild.name}`)
         .setAuthor(msg.guild.name, msg.guild.iconURL())
         .setDescription(topTen.map((inv) => `• **${inv.inviter.username}**'s invite **${inv.code}** has **${inv.uses.toLocaleString()}** uses.`).join("\n"))
-        .setColor(message.guild.me.displayHexColor);
+        .setColor(msg.guild.me.displayHexColor);
     msg.channel.send({embeds: [embed]})
 };
     

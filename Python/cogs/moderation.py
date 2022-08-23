@@ -3370,4 +3370,4 @@ async def error_handler(ctx , error):
 
 
 
-bot.run('OTQ3MTIzODE3MTMyNzUyOTE2.Yhoryg.dL-PaJ9L7n8KsYu5FlMamg1Lxgo')
+bot.run('OTQ0NTcyODYxODc0NjAyMDU0.GvsRDR.Aig5ui46hifSDuf5T8Ix0Frs0sgOBIURWJzOes')

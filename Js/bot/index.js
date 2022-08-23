@@ -21,7 +21,7 @@ bot.discordUNO = new DiscordUNO("RED");
 
 
 
-bot.login("OTQ0NTcyODYxODc0NjAyMDU0.GCIs60.KrrHt4k2zPm7vahiuhsW2yb04cf0RITSoWZDKI");
+bot.login("OTQ0NTcyODYxODc0NjAyMDU0.GvsRDR.Aig5ui46hifSDuf5T8Ix0Frs0sgOBIURWJzOes");
 
 bot.commands = new Collection();
 bot.slashCommands = new Collection();

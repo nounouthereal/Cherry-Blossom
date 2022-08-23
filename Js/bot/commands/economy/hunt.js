@@ -287,7 +287,7 @@ const randomMessage = [
         const data = await bot.fetchUser(message.author.id);
         const EmbedBoar = new MessageEmbed()
         .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Boar(s) 🐗`)
-        .setColor("RARE")
+        .setColor("BLUE")
         .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
         .setTimestamp()
         message.channel.send({embeds: [EmbedBoar]});

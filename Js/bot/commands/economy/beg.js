@@ -35,7 +35,7 @@ module.exports.run = async (bot, message, args) => {
   
     let begembed = new MessageEmbed()
     .setColor("#57c478")
-    .addField(`${tick} You received money:`,` **${usertag.user.username}** : ${response}`)
+    .addField(`${tick} You received money:`,` <@${usertag.user.id}> : ${response}`)
     await message.channel.send({embeds: [begembed]}).catch();
 
     await bot.giveCoins(message.author.id, random);
@@ -46,8 +46,8 @@ module.exports.config = {
     description: 'Ask people for money', // Description
     usage: '+beg', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
-    userPerms: ['begging'], // User permissions needed to run command. Leave empty if nothing.
-    aliases: [], // Aliases 
+    userPerms: [], // User permissions needed to run command. Leave empty if nothing.
+    aliases: ['begging'], // Aliases 
     bankSpace: 10, // Amount of bank space to give when command is used.
     cooldown: 120 // Command Cooldown
 }

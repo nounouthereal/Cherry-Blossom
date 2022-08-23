@@ -10,9 +10,8 @@ module.exports.run = async (bot, message, args) => {
       
               let sell1embed = new MessageEmbed()
               .setColor("RED")
-              .setDescription(`❌ **${member.user.username}** : Tu as oublié l'id de l'item \`+sell <itemId>\`.`);
+              .setDescription(`❌ **${member.user.username}** : You need to enter the itemId \`+sell <itemId>\`.`);
               return message.channel.send({embeds: [sell1embed]});
-        //////return message.channel.send("you can't sell nothing lmao");
       
     }
     if (!args[1]) args[1] = '';
@@ -23,9 +22,8 @@ module.exports.run = async (bot, message, args) => {
     if (!item) {
               let sell2embed = new MessageEmbed()
               .setColor("YELLOW")
-              .setDescription(`:warning: **${member.user.username}** : Vous ne pouvez pas vendre cet item.`);
+              .setDescription(`:warning: **${member.user.username}** : This item doesn't exists. \`+shop to show items\`.`);
               return message.channel.send({embeds: [sell2embed]});
-        //////return message.channel.send("can't sell this item");
     }
     let founditem = user.items.find(x => x.itemId.toLowerCase() === item.itemId.toLowerCase());
     let array = [];
@@ -33,10 +31,24 @@ module.exports.run = async (bot, message, args) => {
     if (!founditem) {
               let sell3embed = new MessageEmbed()
               .setColor("YELLOW")
-              .setDescription(`:warning: **${member.user.username}** : Vous n'avez pas cet item.`);
+              .setDescription(`:warning: **${member.user.username}** : You don't own this item.`);
               return message.channel.send({embeds: [sell3embed]});
-        //////return message.channel.send("you don't have this item");
     }
+
+    if (founditem.sellAmount == 0) {
+        let sell5embed = new MessageEmbed()
+        .setColor("YELLOW")
+        .setDescription(`:warning: **${member.user.username}** : You cannot sell this item.`);
+        return message.channel.send({embeds: [sell5embed]});
+}
+
+    if (isNaN(founditem.amount)) {
+              let sell4embed = new MessageEmbed()
+              .setColor("RED")
+              .setDescription(`:x: **${member.user.username}** : This item is glitched, please contact support.`);
+              return message.channel.send({embeds: [sell4embed]});
+    }
+
     if (args[1] == 'all' || args[2] == 'all') {
         sellAmount = Math.floor(founditem.amount * item.sellAmount);
         user.items = array
@@ -59,7 +71,7 @@ module.exports.run = async (bot, message, args) => {
     if (founditem.amount < parseInt(sellAmount)) {
               let sell4embed = new MessageEmbed()
               .setColor("RED")
-              .setDescription(`${x} **${member.user.username}** : Vous n'avez que **x${founditem.amount}** de cet item`);
+              .setDescription(`${x} **${member.user.username}** : You only have \`x${founditem.amount}\` of this item.`);
               return message.channel.send({embeds: [sell4embed]});
      /////////return message.channel.send(`You only have ${founditem.amount} of this item`);
     }

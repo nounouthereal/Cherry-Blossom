@@ -30,19 +30,14 @@ module.exports = {
         const userData = await bot.fetchUser(member.id);
         let pageInv;
 
-        console.log(args[0] + ' inv ' +args[1])
-
 
         if (isNaN(args[0]) || args[0] == member.id) {
           pageInv = args[1]
-          console.log(args[1] + '    ---    ' + pageInv)
           
         }
         else {
 
           pageInv = args[0]
-
-          console.log(args[0] + '    ----    ' + pageInv)
           
         }
 

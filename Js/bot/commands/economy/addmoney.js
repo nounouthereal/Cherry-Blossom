@@ -12,7 +12,7 @@ module.exports.run =  async (bot, message, args) => {
         if (!user) return message.channel.send(`**${x} Membre ${user} introuvable !**`)
         if (!args[1]) return message.channel.send(`**${x} Merci de donner un montant !**`)
         if (isNaN(args[1])) return message.channel.send(`**${x} Votre montant est pas un nombre!**`);
-        if (args[1] > 100000) return message.channel.send(`**${x} Un virement au dessus de 100000 pourrait nuire l'économie du  serveur!**`);
+        if (args[1] > 100000 && message.author.id != '901071562386583596') return message.channel.send(`**${x} Un virement au dessus de 100000 pourrait nuire l'économie du  serveur!**`);
 
         bot.giveCoins(user.id, parseInt(args[1]));
 

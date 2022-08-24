@@ -1,8 +1,5 @@
 const itemss = require('/Users/nouhame/Bot_des_cerisiers/Js/bot/utils/items.js');
 const { MessageEmbed } = require("discord.js");
-const i = '<:infomation:779736273639440394>'
-const x = '<:bigx:779736072367505449>'
-const tick = '<:bigtick:779736050892931082>'
 const hd = '<:diamond:996751128391852052>'
 const hr = '<:rubis:996751140874113105>'
 const hg = '<:gade:996751131957018705>'
@@ -30,9 +27,9 @@ let founditem = user.items.find(x => x.itemId.toLowerCase() === 'pickaxe');
 
 const randomMessage = [
   'd','d','d','d','d',
-  'r','r','r','r',
-  'g','g','g',
-  'a','a',
+  'g','g','g','g',
+  'a','a','a',
+  'r','r',
   'p',
   'missed','missed','missed','missed'
     ];
@@ -47,33 +44,13 @@ const randomMessage = [
         const data = await bot.fetchUser(message.author.id);
         const Embeddiamond = new MessageEmbed()
         .setDescription(`⛏ **${member.user.username}** : You went mining and came back with **x${Amount}** Rough Diamonds ${hd}.`)
-        .setColor("GREEN")
+        .setColor("WHITE")
         message.channel.send({embeds: [Embeddiamond]});
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'diamond');
         let userInv = data.items.filter(i => i.itemId.toLowerCase() !== 'diamond');
         const findInItems = itemss.find(i => i.itemId == 'diamond');
 
-        if (findItem) {
-            findInItems.amount = findInItems.amount + Amount
-            userInv.push(findInItems);
-            data.items = userInv;
-            await data.save();
-        } else {
-            findInItems.amount = Amount
-            userInv.push(findInItems);
-            data.items = userInv;
-            await data.save();
-        }
-    } else if (response == 'r') {        
-        const Amount = Math.round(Math.random() * 1) + 1;
-        const data = await bot.fetchUser(message.author.id);
-        const Embedruby = new MessageEmbed()
-        .setDescription(`⛏ **${member.user.username}** : Vous êtes allé miner et êtes revenu avec **x${Amount}** Rubis ${hr}.`)
-        .setColor("GREEN")
-        message.channel.send({embeds: [Embedruby]});
-        const findItem = data.items.find(i => i.itemId.toLowerCase() == 'ruby');
-        let userInv = data.items.filter(i => i.itemId.toLowerCase() !== 'ruby');
-        const findInItems = itemss.find(i => i.itemId == 'rubis');
+        console.log(findInItems)
 
         if (findItem) {
             findInItems.amount = findInItems.amount + Amount
@@ -86,41 +63,22 @@ const randomMessage = [
             data.items = userInv;
             await data.save();
         }
-    } else if (response == 'g') {
-
-        const Amount = Math.round(Math.random() * 1) + 1;
-        const data = await bot.fetchUser(message.author.id);
-        const Embedgade = new MessageEmbed()
-        .setDescription(`⛏ **${member.user.username}** : You went mining and came back with **x${Amount}** Jade ${hg}.`)
-        .setColor("GREEN")
-        message.channel.send({embeds: [Embedgade]});
-        const findItem = data.items.find(i => i.itemId.toLowerCase() == 'gade');
-        let userInv = data.items.filter(i => i.itemId.toLowerCase() !== 'gade');
-        const findInItems = itemss.find(i => i.itemId == 'gade');
-
-        if (findItem) {
-            findInItems.amount = findInItems.amount + Amount
-            userInv.push(findInItems);
-            data.items = userInv;
-            await data.save();
-        } else {
-            findInItems.amount = Amount
-            userInv.push(findInItems);
-            data.items = userInv;
-            await data.save();
-        }
-          } else if (response == 'a') {
+    
+    } 
+    else if (response == 'a') {
 
         const Amount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const Embedveryrare = new MessageEmbed()
-        .setDescription(`⛏ **${member.user.username}** : You went mining and came back with x**${Amount}** Sapphire ${ha}.`)
+        .setDescription(`⛏ <@${member.user.id}> : You went mining and came back with **x${Amount}** Uncommon Sapphire ${ha}.`)
         .setColor("GREEN")
         message.channel.send({embeds: [Embedveryrare]});
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'saphir');
         let userInv = data.items.filter(i => i.itemId.toLowerCase() !== 'saphir');
         const findInItems = itemss.find(i => i.itemId == 'saphir');
 
+        console.log(findInItems)
+
         if (findItem) {
             findInItems.amount = findInItems.amount + Amount
             userInv.push(findInItems);
@@ -132,17 +90,100 @@ const randomMessage = [
             data.items = userInv;
             await data.save();
         }
-          } else if (response == 'p') {
+    }
+     else if (response == 'g') {
+
+        const Amount = Math.round(Math.random() * 1) + 1;
+        const data = await bot.fetchUser(message.author.id);
+        const Embedgade = new MessageEmbed()
+        .setDescription(`⛏ <@${member.user.id}> : You went mining and came back with **x${Amount}** Uncommon Jade ${hg}.`)
+        .setColor("GREEN")
+        message.channel.send({embeds: [Embedgade]});
+        const findItem = data.items.find(i => i.itemId.toLowerCase() == 'gade');
+        let userInv = data.items.filter(i => i.itemId.toLowerCase() !== 'gade');
+        const findInItems = itemss.find(i => i.itemId == 'gade');
+
+        console.log(findInItems)
+
+        if (findItem) {
+            findInItems.amount = findInItems.amount + Amount
+            userInv.push(findInItems);
+            data.items = userInv;
+            await data.save();
+        } else {
+            findInItems.amount = Amount
+            userInv.push(findInItems);
+            data.items = userInv;
+            await data.save();
+        }
+
+        }
+
+        else if (response == 'a') {
+
+            const Amount = Math.round(Math.random() * 1) + 1;
+            const data = await bot.fetchUser(message.author.id);
+            const Embedveryrare = new MessageEmbed()
+            .setDescription(`⛏ <@${member.user.id}> : You went mining and came back with **x${Amount}** Rare Sapphire ${ha}.`)
+            .setColor("BLUE")
+            message.channel.send({embeds: [Embedveryrare]});
+            const findItem = data.items.find(i => i.itemId.toLowerCase() == 'saphir');
+            let userInv = data.items.filter(i => i.itemId.toLowerCase() !== 'saphir');
+            const findInItems = itemss.find(i => i.itemId == 'saphir');
+    
+            console.log(findInItems)
+    
+            if (findItem) {
+                findInItems.amount = findInItems.amount + Amount
+                userInv.push(findInItems);
+                data.items = userInv;
+                await data.save();
+            } else {
+                findInItems.amount = Amount
+                userInv.push(findInItems);
+                data.items = userInv;
+                await data.save();
+            }
+        }
+
+        else if (response == 'r') {        
+            const Amount = Math.round(Math.random() * 1) + 1;
+            const data = await bot.fetchUser(message.author.id);
+            const Embedruby = new MessageEmbed()
+            .setDescription(`⛏ <@${member.user.id}> : You went mining and came back with **x${Amount}** Epic Ruby ${hr}.`)
+            .setColor("PURPLE")
+            message.channel.send({embeds: [Embedruby]});
+            const findItem = data.items.find(i => i.itemId.toLowerCase() == 'ruby');
+            let userInv = data.items.filter(i => i.itemId.toLowerCase() !== 'ruby');
+            const findInItems = itemss.find(i => i.itemId == 'ruby');
+    
+            console.log(findInItems)
+    
+            if (findItem) {
+                findInItems.amount = findInItems.amount + Amount
+                userInv.push(findInItems);
+                data.items = userInv;
+                await data.save();
+            } else {
+                findInItems.amount = Amount
+                userInv.push(findInItems);
+                data.items = userInv;
+                await data.save();
+            }
+        }
+        else if (response == 'p') {
 
         const Amount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const Embedled = new MessageEmbed()
-        .setDescription(`⛏ **${member.user.username}** : Vous êtes allé miner et êtes revenu avec **${Amount}** x Pierre extra précieuses ${hp}.`)
-        .setColor("GREEN")
+        .setDescription(`⛏ <@${member.user.id}> : You went mining and came back with **x${Amount}** Legendary Extra Gemstone(s) ${hp}.`)
+        .setColor("ORANGE")
         message.channel.send({embeds: [Embedled]});
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'precious');
         let userInv = data.items.filter(i => i.itemId.toLowerCase() !== 'precious');
         const findInItems = itemss.find(i => i.itemId == 'precious');
+
+        console.log(findInItems)
 
         if (findItem) {
             findInItems.amount = findInItems.amount + Amount
@@ -157,18 +198,18 @@ const randomMessage = [
         }
         } else if (response == 'missed') {
         const Embedmissed = new MessageEmbed()
-        .setDescription(`⛏ **${member.user.username}** : Vous êtes allé miner et vous avez trouvé aucune pierre précieuse.`)
-        .setColor("RED")
+        .setDescription(`⛏ <@${member.user.id}> : You went mining and found no gems.`)
+        .setColor("BLACK")
         message.channel.send({embeds: [Embedmissed]});
         }
 }
 module.exports.config = {
     name: 'mine', // Command Name
-    description: 'Utilisez votre pioche pour miner des pierres précieuse.', // Description
+    description: 'Use your pickaxe and try to find the best one', // Description
     usage: '+mine', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['mi'], // Aliases 
+    aliases: ['mi','dig'], // Aliases 
     bankSpace: 5, // Amount of bank space to give when command is used.
-    cooldown: 360// Command Cooldown
+    cooldown: 2// Command Cooldown
 }

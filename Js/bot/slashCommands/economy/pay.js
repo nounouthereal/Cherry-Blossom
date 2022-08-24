@@ -1,5 +1,5 @@
 const { MessageEmbed} = require("discord.js")
-const { ActionRowBuilder, ButtonBuilder } = require('@discordjs/builders')
+const Discord  = require('discord.js')
 
 
 module.exports = {
@@ -80,21 +80,69 @@ module.exports = {
         return interaction.followUp({embeds: [sendcoinsembed3]}).catch();
           //return message.channel.send(`That user is in passive mode, they can't recive any coins`);
         }
-                                      
-        
+
         const toGive = args[1];
-    
+
+
+        let percentage = 20 //For the moment if the user has or is in a bank society percent will be randomly between 5 and 7
+              
+        let fees = (percentage / 100) * parseInt(toGive)
+
+        let warnEmbed = new MessageEmbed()
+        .setColor("YELLOW")
+        .setDescription(`:warning: <@${usertag.id}> : Are you sure you want to pay <@${member.user.id}> \`${parseInt(toGive).toLocaleString()}\` :coin:.\nYou will have to pay fees of \`${fees.toLocaleString()}\` :coin: .`);
+        interaction.followUp({embeds: [warnEmbed], components: [btn, btn2]}).catch();
+
+        const row = new Discord.MessageActionRow().addComponents(
+
+            new Discord.MessageButton()
+		    .setStyle('SUCCESS')
+		    .setLabel("Yes")
+		    .setCustomId("yes"),
+
+	        new Discord.MessageButton()
+		    .setStyle('DANGER')
+		    .setLabel("No")
+		    .setCustomId("no")
+        )
+
+        const buttonFilter = (verifyInteraction) => {
+            let notInteractionAuthorEmb = new MessageEmbed()
+            .setColor("RED")
+            .setDescription(`:x: <@${verifyInteraction.user.id}> : Only the author of the command can use the buttons`);
+
+            if (verifyInteraction.user.id === interaction.user.id) return true;
+            return interaction.followUp({embeds: [notInteractionAuthorEmb], ephemeral: true})
+        }
+
+        const buttonColletor = interaction.channel.createMessageComponentCollector({
+            buttonFilter,
+            max: 1,
+        })
+
+        buttonColletor.on("end", async (ButtonInteraction) => {
+            const id = ButtonInteraction.first().customId;
+
+            if (id === 'no')
+        })
+
+
+                                      
+            
         if (toGive > authorData.coinsInWallet) {
               
             let sendcoinsembed222 = new MessageEmbed()
             .setColor("RED")
             .setDescription(`❌ <@${usertag.id}> : You can't pay \`${parseInt(toGive).toLocaleString()}\` :coin: || You need ${parseInt(toGive).toLocaleString() - authorData.coinsInWallet}.`);
-            return message.channel.send({embeds: [sendcoinsembed222]}).catch();
+            return interaction.followUp({embeds: [sendcoinsembed222]}).catch();
         }
-              
             
     
         authorData.coinsInWallet = (authorData.coinsInWallet - parseInt(toGive));
+    
+        await authorData.save();
+
+        authorData.coinsInWallet = (authorData.coinsInWallet - fees);
     
         await authorData.save();
     
@@ -104,15 +152,16 @@ module.exports = {
     
         let sendcoinsembed3 = new MessageEmbed()
         .setColor("GREEN")
-        .setTitle(`🏧 Payment realisé`)
+        .setTitle(`🏧 Payment successful`)
         .addField(`👤 Beneficiary:`,`<@${member.id}>`)
         .setAuthor(interaction.member.nickname,interaction.user.displayAvatarURL({ size: 1024, dynamic: true }))
-        .addField(`💰 Payment amount:`,`**${parseInt(toGive).toLocaleString()}** :coin:`)
+        .addField(`💰 Payment amount:`,`\`${parseInt(toGive).toLocaleString()}\` :coin:`)
+        .addField(`💸 Payment fees:`,`\`${fees}\` :coin:`)
         .addField(`🧾 Reason:`,`\`${reason}\``)
         .addField(`🎫 Author`,`<@${interaction.user.id}> `)
         .setFooter(`Asked by ${interaction.member.nickname} • ${interaction.guild.name}`,interaction.guild.iconURL())
         .setTimestamp()
-        .setDescription(`💳 <@${interaction.user.id}> payed <@${member.user.id}> **${parseInt(toGive).toLocaleString()}** :coin:, for: \`${reason}\``);
+        .setDescription(`💳 <@${interaction.user.id}> payed <@${member.user.id}> \`${parseInt(toGive).toLocaleString()}\` :coin:, for: \`${reason}\``);
         interaction.followUp({embeds: [sendcoinsembed3]}).catch();
         
     
@@ -121,11 +170,11 @@ module.exports = {
         .setTitle(`🏧 You have been payed`)
         .addField(`🎫 Author`,`${interaction.user.tag}`)
         .setAuthor(member.user.username,member.displayAvatarURL({ size: 1024, dynamic: true }))
-        .addField(`💰 Payment amount:`,`**${parseInt(toGive).toLocaleString()}** :coin:`)
+        .addField(`💰 Payment amount:`,`\`${parseInt(toGive).toLocaleString()}\` :coin:`)
         .addField(`🧾 Reason:`,`\`${reason}\``)
         .setFooter(`Sent by ${interaction.member.nickname} • ${interaction.guild.name}`,interaction.guild.iconURL())
         .setTimestamp()
-        .setDescription(`💳 ${interaction.user.tag} payed <@${member.user.id}> **${parseInt(toGive).toLocaleString()}** :coin:, for: \`${reason}\` in ${interaction.guild.name}`);
+        .setDescription(`💳 ${interaction.user.tag} payed <@${member.user.id}> \`${parseInt(toGive).toLocaleString()}\` :coin:, for: \`${reason}\` in ${interaction.guild.name}`);
         member.send({embeds: [sendcoinsembed4]}).catch();
          
     }

@@ -93,7 +93,8 @@ module.exports = {
             if (response == 'bear') {
                 const deerAmount = Math.round(Math.random() * 1) + 1;
                 const EmbedBear = new MessageEmbed()
-                .setDescription(`🏹 <@${member.id}> : You went hunting and came back with **x${deerAmount}** Bear(s) 🐻`)
+                .setTitle(`🏹 Hunt results`)
+                .setDescription(`🏹 <@${member.id}> : You went hunting and came back with **x${deerAmount}** Bear(s) 🐻 `)
                 .setColor("ORANGE")
                 .setFooter(`Asked by ${member.nickname} • ${interaction.guild.name}`,interaction.guild.iconURL())
                 .setTimestamp()
@@ -117,7 +118,8 @@ module.exports = {
             } else if (response == 'deer') {
                 const deerAmount = Math.round(Math.random() * 1) + 1;
                 const EmbedDeer = new MessageEmbed()
-                .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Deer(s) 🦌`)
+                .setTitle(`🏹 Hunt results`)
+                .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Deer(s) 🦌 `)
                 .setColor("PURPLE")
                 .setFooter(`Asked by ${member.nickname} • ${interaction.guild.name}`,interaction.guild.iconURL())
                 .setTimestamp()
@@ -141,7 +143,8 @@ module.exports = {
             } else if (response == 'duck') {
                 const deerAmount = Math.round(Math.random() * 1) + 1;
                 const EmbedDuck = new MessageEmbed()
-                .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Duck(s) 🦆`)
+                .setTitle(`🏹 Hunt results`)
+                .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Duck(s) 🦆 `)
                 .setColor("WHITE")
                 .setFooter(`Asked by ${member.nickname} • ${interaction.guild.name}`,interaction.guild.iconURL())
                 .setTimestamp()
@@ -165,7 +168,8 @@ module.exports = {
                   } else if (response == 'pig') {
                 const deerAmount = Math.round(Math.random() * 1) + 1;
                 const EmbedPig = new MessageEmbed()
-                .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Pig(s) 🐷`)
+                .setTitle(`🏹 Hunt results`)
+                .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Pig(s) 🐷 `)
                 .setColor("WHITE")
                 .setFooter(`Asked by ${member.nickname} • ${interaction.guild.name}`,interaction.guild.iconURL())
                 .setTimestamp()
@@ -189,8 +193,11 @@ module.exports = {
                   } else if (response == 'cow') {
                 const deerAmount = Math.round(Math.random() * 1) + 1;
                 const EmbedCow = new MessageEmbed()
-                .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Cow(s) 🐮`)
+                .setTitle(`🏹 Hunt results`)
+                .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Cow(s) 🐮 `)
                 .setColor("GREEN")
+                .setFooter(`Asked by ${member.nickname} • ${interaction.guild.name}`,interaction.guild.iconURL())
+                .setTimestamp()
                 message.channel.send({embeds: [EmbedCow]});
                 //message.channel.send(`You went hunting and came back with **${deerAmount}** x Cow 🐮`);
                 const findItem = data.items.find(i => i.itemId.toLowerCase() == 'cow');
@@ -211,8 +218,12 @@ module.exports = {
                 } else if (response == 'fox') {
                 const deerAmount = Math.round(Math.random() * 1) + 1;
                 const EmbedFox = new MessageEmbed()
-                .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Board Fox(es) 🦊`)
+                .setTitle(`🏹 Hunt results`)
+                .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Fox(es) 🦊 `)
                 .setColor("BLUE")
+                .setFooter(`Asked by ${member.nickname} • ${interaction.guild.name}`,interaction.guild.iconURL())
+                .setTimestamp()
+
                 interaction.followUp({embeds: [EmbedFox]});
                 //message.channel.send(`You went hunting and came back with **${deerAmount}** x Fox 🦊`);
                 const findItem = data.items.find(i => i.itemId.toLowerCase() == 'fox');
@@ -233,8 +244,9 @@ module.exports = {
                 } else if (response == 'rabbit') {
                 const deerAmount = Math.round(Math.random() * 1) + 1;
                 const EmbedRabbit = new MessageEmbed()
-                .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Rabbit(s) 🐰`)
-                .setColor("WHITE")
+                .setTitle(`🏹 Hunt results`)
+                .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Rabbit(s) 🐰 `)
+                .setColor("GREEN")
                 .setFooter(`Asked by ${member.nickname} • ${interaction.guild.name}`,interaction.guild.iconURL())
                 .setTimestamp()
                 interaction.followUp({embeds: [EmbedRabbit]});
@@ -257,7 +269,8 @@ module.exports = {
                 } else if (response == 'chicken') {
                 const deerAmount = Math.round(Math.random() * 1) + 1;
                 const EmbedChicken = new MessageEmbed()
-                .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Chiken(s) 🐔`)
+                .setTitle(`🏹 Hunt results`)
+                .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Chiken(s) 🐔 `)
                 .setColor("WHITE")
                 .setFooter(`Asked by ${member.nickname} • ${interaction.guild.name}`,interaction.guild.iconURL())
                 .setTimestamp()
@@ -281,7 +294,8 @@ module.exports = {
                 } else if (response == 'boar') {
                 const deerAmount = Math.round(Math.random() * 1) + 1;
                 const EmbedBoar = new MessageEmbed()
-                .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Boar(s) 🐗`)
+                .setTitle(`🏹 Hunt results`)
+                .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Boar(s) 🐗 `)
                 .setColor("BLUE")
                 .setFooter(`Asked by ${member.nickname} • ${interaction.guild.name}`,interaction.guild.iconURL())
                 .setTimestamp()
@@ -304,6 +318,7 @@ module.exports = {
                 }
                 } else if (response == 'missed') {
                 const Embedmissed = new MessageEmbed()
+                .setTitle(`🏹 Hunt results`)
                 .setDescription(`🏹 **${member.user.username}** : You went hunting and saw no animals`)
                 .setFooter(`Asked by ${member.nickname} • ${interaction.guild.name}`,interaction.guild.iconURL())
                 .setTimestamp()

@@ -71,7 +71,6 @@ module.exports.run = async (bot, message, args) => {
             const findItem = data.items.find(i => i.itemId == 'commonfish');
             const findInItems = itemss.find(i => i.itemId == 'commonfish');
             let userInv = data.items.filter(i => i.itemId !== 'commonfish ');
-            console.log(findInItems)
 
 
             if (findItem) {
@@ -99,7 +98,6 @@ module.exports.run = async (bot, message, args) => {
             const findItem = data.items.find(i => i.itemId == 'uncommonfish');
             const findInItems = itemss.find(i => i.itemId == 'uncommonfish');
             let userInv = data.items.filter(i => i.itemId !== 'uncommonfish');
-            console.log(findInItems)
 
 
             if (findItem) {
@@ -128,7 +126,6 @@ module.exports.run = async (bot, message, args) => {
             const findItem = data.items.find(i => i.itemId == 'rarefish');
             const findInItems = itemss.find(i => i.itemId == 'rarefish');
             let userInv = data.items.filter(i => i.itemId !== 'rarefish');
-            console.log(findInItems)
 
 
 
@@ -159,6 +156,7 @@ module.exports.run = async (bot, message, args) => {
             const findItem = data.items.find(i => i.itemId == 'veryrarefish');
             const findInItems = itemss.find(i => i.itemId == 'veryrarefish');
             let userInv = data.items.filter(i => i.itemId !== 'veryrarefish');
+
             
             if (findItem) {
                 findInItems.amount = findInItems.amount + fishAmount
@@ -177,7 +175,7 @@ module.exports.run = async (bot, message, args) => {
             const data = await bot.fetchUser(message.author.id);
             const Embedled = new MessageEmbed()
             .setTitle('🎣 Fishing result')
-            .setDescription(`🎣  <@${member.user.id}> : You went fishing and get back with **x${fishAmount}** Legendary fish 🐋.`)
+            .setDescription(`🎣  <@${member.user.id}> : You went fishing and get back with **x${fishAmount}** Legendary fish 🐋`)
             .setColor("ORANGE")
             .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
             .setTimestamp()
@@ -187,7 +185,6 @@ module.exports.run = async (bot, message, args) => {
             let userInv = data.items.filter(i => i.itemId !== 'legendaryfish');
             const findInItems = itemss.find(i => i.itemId == 'legendaryfish');
 
-            console.log(findInItems)
 
             if (findItem) {
                 findInItems.amount = findInItems.amount + fishAmount
@@ -214,7 +211,6 @@ module.exports.run = async (bot, message, args) => {
             const findItem = data.items.find(i => i.itemId == 'junk');
             let userInv = data.items.filter(i => i.itemId !== 'junk');
             const findInItems = itemss.find(i => i.itemId == 'junk');
-
 
             if (findItem) {
                 findInItems.amount = findInItems.amount + Amount

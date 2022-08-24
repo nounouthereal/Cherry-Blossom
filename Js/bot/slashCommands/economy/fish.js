@@ -65,7 +65,7 @@ module.exports = {
             const fishAmount = Math.round(Math.random() * 1) + 1;
             const Embedcommon = new MessageEmbed()
             .setTitle('🎣 Fishing result')
-            .setDescription(`🎣  <@${member.user.id}> : You went fishing and get back with **x${fishAmount}** Common fish 🐟`)
+            .setDescription(`🎣  <@${member.user.id}> : You went fishing and get back with **x${fishAmount}** Common fish 🐟 `)
             .setColor("WHITE")
             .setFooter(`Asked by ${member.nickname} • ${interaction.guild.name}`,interaction.guild.iconURL())
             .setTimestamp()
@@ -92,7 +92,7 @@ module.exports = {
             const fishAmount = Math.round(Math.random() * 1) + 1;
             const Embeduncommon = new MessageEmbed()
             .setTitle('🎣 Fishing result')
-            .setDescription(`🎣  <@${member.user.id}> : You went fishing and get back with **x${fishAmount}** Uncommon fish 🐠`)
+            .setDescription(`🎣  <@${member.user.id}> : You went fishing and get back with **x${fishAmount}** Uncommon fish 🐠 `)
             .setColor("GREEN")
             .setFooter(`Asked by ${member.nickname} • ${interaction.guild.name}`,interaction.guild.iconURL())
             .setTimestamp()
@@ -120,7 +120,7 @@ module.exports = {
             const fishAmount = Math.round(Math.random() * 1) + 1;
             const Embedrare = new MessageEmbed()
             .setTitle('🎣 fishing result')
-            .setDescription(`🎣  <@${member.user.id}> : You went fishing and came back with **x${fishAmount}** Rare fish 🦑`)
+            .setDescription(`🎣  <@${member.user.id}> : You went fishing and came back with **x${fishAmount}** Rare fish 🦑 `)
             .setColor("BLUE")
             .setFooter(`Asked by ${member.nickname} • ${interaction.guild.name}`,interaction.guild.iconURL())
             .setTimestamp()
@@ -150,7 +150,7 @@ module.exports = {
             const fishAmount = Math.round(Math.random() * 1) + 1;
             const Embedveryrare = new MessageEmbed()
             .setTitle('🎣 Fishing result')
-            .setDescription(`🎣  <@${member.user.id}> : You went fishing and get back with **x${fishAmount}** Epic fish 🐡`)
+            .setDescription(`🎣  <@${member.user.id}> : You went fishing and get back with **x${fishAmount}** Epic fish 🐡 `)
             .setColor("PURPLE")
             .setFooter(`Asked by ${member.nickname} • ${interaction.guild.name}`,interaction.guild.iconURL())
             .setTimestamp()
@@ -176,7 +176,7 @@ module.exports = {
             const fishAmount = Math.round(Math.random() * 1) + 1;
             const Embedled = new MessageEmbed()
             .setTitle('🎣 Fishing result')
-            .setDescription(`🎣  <@${member.user.id}> : You went fishing and get back with **x${fishAmount}** Legendary fish 🐋.`)
+            .setDescription(`🎣  <@${member.user.id}> : You went fishing and get back with **x${fishAmount}** Legendary fish 🐋`)
             .setColor("ORANGE")
             .setFooter(`Asked by ${member.nickname} • ${interaction.guild.name}`,interaction.guild.iconURL())
             .setTimestamp()

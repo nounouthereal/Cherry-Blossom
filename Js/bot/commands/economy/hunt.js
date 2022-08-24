@@ -88,13 +88,18 @@ const randomMessage = [
         const deerAmount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const EmbedBear = new MessageEmbed()
+        .setTitle(`🏹 Hunt results`)
         .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Bear(s) 🐻`)
         .setColor("ORANGE")
+        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+        .setTimestamp()
         message.channel.send({embeds: [EmbedBear]});
         //message.channel.send(`You went hunting and came back with **${deerAmount}** x Bear 🐻`);
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'bear');
         let userInv = data.items.filter(i => i.itemId.toLowerCase() !== 'bear');
         const findInItems = itemss.find(i => i.itemId == 'bear');
+
+        console.log(findInItems)
 
         if (findItem) {
             findInItems.amount = findInItems.amount + deerAmount
@@ -111,10 +116,11 @@ const randomMessage = [
         const deerAmount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const EmbedDeer = new MessageEmbed()
-        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
-        .setTimestamp()
+        .setTitle(`🏹 Hunt results`)
         .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Deer(s) 🦌`)
         .setColor("PURPLE")
+        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+        .setTimestamp()
         message.channel.send({embeds: [EmbedDeer]});
         //message.channel.send(`You went hunting and came back with **${deerAmount}** x Deer 🦌`);
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'deer');
@@ -136,15 +142,17 @@ const randomMessage = [
         const deerAmount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const EmbedDuck = new MessageEmbed()
-        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
-        .setTimestamp()
+        .setTitle(`🏹 Hunt results`)
         .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Duck(s) 🦆`)
         .setColor("WHITE")
+        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+        .setTimestamp()
         message.channel.send({embeds: [EmbedDuck]});
         //message.channel.send(`You went hunting and came back with **${deerAmount}** x Duck 🦆`);
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'duck');
         let userInv = data.items.filter(i => i.itemId.toLowerCase() !== 'duck');
         const findInItems = itemss.find(i => i.itemId == 'duck');
+
 
         if (findItem) {
             findInItems.amount = findInItems.amount + deerAmount
@@ -161,15 +169,18 @@ const randomMessage = [
         const deerAmount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const EmbedPig = new MessageEmbed()
-        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
-        .setTimestamp()
+        .setTitle(`🏹 Hunt results`)
         .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Pig(s) 🐷`)
         .setColor("WHITE")
+        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+        .setTimestamp()
         message.channel.send({embeds:[EmbedPig]});
         //message.channel.send(`You went hunting and came back with **${deerAmount}** x Pig 🐷`);
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'pig');
         let userInv = data.items.filter(i => i.itemId.toLowerCase() !== 'pig');
         const findInItems = itemss.find(i => i.itemId == 'pig');
+
+        console.log(findInItems)
 
         if (findItem) {
             findInItems.amount = findInItems.amount + deerAmount
@@ -186,10 +197,11 @@ const randomMessage = [
         const deerAmount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const EmbedCow = new MessageEmbed()
-        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
-        .setTimestamp()
+        .setTitle(`🏹 Hunt results`)
         .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Cow(s) 🐮`)
         .setColor("GREEN")
+        .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+        .setTimestamp()
         message.channel.send({embeds: [EmbedCow]});
         //message.channel.send(`You went hunting and came back with **${deerAmount}** x Cow 🐮`);
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'cow');
@@ -211,15 +223,17 @@ const randomMessage = [
         const deerAmount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const EmbedFox = new MessageEmbed()
+        .setTitle(`🏹 Hunt results`)
+        .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Fox(es) 🦊`)
+        .setColor("BLUE")
         .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
         .setTimestamp()
-        .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Board Fox(es) 🦊`)
-        .setColor("BLUE")
         message.channel.send({embeds: [EmbedFox]});
         //message.channel.send(`You went hunting and came back with **${deerAmount}** x Fox 🦊`);
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'fox');
         let userInv = data.items.filter(i => i.itemId.toLowerCase() !== 'fox');
         const findInItems = itemss.find(i => i.itemId == 'fox');
+
 
         if (findItem) {
             findInItems.amount = findInItems.amount + deerAmount
@@ -236,6 +250,7 @@ const randomMessage = [
         const deerAmount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const EmbedRabbit = new MessageEmbed()
+        .setTitle(`🏹 Hunt results`)
         .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Rabbit(s) 🐰`)
         .setColor("GREEN")
         .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
@@ -245,6 +260,8 @@ const randomMessage = [
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'rabbit');
         let userInv = data.items.filter(i => i.itemId.toLowerCase() !== 'rabbit');
         const findInItems = itemss.find(i => i.itemId == 'rabbit');
+
+        console.log(findInItems)
 
         if (findItem) {
             findInItems.amount = findInItems.amount + deerAmount
@@ -261,6 +278,7 @@ const randomMessage = [
         const deerAmount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const EmbedChicken = new MessageEmbed()
+        .setTitle(`🏹 Hunt results`)
         .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Chiken(s) 🐔`)
         .setColor("WHITE")
         .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
@@ -270,6 +288,8 @@ const randomMessage = [
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'chicken');
         let userInv = data.items.filter(i => i.itemId.toLowerCase() !== 'chicken');
         const findInItems = itemss.find(i => i.itemId == 'chicken');
+
+        console.log(findInItems)
 
         if (findItem) {
             findInItems.amount = findInItems.amount + deerAmount
@@ -286,6 +306,7 @@ const randomMessage = [
         const deerAmount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const EmbedBoar = new MessageEmbed()
+        .setTitle(`🏹 Hunt results`)
         .setDescription(`🏹 <@${member.user.id}> : You went hunting and came back with **x${deerAmount}** Boar(s) 🐗`)
         .setColor("BLUE")
         .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
@@ -295,6 +316,8 @@ const randomMessage = [
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'boar');
         let userInv = data.items.filter(i => i.itemId.toLowerCase() !== 'boar');
         const findInItems = itemss.find(i => i.itemId == 'boar');
+
+        console.log(findInItems)
 
         if (findItem) {
             findInItems.amount = findInItems.amount + deerAmount
@@ -309,6 +332,7 @@ const randomMessage = [
         }
         } else if (response == 'missed') {
         const Embedmissed = new MessageEmbed()
+        .setTitle(`🏹 Hunt results`)
         .setDescription(`🏹 **${member.user.username}** : You went hunting and saw no animals`)
         .setColor("BLACK")
         .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())

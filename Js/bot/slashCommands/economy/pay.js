@@ -34,7 +34,7 @@ module.exports = {
         const member = interaction.guild.members.cache.get(args[0]) || interaction.guild.members.cache.find(member => member.user.username === args.slice(0).join(' ') || member.user.username === args[0]);
         let reason = args[2]
     
-        if(!args[2]) reason = 'Reason not precised by the author of the payment'
+        if(!args[2]) reason = 'Reason not precised'
     
     
         let passivewarn = new MessageEmbed()
@@ -84,14 +84,9 @@ module.exports = {
         const toGive = args[1];
 
 
-        let percentage = 20 //For the moment if the user has or is in a bank society percent will be randomly between 5 and 7
+        let percentage = 15 //For the moment if the user has or is in a bank society percent will be randomly between 4 and 7
               
-        let fees = (percentage / 100) * parseInt(toGive)
-
-        let warnEmbed = new MessageEmbed()
-        .setColor("YELLOW")
-        .setDescription(`:warning: <@${usertag.id}> : Are you sure you want to pay <@${member.user.id}> \`${parseInt(toGive).toLocaleString()}\` :coin:.\nYou will have to pay fees of \`${fees.toLocaleString()}\` :coin: .`);
-        interaction.followUp({embeds: [warnEmbed], components: [btn, btn2]}).catch();
+        let fees = Math.round((percentage / 100) * parseInt(toGive))
 
         const row = new Discord.MessageActionRow().addComponents(
 
@@ -105,6 +100,11 @@ module.exports = {
 		    .setLabel("No")
 		    .setCustomId("no")
         )
+
+        let warnEmbed = new MessageEmbed()
+        .setColor("YELLOW")
+        .setDescription(`:warning: <@${usertag.id}> : Are you sure you want to pay <@${member.user.id}> \`${parseInt(toGive).toLocaleString()}\` :coin:.\nYou will have to pay fees of \`${fees.toLocaleString()}\` :coin: .`);
+        interaction.followUp({embeds: [warnEmbed], components: [row]}).catch();
 
         const buttonFilter = (verifyInteraction) => {
             let notInteractionAuthorEmb = new MessageEmbed()
@@ -121,61 +121,89 @@ module.exports = {
         })
 
         buttonColletor.on("end", async (ButtonInteraction) => {
-            const id = ButtonInteraction.first().customId;
+            const button = ButtonInteraction.first()
 
-            if (id === 'no')
-        })
+            const id = button.customId;
+
+            if (id === 'no') {
+                let stop_embed = new MessageEmbed()
+                .setDescription(`:bulb: You stoped the command.`)
+                .setColor("YELLOW")
+                button.reply({embeds: [stop_embed]})
+
+                row.components[0].setDisabled(true)
+                row.components[1].setDisabled(true)
+
+                interaction.editReply({embeds: [warnEmbed], components: [row] })
+
+                return
+            }
+
+            if (id === 'yes') { 
+
+                row.components[0].setDisabled(true)
+                row.components[1].setDisabled(true)
+
+                interaction.editReply({embeds: [warnEmbed], components: [row] })
+
 
 
                                       
             
-        if (toGive > authorData.coinsInWallet) {
-              
-            let sendcoinsembed222 = new MessageEmbed()
-            .setColor("RED")
-            .setDescription(`❌ <@${usertag.id}> : You can't pay \`${parseInt(toGive).toLocaleString()}\` :coin: || You need ${parseInt(toGive).toLocaleString() - authorData.coinsInWallet}.`);
-            return interaction.followUp({embeds: [sendcoinsembed222]}).catch();
-        }
-            
-    
-        authorData.coinsInWallet = (authorData.coinsInWallet - parseInt(toGive));
-    
-        await authorData.save();
+            if (toGive > authorData.coinsInWallet) {
 
-        authorData.coinsInWallet = (authorData.coinsInWallet - fees);
-    
-        await authorData.save();
-    
-        userData.coinsInWallet = (userData.coinsInWallet + parseInt(toGive));
-    
-        await userData.save();
-    
-        let sendcoinsembed3 = new MessageEmbed()
-        .setColor("GREEN")
-        .setTitle(`🏧 Payment successful`)
-        .addField(`👤 Beneficiary:`,`<@${member.id}>`)
-        .setAuthor(interaction.member.nickname,interaction.user.displayAvatarURL({ size: 1024, dynamic: true }))
-        .addField(`💰 Payment amount:`,`\`${parseInt(toGive).toLocaleString()}\` :coin:`)
-        .addField(`💸 Payment fees:`,`\`${fees}\` :coin:`)
-        .addField(`🧾 Reason:`,`\`${reason}\``)
-        .addField(`🎫 Author`,`<@${interaction.user.id}> `)
-        .setFooter(`Asked by ${interaction.member.nickname} • ${interaction.guild.name}`,interaction.guild.iconURL())
-        .setTimestamp()
-        .setDescription(`💳 <@${interaction.user.id}> payed <@${member.user.id}> \`${parseInt(toGive).toLocaleString()}\` :coin:, for: \`${reason}\``);
-        interaction.followUp({embeds: [sendcoinsembed3]}).catch();
+                
+                let sendcoinsembed222 = new MessageEmbed()
+                .setColor("RED")
+                .setDescription(`❌ <@${usertag.id}> : You can't pay \`${parseInt(toGive).toLocaleString()}\` :coin: || You need ${parseInt(toGive).toLocaleString() - authorData.coinsInWallet}.`);
+                button.reply({embeds: [sendcoinsembed222]}).catch();
+            }
+                
         
-    
-        let sendcoinsembed4 = new MessageEmbed()
-        .setColor("GREEN")
-        .setTitle(`🏧 You have been payed`)
-        .addField(`🎫 Author`,`${interaction.user.tag}`)
-        .setAuthor(member.user.username,member.displayAvatarURL({ size: 1024, dynamic: true }))
-        .addField(`💰 Payment amount:`,`\`${parseInt(toGive).toLocaleString()}\` :coin:`)
-        .addField(`🧾 Reason:`,`\`${reason}\``)
-        .setFooter(`Sent by ${interaction.member.nickname} • ${interaction.guild.name}`,interaction.guild.iconURL())
-        .setTimestamp()
-        .setDescription(`💳 ${interaction.user.tag} payed <@${member.user.id}> \`${parseInt(toGive).toLocaleString()}\` :coin:, for: \`${reason}\` in ${interaction.guild.name}`);
-        member.send({embeds: [sendcoinsembed4]}).catch();
+            authorData.coinsInWallet = (authorData.coinsInWallet - parseInt(toGive));
+        
+            await authorData.save();
+
+            authorData.coinsInWallet = (authorData.coinsInWallet - fees);
+        
+            await authorData.save();
+        
+            userData.coinsInWallet = (userData.coinsInWallet + parseInt(toGive));
+        
+            await userData.save();
+
+        
+            let sendcoinsembed3 = new MessageEmbed()
+            .setColor("GREEN")
+            .setTitle(`🏧 Payment successful`)
+            .addField(`👤 Beneficiary:`,`<@${member.id}>`)
+            .setAuthor(interaction.member.nickname,interaction.user.displayAvatarURL({ size: 1024, dynamic: true }))
+            .addField(`💰 Payment amount:`,`\`${parseInt(toGive).toLocaleString()}\` :coin:`)
+            .addField(`💸 Payment fees:`,`\`${fees}\` :coin:`)
+            .addField(`🧾 Reason:`,`\`${reason}\``)
+            .addField(`🎫 Author`,`<@${interaction.user.id}> `)
+            .setFooter(`Asked by ${interaction.member.nickname} • ${interaction.guild.name}`,interaction.guild.iconURL())
+            .setTimestamp()
+            .setDescription(`💳 <@${interaction.user.id}> payed <@${member.user.id}> \`${parseInt(toGive).toLocaleString()}\` :coin:, for: \`${reason}\``);
+            button.reply({embeds: [sendcoinsembed3]}).catch();
+            
+        
+            let sendcoinsembed4 = new MessageEmbed()
+            .setColor("GREEN")
+            .setTitle(`🏧 You have been payed`)
+            .addField(`🎫 Author`,`${interaction.user.tag}`)
+            .setAuthor(member.user.username,member.displayAvatarURL({ size: 1024, dynamic: true }))
+            .addField(`💰 Payment amount:`,`\`${parseInt(toGive).toLocaleString()}\` :coin:`)
+            .addField(`🧾 Reason:`,`\`${reason}\``)
+            .setFooter(`Sent by ${interaction.member.nickname} • ${interaction.guild.name}`,interaction.guild.iconURL())
+            .setTimestamp()
+            .setDescription(`💳 ${interaction.user.tag} payed <@${member.user.id}> \`${parseInt(toGive).toLocaleString()}\` :coin:, for: \`${reason}\` in ${interaction.guild.name}`);
+            member.send({embeds: [sendcoinsembed4]}).catch();
+
+
+        }
+
+        })
          
     }
 }

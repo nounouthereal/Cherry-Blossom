@@ -45,7 +45,10 @@ module.exports.run = async (bot, message, args) => {
            }
   
     if (botRoll < userChoice) {
-        const wonCoins = parseInt(betAmount + (betAmount * 0.50));
+        let wonCoins = parseInt(betAmount + (betAmount * 0.50));
+
+        wonCoins = Math.round(wonCoins)
+
         userData.coinsInWallet += parseInt(wonCoins);
         await userData.save();
         const wonEmbed = new MessageEmbed()
@@ -56,7 +59,8 @@ module.exports.run = async (bot, message, args) => {
         .setDescription(`Gamble Bêta 1.0 | Player : <@${member.user.id}> \n\n<@${bot.user.id}> played: \`${botRoll}\` \n<@${member.user.id}> played: \`${userChoice}\`\n\nWin Rate: \`${Math.floor(userChoice-botRoll)*10}%\`\n\nWinnings: **${wonCoins.toLocaleString()}** :coin:`)
         message.channel.send({embeds: [wonEmbed]});
     } else if (botRoll == userChoice) {
-      const tieCoins = parseInt(betAmount/2);
+      let tieCoins = parseInt(betAmount/2);
+      tieCoins = Math.round(tieCoins)
         userData.coinsInWallet -= parseInt(tieCoins);
         await userData.save();
         const tieEmbed = new MessageEmbed()

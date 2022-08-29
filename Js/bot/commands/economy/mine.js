@@ -18,7 +18,7 @@ let founditem = user.items.find(x => x.itemId.toLowerCase() === 'pickaxe');
     if (!founditem) {
               let use3embed = new MessageEmbed()
               .setColor("RED")
-              .setDescription(`❌ **${member.user.username}** : You don't have a \`PICKAXE\`, you must buy one to use this command.`);
+              .setDescription(`❌ <@${member.user.id}> : You don't have a \`PICKAXE\`, you must buy one to use this command.  (\`+buy pickaxe\`)`);
               return message.channel.send({embeds: [use3embed]});
         //////return message.channel.send("you don't have this item");
     }
@@ -43,7 +43,7 @@ const randomMessage = [
         const Amount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
         const Embeddiamond = new MessageEmbed()
-        .setDescription(`⛏ **${member.user.username}** : You went mining and came back with **x${Amount}** Rough Diamonds ${hd}.`)
+        .setDescription(`⛏ <@${member.user.id}> : You went mining and came back with **x${Amount}** Rough Diamonds ${hd}.`)
         .setColor("WHITE")
         message.channel.send({embeds: [Embeddiamond]});
         const findItem = data.items.find(i => i.itemId.toLowerCase() == 'diamond');

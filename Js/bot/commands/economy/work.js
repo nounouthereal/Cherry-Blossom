@@ -5,7 +5,6 @@ const { MessageEmbed } = require("discord.js")
 module.exports.run = async (bot, message, args) => {
 
     const user = await bot.fetchUser(message.author.id);
-    console.log(work)
 
     let fireEmbed = new MessageEmbed()
     .setColor("YELLOW")

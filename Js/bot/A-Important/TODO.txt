@@ -35,6 +35,7 @@ FOR V2
 13. Automod system / Anti ghost ping system / Anti spam system
 14. Rework errors system
 15. Make ameliorated items like a super rifle for hunt, a boat for fish, a drilling machine for mine, add more revenues items for hunt, fish, mine
+16. Add birthday system
 
 FOR HIGHER VERSIONS
 

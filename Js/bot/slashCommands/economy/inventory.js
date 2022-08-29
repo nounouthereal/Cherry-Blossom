@@ -1,5 +1,6 @@
 const itemss = require('/Users/nouhame/Bot_des_cerisiers/Js/bot/utils/items.js');
 const { MessageEmbed } = require("discord.js");
+const { pagination } = require(`reconlx`)
 
 
 module.exports = {

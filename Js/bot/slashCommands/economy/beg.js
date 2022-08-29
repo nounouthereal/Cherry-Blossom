@@ -3,7 +3,6 @@ const { MessageEmbed } = require("discord.js")
 
 let timeout_easier = 600 * 1000
 
-console.log(timeout_easier)
 
 module.exports = {
     name: "beg",

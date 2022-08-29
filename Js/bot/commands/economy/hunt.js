@@ -15,7 +15,7 @@ let founditem = user.items.find(x => x.itemId === 'rifle');
     if (!founditem) {
               let use3embed = new MessageEmbed()
               .setColor("RED")
-              .setDescription(`❌ <@${member.user.id}> : You don't have a \`RIFLE\`, you must buy one to use this command.`);
+              .setDescription(`❌ <@${member.user.id}> : You don't have a \`RIFLE\`, you must buy one to use this command.  (\`+buy rifle\`)`);
               return message.channel.send({embeds: [use3embed]});
         //////return message.channel.send("you don't have this item");
     }

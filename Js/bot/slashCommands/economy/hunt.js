@@ -21,7 +21,7 @@ module.exports = {
             if (!founditem) {
                       let use3embed = new MessageEmbed()
                       .setColor("RED")
-                      .setDescription(`❌ <@${member.id}> : You don't have a \`RIFLE\`, you must buy one to use this command.`);
+                      .setDescription(`❌ <@${member.id}> : You don't have a \`RIFLE\`, you must buy one to use this command.  (\`+buy rifle\`)`);
                       return interaction.followUp({embeds: [use3embed]});
                 //////return message.channel.send("you don't have this item");
             }

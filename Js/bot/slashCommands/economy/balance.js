@@ -34,15 +34,16 @@ module.exports = {
             .setColor("RED")
             .setTitle(`❌ Error!`)
             .setDescription(`**${member.user.username}** : Your id is bugged in my database, sorry about this we will restore your account.`);
-            return bot.createSlashError({interaction, embeds: [moneyerrorembed]}).catch();
+            return interaction.followUp({interaction, embeds: [moneyerrorembed]}).catch();
         }
+
 
         const embed = new MessageEmbed()
             .setAuthor(`${member.user.username}`,avatar)
             .setTitle(`💰 Wallet of ${member.user.username}`)
-            .addField(`💳 Money:`,`${user.coinsInWallet.toLocaleString()} :coin:`)
-            .addField(`🏦 In Bank:`,`${user.coinsInBank.toLocaleString()} :coin: (**Remaining bank space:** ${bankspace_still} || **Total bank space:** ${user.bankSpace})`)
-            .addField(`🌐 Total profit:`,`${(user.coinsInWallet + user.coinsInBank).toLocaleString()} :coin:`)
+            .addField(`💳 Money:`,`\`${user.coinsInWallet.toLocaleString()}\` :coin:`)
+            .addField(`🏦 In Bank:`,`\`${user.coinsInBank.toLocaleString()}\` :coin: (**Remaining bank space:** \`${bankspace_still}\` || **Total bank space:** \`${user.bankSpace}\`)`)
+            .addField(`🌐 Total profit:`,`\`${(user.coinsInWallet + user.coinsInBank).toLocaleString()}\` :coin:`)
             .setFooter(`Asked by: ${interaction.member.displayName} • ${guildname}`,interaction.guild.iconURL())
             .setTimestamp()
             .setColor("#57c478")

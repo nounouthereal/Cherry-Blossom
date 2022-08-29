@@ -16,9 +16,9 @@ module.exports.run = async (bot, message, args) => {
         user.coinsInWallet += amount;
         const claimed = new MessageEmbed()
             .setTitle(`✅ Weekly reward claimed`)
-            .setDescription(`You claimed ${amount} :coin: (Reclaim your weekly reward in \`7 days\` !)`)
-            .addField(`💸 Reward:`,`${amount} :coin:`)
-            .addField(`💳 Balance:`,`${user.coinsInWallet.toLocaleString()} :coin:`)
+            .setDescription(`You claimed \`${amount}\` :coin: (Reclaim your weekly reward in \`7 days\` !)`)
+            .addField(`💸 Reward:`,`\`${amount}\` :coin:`)
+            .addField(`💳 Balance:`,`\`${user.coinsInWallet.toLocaleString()}\` :coin:`)
             .setColor('RANDOM');
         message.channel.send({embeds: [claimed]});
        user.save().then(user.dailyStreak = new Date(Date.now()))

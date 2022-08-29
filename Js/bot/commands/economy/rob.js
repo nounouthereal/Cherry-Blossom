@@ -17,7 +17,7 @@ module.exports.run = async (bot, message, args) => {
 
     let authorwarn = new MessageEmbed()
     .setColor("RED")
-    .setDescription(`❌ **${usertag.user.username}** : You cannot rob yourself.`);
+    .setDescription(`❌ <@${usertag.user.id}> : You cannot rob yourself.`);
   
     if (member.id == message.author.id) return message.channel.send({embeds: [authorwarn]});
   
@@ -25,22 +25,19 @@ module.exports.run = async (bot, message, args) => {
       
     let rob1embed = new MessageEmbed()
     .setColor("RED")
-    .setDescription(`❌ **${usertag.user.username}** : Vous avez oublié la personne que vous voulez voler.`);
+    .setDescription(`❌ <@${usertag.user.id}> : Vous avez oublié la personne que vous voulez voler.`);
     return message.channel.send({embeds: [rob1embed]});
-    //return message.channel.send("You think you can rob nobody?");
-    {embeds: [embed]}
     }
 
     
-    const devs = ['404205935251292160'];
+    const devs = ['901071562386583596'];
 
     if (devs.includes(member.user.id)) {
       
     let rob2embed = new MessageEmbed()
-    .setColor("ORANGE")
-    .setDescription(`🛡 **${usertag.user.username}** : L'utilisateur que vous avez essayé de voler a des protections`);
+    .setColor("YELLOW")
+    .setDescription(`🛡 <@${usertag.user.id}> : You can't rob the bot devs`);
     return message.channel.send({embeds: [rob2embed]});
-      //return message.channel.send(`You can't rob the bot devs lol.`);
     }
     
     const robbedUser = await bot.fetchUser(member.id);
@@ -48,62 +45,120 @@ module.exports.run = async (bot, message, args) => {
       
     let rob3embed = new MessageEmbed()
     .setColor("RED")
-    .setDescription(`❌ **${usertag.user.username}** : L'utilisateur que vous avez essayé de voler a passif \`ENABLED\`.`);
+    .setDescription(`❌ <@${usertag.user.id}> : The member you are trying to rob have passive: \`ENABLED\`.`);
     return message.channel.send({embeds: [rob3embed]});
       //return message.channel.send(`Leave them alone... they are in passive mode`);
     }
-    if (robbedUser.coinsInWallet < 1000) {
+
+    if (robbedUser.coinsInWallet < 10000) {
     let rob4embed = new MessageEmbed()
     .setColor("BLUE")
-    .setDescription(`🛡 **${usertag.user.username}** : L'utilisateur que vous avez essayé de voler a des protections sur son solde pour le moment car il a un solde inférieur à \`1 000\` :dollar:.`);
+    .setDescription(`🛡 <@${usertag.user.id}> : The user you tried to steal has protections on their balance at the moment because they have a balance of less than \`10 000\` :coin:.`);
     return message.channel.send({embeds: [rob4embed]});
         //return message.channel.send("This user doesn't have much coins, I wouldn't rob them");
     }
+
+    if (user.coinsInWallet < 1000) {
+        let rob4embed = new MessageEmbed()
+        .setColor("BLUE")
+        .setDescription(`🛡 <@${usertag.user.id}> : You must have at least balance of \`1000\` :coin:.`);
+        return message.channel.send({embeds: [rob4embed]});
+            //return message.channel.send("This user doesn't have much coins, I wouldn't rob them");
+    }
+
     if (user.items.find(x => x.name == 'luckyclover')) {
         const newInv = user.items.filter(i => i.itemId != 'luckyclover');
         const bypass = user.items.find(i => i.itemId == 'luckyclover');
+
         if (bypass.amount == 1) {
             user.items = newInv;
+
         } else {
             newInv.push({ itemId: 'luckyclover', amount: bypass.amount - 1, description: bypass.description });
             user.items = newInv
         }
+
     } else {
         const random2 = Math.floor(Math.random() * 2);
+
+        const random_percent =  Math.floor(Math.random() * 10)
+        const randomAmount = Math.round(random_percent / 100 * robbedUser.coinsInWallet);
+        console.log(randomAmount)
+    
+
         if (random2 === 2) {
-            const randomAmount = Math.round(Math.random() * robbedUser.coinsInWallet);
-            var caution = user.coinsInWallet -= randomAmount 
-            var cautionrecived = robbedUser.coinsInWallet += randomAmount;
-              let rob5embed = new MessageEmbed()
+
+
+            user.coinsInWallet -= randomAmount 
+            robbedUser.coinsInWallet += randomAmount;
+
+            await user.save();
+            await robbedUser.save();
+
+
+            let rob5embed = new MessageEmbed()
               .setColor("BLUE")
-              .setTitle(`💸 Résultat du vol:`)
-              .setDescription(`🛡 **${usertag.user.username}** : Vous avez essayé de voler **${member.user.tag}** est vous avez été arrêter 👮 ! Vous payez une caution de ${caution} :dollar:.`);
-              let robb7emb = new MessageEmbed()
+              .setTitle(`💸 Robbery result:`)
+              .setDescription(`🛡 <@${usertag.user.id}> : You tried to steal <@${member.user.id}> and you got arrested 👮! You paid a bail of \`${randomAmount.toLocaleString()}\` :coin:.`)
+              .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+              .setTimestamp()
+
+            let robb7emb = new MessageEmbed()
               .setColor("WHITE")
-              .setDescription(`🛡 **${usertag.user.username}** : A essayé de vous voler **${member.user.tag}** et il a été arrêter 👮 ! Il vous a payé une caution de ${cautionrecived} :dollar:.`)
-              message.robbedUser.send(robb7emb)
-              return message.channel.send({embeds: [rob5embed]});
+              .setDescription(`🛡 <@${usertag.user.id}> : **${message.author.tag}** tried to rob you and was arrested 👮! He paid you a bail of \`${randomAmount.toLocaleString()}\` :coin:.`)
+              .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+              .setTimestamp()
+              message.robbedUser.send({embeds: [robb7emb]})
+            return message.channel.send({embeds: [rob5embed]});
             //return message.channel.send(`You tried to rob **${member.user.tag}** but got caught👮! Better luck next time.`);
         }
+
+        else if (random2 === 1) {
+
+            user.coinsInWallet += randomAmount;
+            robbedUser.coinsInWallet -= randomAmount;
+
+            await user.save();
+            await robbedUser.save();
+
+            let rob6embed = new MessageEmbed()
+              .setColor("GREEN")
+              .setDescription(`🥷 <@${usertag.user.id}> : You robbed \`${randomAmount.toLocaleString()}\` :coin: to <@${member.id}>!`)
+              .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+              .setTimestamp()
+              message.channel.send({embeds: [rob6embed]});
+
+              let rob7embed = new MessageEmbed()
+              .setColor("GREEN")
+              .setDescription(`🥷 <@${usertag.user.id}> : You had been robbed \`${randomAmount.toLocaleString()}\` :coin: by ${member.tag} !`)
+              .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+              .setTimestamp()
+              member.send({embeds: [rob7embed]});
+
+
+        }
     }
+
+
     let array = robbedUser.items.filter(x => x.itemId !== 'padlock');
     const padlock = robbedUser.items.find(x => x.itemId === 'padlock');
-    if (padlock) {
-        const random = Math.floor(Math.random() * 5);
 
-      
-              let rob6embed = new MessageEmbed()
-              .setColor("BLUE")
-              .setTitle(`💸 Résultat du vol:`)
-              .setDescription(`🛡 **${usertag.user.username}** : Vous avez essayée de voler **${member.user.tag}**, mais il a un **Cadenas**🔒. Essayez la prochaine fois.`);
-              message.channel.send({embeds:[rob6embed]});
-        //message.channel.send(`You tried to rob **${member.user.tag}**, but they had a **Padlock**🔒. Try again next time.`);
+
+    if (padlock) { 
+        let rob6embed = new MessageEmbed()
+            .setColor("BLUE")
+            .setTitle(`💸 Robbery result:`)
+            .setDescription(`🛡 <@${usertag.user.id}> : You tried to steal **${member.user.tag}**, but he had a 🔒 **Padlock**. Try again next time.`)
+            .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
+            .setTimestamp()
+            message.channel.send({embeds:[rob6embed]});
       
         if (padlock.amount === 1) {
             robbedUser.items = array;
             await robbedUser.save();
             return;
         }
+
         else {
             array.push({
                 itemId: 'padlock',
@@ -115,24 +170,13 @@ module.exports.run = async (bot, message, args) => {
             return;
         }
     }
-    const randomAmount = Math.round(Math.random() * robbedUser.coinsInWallet);
-    user.coinsInWallet += randomAmount;
-    robbedUser.coinsInWallet -= randomAmount;
-    await user.save();
-    await robbedUser.save();
-  
-              let rob6embed = new MessageEmbed()
-              .setColor("GREEN")
-              .setDescription(`:moneybag:  **${usertag.user.username}** : Vous avez volée **${randomAmount.toLocaleString()}** :coin: à ${member}!`);
-              message.channel.send({embeds: [rob6embed]});
-  
-    //message.channel.send(`:moneybag: You stole **${randomAmount.toLocaleString()}** coins from ${member}!`);
+
 
 }
 
 module.exports.config = {
     name: 'rob', // Command Name
-    description: 'steal someones money and possibly get rich.', // Description
+    description: '🥷 Steal someones money and possibly get rich.', // Description
     usage: '+rob <user>', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.

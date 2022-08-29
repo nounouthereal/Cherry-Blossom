@@ -18,7 +18,7 @@ module.exports.run = async (bot, message, args) => {
         if (!founditem) {
                 let use3embed = new MessageEmbed()
                 .setColor("RED")
-                .setDescription(`:warning: <@${member.user.id}> : You don't have a \`FISHINGROD\`, you need to buy one in the shop to use this command.`);
+                .setDescription(`:warning: <@${member.user.id}> : You don't have a \`FISHINGROD\`, you need to buy one in the shop to use this command. (\`+buy fishingrod\`)`);
                 return message.channel.send({embeds: [use3embed]});
             //////return message.channel.send("you don't have this item");
         }

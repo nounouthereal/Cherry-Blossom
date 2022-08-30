@@ -11,11 +11,11 @@ FOR BÊTA V1.0
 10. Version command
 11. Bank command (Show user's coin in bank)
 13. In dice.js slash and command and a stat command possibility (Whenever a game is begun stock user.id, total money gained or lost, and the user roll in a dice.sqlite file)
-15. Change in messaginfo slash command message id by messagelink
 
 || 4. Add minimum 2 context menu || DID
 || 12. Remove cats and dogs command || DID
 || 14. Add messageInfo in command and in slash command || DID
+|| 15. Change in messaginfo slash command message id by messagelink || DID
 
 
 FOR V2

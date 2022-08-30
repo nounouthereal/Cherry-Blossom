@@ -1,17 +1,26 @@
 const { MessageEmbed, Message } = require('discord.js');
-const i = '<:infomation:779736273639440394>'
-const x = '<:bigx:779736072367505449>'
-const tick = '<:bigtick:779736050892931082>'
-const s = '<:hydrashild:780113155744595978>'
+
+const ms = require('ms')
+
 module.exports.run = async (bot, message, args) => {
     const usertag = message.member;
     const user = await bot.fetchUser(message.author.id);
     const member = message.mentions.members.first() || message.guild.members.cache.get(args.join(' ')) || message.guild.members.cache.find(member => member.user.username.toLowerCase() === args.join(' ').toString().toLowerCase());
+
+    if ((Date.parse(user.dailyStreak) + 10800000) > Date.now()) { // Change time after tests
+        const embed = new MessageEmbed()
+            .setDescription(`:warning: <@${message.author.id}> : You already robbed someone recently.\nYou have to wait \`${ms((Date.parse(user.dailyStreak) + 10800000) - Date.now())}\` before to rob again someone.\nThe default cooldown is \`3 hours (3h)\`.`)
+            .setColor('#FFA500');
+        return message.channel.send({embeds: [embed]});
+    } else {
+        
+      
+    
   
   
     let passivewarn = new MessageEmbed()
     .setColor("RED")
-    .setDescription(`❌ **${usertag.user.username}** : You have  \`PASSIVE\` enabled, you need to disable it to use this command.`);
+    .setDescription(`❌ <@${usertag.user.id}> : You have  \`PASSIVE\` enabled, you need to disable it to use this command.`);
   
     if (user.passive == true) return message.channel.send({embeds: [passivewarn]});
 
@@ -25,7 +34,7 @@ module.exports.run = async (bot, message, args) => {
       
     let rob1embed = new MessageEmbed()
     .setColor("RED")
-    .setDescription(`❌ <@${usertag.user.id}> : Vous avez oublié la personne que vous voulez voler.`);
+    .setDescription(`❌ <@${usertag.user.id}> : Please enter a correct member to rob.`);
     return message.channel.send({embeds: [rob1embed]});
     }
 
@@ -79,14 +88,20 @@ module.exports.run = async (bot, message, args) => {
         }
 
     } else {
-        const random2 = Math.floor(Math.random() * 2);
+        const random2 = Math.round(Math.random() * 1);
 
-        const random_percent =  Math.floor(Math.random() * 10)
+        let random_percent =  Math.floor(Math.random() * 7) //To 15 or 10 percent if he is in a criminal society
+
+        if (random_percent == 0) {
+            random_percent = 1
+        }
+
         const randomAmount = Math.round(random_percent / 100 * robbedUser.coinsInWallet);
-        console.log(randomAmount)
+
+        console.log(random2 + '  ' + randomAmount)
     
 
-        if (random2 === 2) {
+        if (random2 === 1) {
 
 
             user.coinsInWallet -= randomAmount 
@@ -94,6 +109,8 @@ module.exports.run = async (bot, message, args) => {
 
             await user.save();
             await robbedUser.save();
+
+            user.save().then(user.dailyStreak = new Date(Date.now()))
 
 
             let rob5embed = new MessageEmbed()
@@ -108,12 +125,13 @@ module.exports.run = async (bot, message, args) => {
               .setDescription(`🛡 <@${usertag.user.id}> : **${message.author.tag}** tried to rob you and was arrested 👮! He paid you a bail of \`${randomAmount.toLocaleString()}\` :coin:.`)
               .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
               .setTimestamp()
-              message.robbedUser.send({embeds: [robb7emb]})
+              member.send({embeds: [robb7emb]})
             return message.channel.send({embeds: [rob5embed]});
+
             //return message.channel.send(`You tried to rob **${member.user.tag}** but got caught👮! Better luck next time.`);
         }
 
-        else if (random2 === 1) {
+        else if (random2 === 0) {
 
             user.coinsInWallet += randomAmount;
             robbedUser.coinsInWallet -= randomAmount;
@@ -123,6 +141,7 @@ module.exports.run = async (bot, message, args) => {
 
             let rob6embed = new MessageEmbed()
               .setColor("GREEN")
+              .setTitle(`💸 Robbery result:`)
               .setDescription(`🥷 <@${usertag.user.id}> : You robbed \`${randomAmount.toLocaleString()}\` :coin: to <@${member.id}>!`)
               .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
               .setTimestamp()
@@ -134,6 +153,9 @@ module.exports.run = async (bot, message, args) => {
               .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
               .setTimestamp()
               member.send({embeds: [rob7embed]});
+
+            user.save().then(user.dailyStreak = new Date(Date.now()))
+
 
 
         }
@@ -152,6 +174,8 @@ module.exports.run = async (bot, message, args) => {
             .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
             .setTimestamp()
             message.channel.send({embeds:[rob6embed]});
+
+        user.save().then(user.dailyStreak = new Date(Date.now()))
       
         if (padlock.amount === 1) {
             robbedUser.items = array;
@@ -170,17 +194,18 @@ module.exports.run = async (bot, message, args) => {
             return;
         }
     }
+  }
 
 
 }
 
 module.exports.config = {
     name: 'rob', // Command Name
-    description: '🥷 Steal someones money and possibly get rich.', // Description
-    usage: '+rob <user>', // Usage
+    description: '🥷 Steal someones money and get the possibility possibly get rich.', // Description
+    usage: '+rob @member', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
     aliases: [], // Aliases 
     bankSpace: 5, // Amount of bank space to give when command is used.
-    cooldown: 600 // Command Cooldown
+    cooldown: 6 // Command Cooldown
 }

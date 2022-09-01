@@ -1,17 +1,22 @@
 const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 
-module.exports.run = async (bot, message, args) => {
+module.exports = {
+    name: "servers",
+    description: "💾 Show all my servers",
+    timeout: 5000,
+
+    run: async (bot, interaction, args) => {
 
 
-    try {
+        try {
 
         const embed = new MessageEmbed() 
             .setTitle(`<:analytics:994948046314012772> I'm in \`${bot.guilds.cache.size}\` servers!`)
             .addField(`<:user:1013896589061926922> User Count`, `\`${bot.guilds.cache.reduce((a, g) => a + g.memberCount, 0)} members\``, true)
             .addField(`<:chat:995075584147345439> Channel Count`, `\`${bot.channels.cache.size} channels\``, true)
             .setFooter({
-            text: `Asked by ${message.member.displayName} • ${message.guild.name}`,
-            iconURL: message.author.displayAvatarURL({
+            text: `Asked by ${interaction.user.username} • ${interaction.guild.name}`,
+            iconURL: interaction.user.displayAvatarURL({
             dynamic: true,
             format: "png",
             size: 2048,
@@ -29,21 +34,10 @@ module.exports.run = async (bot, message, args) => {
             .setLabel("Invite me!")
             .setStyle("LINK")
             );
-        message.channel.reply({ embeds: [embed], components: [row] });
-    } catch (err) {
+        interaction.followUp({ embeds: [embed], components: [row] });
+        } catch (err) {
         console.log(err);
-        return message.channel.reply({content: `❌ I am unable to track my guilds please try later`})
+        return interaction.followUp({content: `❌ I am unable to track my guilds please try later`})
+        }
     }
 };
-
-
-module.exports.config = {
-    name: 'servers', // Command Name
-    description: '💾 Show all my servers', // Description
-    usage: '+servers', // Usage
-    botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
-    userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['guilds'], // Aliases 
-    bankSpace: 0, // Amount of bank space to give when command is used.
-    cooldown: 5 // Command Cooldown
-}

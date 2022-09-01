@@ -22,10 +22,7 @@ module.exports = {
 
     run: async (bot, interaction, args) => {
 
-        if (!args[0]) {
-            args[0] = interaction.user
-        }
-        const member = interaction.guild.members.cache.get(args[0]) || interaction.guild.members.cache.find(member => member.user.username === args.slice(0).join(' ') || interaction.user.username === args[0]) || interaction.member;
+        const member = interaction.options.getUser('user') || interaction.member || interaction.user|| interaction.guild.members.cache.find(member => member.user.username === args.slice(0).join(' ') || interaction.user.username === args[0]) || interaction.member;
         const user = await bot.fetchUser(member.id);
         
 

@@ -48,7 +48,7 @@ module.exports.run = async (bot, message, args) => {
         .setColor('GREEN')
         .setThumbnail(member.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true }))
         .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
-        .setDescription(`Dice Beta V1 | Player **${member.user.username}** \n\n${bot.member.nickname} rolled: \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\nMoney gained: **${wonCoins.toLocaleString()}** :coin:`)
+        .setDescription(`Dice Beta V1 | Player **${member.user.username}** \n\n${bot.user.username} rolled: \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\nMoney gained: **${wonCoins.toLocaleString()}** :coin:`)
         message.channel.send({embeds: [wonEmbed]});
     } else if (botRoll == userChoice) {
         const tieCoins = parseInt(betAmount/2);
@@ -58,7 +58,7 @@ module.exports.run = async (bot, message, args) => {
         .setColor('YELLOW')
         .setThumbnail(member.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true }))
         .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
-        .setDescription(`Dice Beta V1 | Player **${member.user.username}** \n\n${bot.member.nickname} rolled: \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\n**${member.user.username}** & **${bot.member.nickname}**: Draw\n\nLost: **${tieCoins.toLocaleString()}** :coin:`)
+        .setDescription(`Dice Beta V1 | Player **${member.user.username}** \n\n${bot.user.username} rolled: \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\n**${member.user.username}** & **${bot.member.nickname}**: Draw\n\nLost: **${tieCoins.toLocaleString()}** :coin:`)
         message.channel.send({embeds: [tieEmbed]});
     } else if (botRoll > userChoice) {
         const lostCoins = (betAmount);
@@ -68,7 +68,7 @@ module.exports.run = async (bot, message, args) => {
         .setColor('RED')
         .setThumbnail(member.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true }))
         .setFooter(`Asked by ${message.member.displayName} • ${message.guild.name}`,message.guild.iconURL())
-        .setDescription(`Dice Beta V1 | Player **${member.user.username}** \n\n${bot.member.nickname} rolled: \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\nLost: **${lostCoins.toLocaleString()}** :coin:`)
+        .setDescription(`Dice Beta V1 | Player **${member.user.username}** \n\n${bot.user.username} rolled: \`${botRoll}\` \n${member.user.username} rolled: \`${userChoice}\`\n\nLost: **${lostCoins.toLocaleString()}** :coin:`)
         message.channel.send({embeds: [lostEmbed]});
     }
 }   

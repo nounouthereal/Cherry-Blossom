@@ -1,13 +1,12 @@
 const Discord = require("discord.js")
 const { MessageEmbed } = require("discord.js")
 
-let timeout_easier = 600 * 1000
-
 
 module.exports = {
     name: "beg",
     description: "💰 Beg for money, poor human.",
-    timeout: timeout_easier,
+    cooldown: 180,
+    bankSpace: 8,
     
 
     run: async (bot, interaction, args) => {

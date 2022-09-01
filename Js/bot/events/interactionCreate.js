@@ -1,6 +1,7 @@
-const Timeout = new Map();
 const { MessageEmbed } = require('discord.js')
 const prettyMilliseconds = require('ms')
+const Discord  = require('discord.js')
+
 
 module.exports = async (bot, interaction) => {
     if (interaction.isCommand()) {
@@ -11,18 +12,27 @@ module.exports = async (bot, interaction) => {
             return interaction.followUp({ ephemeral: true, content: "❌ It appears me that this command does not exist, thanks to check your internet connection or try later." });
         }
 
-        const timeout = cmd.timeout || bot.config.ratelimit;
-        const key = `${interaction.user.id}/${cmd.name}/${interaction.guild.id}`;
-        const found = Timeout.get(key);
-        if (found) {
-        const timeLeft = timeout - (Date.now() - found);
-        const embed = new MessageEmbed() // Prettier
-            .setAuthor({name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({dynamic: true})})
-            .setDescription(`:warning: **${interaction.member}** : Slow down this command is on cooldown.\n\nThanks to retry in : \`${prettyMilliseconds(timeLeft)}\`.`)
-            .setFooter({text: interaction.guild.name, iconURL: interaction.guild.iconURL()})
-            .setTimestamp()
-            .setColor('RED');
-        return interaction.followUp({ embeds: [embed] });
+        if (!bot.cooldowns.has(cmd.name)) {
+            bot.cooldowns.set(cmd.name, new Discord.Collection());
+        }
+
+        const now = Date.now();
+        const timestamps = bot.cooldowns.get(cmd.name);
+        const cooldownAmount = (cmd.cooldown || 3) * 1000;
+
+        if (timestamps.has(interaction.user.id)) {
+            const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
+            if (now < expirationTime) {
+                const timeLeft = (expirationTime - now) / 1000;
+                const cooldownEmbed = new Discord.MessageEmbed()
+                    .setDescription(`:warning: **${member.user.username}** : This command is on cooldown.\n\nThank to retry in : \`${prettyMilliseconds(timeLeft * 1000)}\`.\n\nThe default cooldown of this command is : \`${prettyMilliseconds(cmd.cooldown * 1000)}\`.`)
+                    .setColor('#FFA500');
+                return interaction.followUp({embeds: [cooldownEmbed]});
+            }
+        }
+
+        if (cmd.bankSpace != 0 || cmd.bankSpace != null || cmd.bankSpace != undefined || cmd.bankSpace != NaN || cmd.bankSpace != "" || cmd.bankSpace != "NaN") {
+            bot.giveBankSpace(interaction.user.id, cmd.bankSpace);
         }
 
         const args = [];
@@ -39,15 +49,13 @@ module.exports = async (bot, interaction) => {
 
     try { 
         cmd.run(bot, interaction, args);
+        timestamps.set(interaction.user.id, now);
+        setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
     }
     catch(e) {
         console.log(e)
         interaction.followUp({ephemeral: true, content:'❌ An undefined error occured'})
     }
-        Timeout.set(key, Date.now());
-        setTimeout(() => {
-            Timeout.delete(key);
-        }, timeout);
     }
 
     // Context Menu Handling

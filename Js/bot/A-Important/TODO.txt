@@ -6,13 +6,13 @@ FOR BÊTA V1.0
 5. Rebalancing economy system prices and revenues.
 6. Finish to traduce french to english
 7. In all commands use message.member or interaction.member or <@{member.id}> to get nickname or mention.
-8. Manage aliases
 9. Patch command
 10. Version command
 11. Bank command (Show user's coin in bank)
 13. In dice.js slash and command and a stat command possibility (Whenever a game is begun stock user.id, total money gained or lost, and the user roll in a dice.sqlite file)
 
 || 4. Add minimum 2 context menu || DID
+|| 8. Manage aliases || DID
 || 12. Remove cats and dogs command || DID
 || 14. Add messageInfo in command and in slash command || DID
 || 15. Change in messaginfo slash command message id by messagelink || DID
@@ -36,6 +36,8 @@ FOR V2
 14. Rework errors system
 15. Make ameliorated items like a super rifle for hunt, a boat for fish, a drilling machine for mine, add more revenues items for hunt, fish, mine
 16. Add birthday system
+17. Organize code add config files
+18. Add badges system (Gain badges by fishing or hunting or exploring or mining a lot)
 
 FOR HIGHER VERSIONS
 

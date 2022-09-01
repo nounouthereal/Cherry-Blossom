@@ -93,6 +93,6 @@ module.exports.config = {
     botPerms: [],
     userPerms: [],
     aliases: ['bal', 'wallet','money'],
-    bankSpace: 0,
-    cooldown: 10
+    bankSpace: 2,
+    cooldown: 5,
 }

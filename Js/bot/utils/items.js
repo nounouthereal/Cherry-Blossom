@@ -165,6 +165,25 @@ const array = [{
         message.channel.send(` Vous avez utilisé votre note bancaire qui vous donné **${random.toLocaleString()}** d'espace banquaire. Vous avez maintenant **${e.bankSpace.toLocaleString()}** fd'espace banquaire.`);
     }
 },
+
+{
+    name: '🧭 **Compass**',
+    description: `Plus d'espace banquaire. (+use banknote || +buy banknote)`,
+    canUse: true,
+    canBuy: true,
+    itemId: 'banknote'||'notebank',
+    displayOnShop: true,
+    sellAmount: 6667,
+    price: 20000,
+    rarety: '🟢 Atypique',
+    keep: false,
+    run: async (bot, message, args) => {
+        const random = Math.ceil((Math.random() * 5000) + 5000);
+        const e = await bot.giveBankSpace(message.author.id, random);
+        message.channel.send(` Vous avez utilisé votre note bancaire qui vous donné **${random.toLocaleString()}** d'espace banquaire. Vous avez maintenant **${e.bankSpace.toLocaleString()}** fd'espace banquaire.`);
+    }
+},
+
 {
     name: `${rifle} **Fusil**`,
     description: `Utilise le fusil pour chasser des animaux. (+hunt)`,

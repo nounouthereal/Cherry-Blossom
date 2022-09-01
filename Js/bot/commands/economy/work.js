@@ -40,7 +40,7 @@ module.exports.config = {
     usage: '+work', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['travail','job','boulot'], // Aliases 
+    aliases: [], // Aliases 
     bankSpace: 50, // Amount of bank space to give when command is used.
     cooldown: 45 // Command Cooldown
 }

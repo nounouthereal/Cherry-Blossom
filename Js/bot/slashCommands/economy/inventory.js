@@ -23,7 +23,7 @@ module.exports = {
     ],
 
     run: async (bot, interaction, args) => {   
-        const member = interaction.guild.members.cache.get(args[0]) || interaction.member || interaction.user || interaction.guild.members.cache.find(r => r.user.username.toLowerCase() === args[0].toLocaleLowerCase()) || interaction.guild.members.cache.find(r => r.displayName.toLowerCase() === args[0].toLocaleLowerCase());
+        const member = interaction.options.getUser('user') || interaction.member || interaction.user || interaction.guild.members.cache.find(r => r.user.username.toLowerCase() === args[0].toLocaleLowerCase()) || interaction.guild.members.cache.find(r => r.displayName.toLowerCase() === args[0].toLocaleLowerCase());
         let avatar = member.displayAvatarURL({ size: 1024, dynamic: true });
 
         const user = await bot.fetchUser(member.id);

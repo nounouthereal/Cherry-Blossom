@@ -4,9 +4,8 @@ const { MessageEmbed } = require('discord.js')
 module.exports = {
     name: "dice",
     description: "🎲 Bet your money in a dice game",
-    timeout: 5000,
+    timeout: 30000,
     options: [
-
         {
             name: "bet",
             description: '💸 The amount of money you want to bet in the game',

@@ -6,9 +6,9 @@ const cd = ':warning:'
 module.exports.run = async (bot, message, args) => {
     const member = message.member;
     let user = await bot.fetchUser(message.author.id);
-    if ((Date.parse(user.dailyStreak) + 86400000) > Date.now()) {
+    if ((Date.parse(user.dailyStreak) + 50400000) > Date.now()) {
         const embed = new MessageEmbed()
-            .setDescription(`${cd} <@${member.user.id}> : You already claimed your weekly reward.\n\nYou have to wait \`${ms((Date.parse(user.dailyStreak) + 86400000) - Date.now())}\` before to reclaim your weekly reward.\n\nThe default cooldown is \`1 day (24h)\`.`)
+            .setDescription(`${cd} <@${member.user.id}> : You already claimed your weekly reward.\n\nYou have to wait \`${ms((Date.parse(user.dailyStreak) + 50400000) - Date.now())}\` before to reclaim your weekly reward.\n\nThe default cooldown is \`14 hours (14h)\`.`)
             .setColor('#FFA500');
         return message.channel.send({embeds: [embed]});
     } else {
@@ -16,7 +16,7 @@ module.exports.run = async (bot, message, args) => {
         user.coinsInWallet += amount;
         const claimed = new MessageEmbed()
             .setTitle(`✅ Daily reward claimed`)
-            .setDescription(`<@${member.user.id}> : You have claimed \`${amount}\` :coin: (Reclaim your weekly reward in \`24 hours\` !)`)
+            .setDescription(`<@${member.user.id}> : You have claimed \`${amount}\` :coin: (Reclaim your weekly reward in \`14 hours\` !)`)
             .addField(`💸 Reward:`,`\`${amount}\` :coin:`)
             .addField(`💳 Balance:`,`\`${user.coinsInWallet.toLocaleString()}\` :coin:`)
             .setColor('RANDOM');

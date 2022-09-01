@@ -8,6 +8,8 @@ const { Permissions } = require('discord.js');
 
 module.exports = async (bot, message) => {
     const member = message.member;
+
+    //Anti Scam
     const arrayscam = require(`../utils/scam.json`)
     if (arrayscam.some(word => message.content.toLowerCase().includes(word))) {
         console.log(`scam`)
@@ -72,7 +74,7 @@ module.exports = async (bot, message) => {
                     .setColor('RED');
                     return message.channel.send({embeds: [noUserPerms]})
                 }
-                if (command.config.bankSpace !== 0 || command.config.bankSpace !== null) {
+                if (command.config.bankSpace !== 0 || command.config.bankSpace !== null || command.config.bankSpace !== undefined) {
                     bot.giveBankSpace(message.author.id, command.config.bankSpace);
                 }
 

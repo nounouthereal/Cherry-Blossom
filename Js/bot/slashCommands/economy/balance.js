@@ -5,7 +5,8 @@ const { MessageEmbed } = require("discord.js")
 module.exports = {
     name: "balance",
     description: "💳 Show your or a user balance",
-    timeout: 5000,
+    cooldown: 5,
+    bankSpace: 2,
     options: [
 
         {

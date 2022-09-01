@@ -127,7 +127,7 @@ module.exports.config = {
     usage: '+deposit <sum>', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['dep','bankadd','addbank','deposition','dépôt','depot','dépot'], // Aliases 
-    bankSpace: 0, // Amount of bank space to give when command is used.
-    cooldown: 10 // Command Cooldown
+    aliases: ['dep','bankadd','addbank'], // Aliases 
+    bankSpace: 15, // Amount of bank space to give when command is used.
+    cooldown: 30 // Command Cooldown
 }

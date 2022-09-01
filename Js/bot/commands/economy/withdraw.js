@@ -86,7 +86,7 @@ module.exports.config = {
     usage: '+withdraw <somme>', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['with','retirer','retire'], // Aliases 
-    bankSpace: 3, // Amount of bank space to give when command is used.
-    cooldown: 5 // Command Cooldown
+    aliases: ['with'], // Aliases 
+    bankSpace: 5, // Amount of bank space to give when command is used.
+    cooldown: 30 // Command Cooldown
 }

@@ -40,7 +40,7 @@ module.exports.config = {
     usage: '+help <command name>', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['h','aide'], // Aliases 
+    aliases: ['h','?'], // Aliases 
     bankSpace: 0, // Amount of bank space to give when command is used.
     cooldown: 5 // Command Cooldown
 }

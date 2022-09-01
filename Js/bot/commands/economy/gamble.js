@@ -89,7 +89,7 @@ module.exports.config = {
     usage: '+gamble <bet>', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['gambling'], // Aliases 
-    bankSpace: 5, // Amount of bank space to give when command is used.
+    aliases: [], // Aliases 
+    bankSpace: 10, // Amount of bank space to give when command is used.
     cooldown: 5 // Command Cooldown
 }

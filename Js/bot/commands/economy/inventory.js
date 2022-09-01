@@ -239,8 +239,8 @@ module.exports.config = {
     usage: '+inventory Optionnel: @member <page>', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['inv','inventaire'], // Aliases 
-    bankSpace: 1, // Amount of bank space to give when command is used.
+    aliases: ['inv','backpack'], // Aliases 
+    bankSpace: 2, // Amount of bank space to give when command is used.
     cooldown: 5 // Command Cooldown
 
 }

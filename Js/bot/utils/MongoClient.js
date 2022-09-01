@@ -58,14 +58,23 @@ class MongoClient extends Client {
             const newUser = new economy({
                 userId: userId,
                 items: [],
-                skills: []
+                skills: [],
             });
             newUser.save();
             return newUser;
         }
-        user.bankSpace += parseInt(amount);
-        await user.save();
-        return user;
+
+        if (amount == null || amount == undefined || amount == NaN || amount == 0 || amount == "") {
+            return
+        }
+
+        else { 
+
+            user.bankSpace += parseInt(amount);
+            await user.save();
+            return user
+
+        };
     }
 
     /**
@@ -81,7 +90,7 @@ class MongoClient extends Client {
         const newUser = new economy({
             userId: userId,
             items: [],
-            skills: []
+            skills: [],
         });
         newUser.save();
         return newUser;

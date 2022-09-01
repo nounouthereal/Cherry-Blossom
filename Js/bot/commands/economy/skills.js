@@ -155,7 +155,7 @@ module.exports.config = {
     usage: '+skills Option: buy <skill>', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['skill','skilling','capacité','capacite'], // Aliases 
-    bankSpace: 10, // Amount of bank space to give when command is used.
+    aliases: ['skill','capacity'], // Aliases 
+    bankSpace: 8, // Amount of bank space to give when command is used.
     cooldown: 5 // Command Cooldown
 }

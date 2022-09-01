@@ -56,7 +56,7 @@ module.exports.config = {
     usage: '+shop', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['store','market','magasin','boutique'], // Aliases 
-    bankSpace: 1, // Amount of bank space to give when command is used.
-    cooldown: 10 // Command Cooldown
+    aliases: ['store','market'], // Aliases 
+    bankSpace: 2, // Amount of bank space to give when command is used.
+    cooldown: 5 // Command Cooldown
 }

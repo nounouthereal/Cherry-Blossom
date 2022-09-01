@@ -53,7 +53,7 @@ module.exports.run = async (bot, message, args) => {
     .setTitle(`🚔 You had been arrested`)
     .setDescription(`**${usertag.user.username}** : ${responsebad}`);
     await bot.giveCoins(message.author.id, -random);
-    if (userData.coinsInWallet < 2){
+    if (userData.coinsInWallet < 20){
         await bot.setCoins(message.author.id, 0)
     }
 
@@ -69,5 +69,5 @@ module.exports.config = {
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
     aliases: ['criminal'], // Aliases 
     bankSpace: 15, // Amount of bank space to give when command is used.
-    cooldown: 5 // Command Cooldown
+    cooldown: 20 // Command Cooldown
 }

@@ -158,7 +158,7 @@ module.exports.config = {
     usage: '+gift @member <item id> Optionnal: <quantity>', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['present'], // Aliases 
-    bankSpace: 7, // Amount of bank space to give when command is used.
-    cooldown: 5 // Command Cooldown
+    aliases: ['present','offer'], // Aliases 
+    bankSpace: 15, // Amount of bank space to give when command is used.
+    cooldown: 15 // Command Cooldown
 }

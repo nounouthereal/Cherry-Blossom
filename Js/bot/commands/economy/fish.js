@@ -244,7 +244,7 @@ module.exports.config = {
     usage: '+fish', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['peche','pêche'], // Aliases 
-    bankSpace: 5, // Amount of bank space to give when command is used.
+    aliases: ['fi'], // Aliases 
+    bankSpace: 10, // Amount of bank space to give when command is used.
     cooldown: 120// Command Cooldown
 }

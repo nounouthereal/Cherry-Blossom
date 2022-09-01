@@ -47,7 +47,7 @@ module.exports.config = {
     usage: '+beg', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['begging'], // Aliases 
-    bankSpace: 10, // Amount of bank space to give when command is used.
-    cooldown: 120 // Command Cooldown
+    aliases: [], // Aliases 
+    bankSpace: 8, // Amount of bank space to give when command is used.
+    cooldown: 180 // Command Cooldown
 }

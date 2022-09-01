@@ -7,7 +7,8 @@ const x = `❌`
 module.exports = {
     name: "blackjack",
     description: "🃏 Bet your money in a blackjack party",
-    timeout: 5000,
+    bankSpace: 10,
+    cooldown: 5,
     options: [
 
         {

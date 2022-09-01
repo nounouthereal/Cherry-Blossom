@@ -3,6 +3,7 @@ const x = '❌'
 const tick = '✅'
 const itemss = require('/Users/nouhame/Bot_des_cerisiers/Js/bot/utils/items.js');
 const { MessageEmbed } = require('discord.js');
+
 module.exports.run = async (bot, message, args) => {
     const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member;
     let user = await bot.fetchUser(message.author.id);
@@ -71,7 +72,7 @@ module.exports.run = async (bot, message, args) => {
     if (founditem.amount < parseInt(sellAmount)) {
               let sell4embed = new MessageEmbed()
               .setColor("RED")
-              .setDescription(`${x} **${member.user.username}** : You only have \`x${founditem.amount}\` of this item.`);
+              .setDescription(`❌ **${member.user.username}** : You only have \`x${founditem.amount}\` of this item.`);
               return message.channel.send({embeds: [sell4embed]});
      /////////return message.channel.send(`You only have ${founditem.amount} of this item`);
     }
@@ -123,7 +124,7 @@ module.exports.config = {
     usage: '+sell <item id>', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['vente','selling','vendre'], // Aliases 
-    bankSpace: 3, // Amount of bank space to give when command is used.
+    aliases: ['sold','vend'], // Aliases 
+    bankSpace: 8, // Amount of bank space to give when command is used.
     cooldown: 5 // Command Cooldown
 }

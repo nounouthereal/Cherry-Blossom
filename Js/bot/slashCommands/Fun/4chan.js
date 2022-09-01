@@ -44,7 +44,7 @@ module.exports = {
             }
             const wait_embed = new MessageEmbed() // Prettier
                 .setColor("5865f2")
-                .setDescription(`<a:loading:720191045182160918> | I'm downloading random image from \`/${chanargs}/\`. Please wait...`);
+                .setDescription(`<a:loading_please_wait:1014982234492633088> | I'm downloading random image from \`/${chanargs}/\`. Please wait...`);
             interaction.followUp({ embeds: [wait_embed] }).then(async () => {
                 const board = chanargs;
                 const page = Math.floor(Math.random() * 10 + 1);
@@ -90,8 +90,16 @@ module.exports = {
                 interaction.editReply({ embeds: [embed], files: [img_url], components: [row] });
             });
     }          catch (err) {
-                console.log(err);
-                return message.reply({content: `❌ An error occured`})
+                    console.log(err);
+                    if (err.length > 2010){
+                        err.substring(0, 2010)
+                    }
+        
+                    let basicError = new MessageEmbed()
+                        .setDescription(`❌ <@${interaction.user.id}> : An undefined error occured\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support](https://discord.gg/Y2jQKaPqKX)`)
+                        .setColor("RED")
+                        .setTimestamp()
+                    interaction.followUp({embeds: [basicError]})
     }
   },
 };

@@ -4,6 +4,8 @@
             SEVERE (Bugs that totally affect a or many commands)
 
             1. Fix buy skill bug "when skill is buyed more than two time he is remplaced by the new skill" (Cause: Unknown)
+            2. Set the same cooldown in interactionCreate than messageCreate
+            3. Add bankspace in slash commands
 
             MEDIUM (Bugs that can disturb the user experience)
 

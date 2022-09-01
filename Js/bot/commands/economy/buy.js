@@ -109,7 +109,7 @@ module.exports.config = {
     usage: '+buy <item id> Optionnel: <amount>', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['achat','acheter'], // Aliases 
-    bankSpace: 0, // Amount of bank space to give when command is used.
-    cooldown: 5 // Command Cooldown
+    aliases: ['purchase','acquire'], // Aliases 
+    bankSpace: 5, // Amount of bank space to give when command is used.
+    cooldown: 15 // Command Cooldown
 }

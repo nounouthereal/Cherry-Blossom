@@ -36,6 +36,7 @@
     "jimp": "^0.16.0",
     "jpeg-js": "^0.4.2",
     "load-bmfont": "^1.4.1",
+    "mal-scraper": "^2.11.4",
     "mime": "^1.6.0",
     "min-document": "^2.19.0",
     "mkdirp": "^0.5.6",

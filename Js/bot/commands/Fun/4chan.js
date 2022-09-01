@@ -33,7 +33,7 @@ module.exports.run = async (bot, message, args) => {
             }
             const wait_embed = new MessageEmbed() // Prettier
                 .setColor("5865f2")
-                .setDescription(`<a:loading:720191045182160918> | I'm downloading random image from \`/${chanargs}/\`. Please wait...`);
+                .setDescription(`<a:loading_please_wait:1014982234492633088> | I'm downloading random image from \`/${chanargs}/\`. Please wait...`);
             message.reply({ embeds: [wait_embed] }).then(async (messageAwait) => {
                 const board = chanargs;
                 const page = Math.floor(Math.random() * 10 + 1);
@@ -92,6 +92,5 @@ module.exports.config = {
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
     aliases: ['4c','chan4'], // Aliases 
-    bankSpace: 0, // Amount of bank space to give when command is used.
     cooldown: 5 // Command Cooldown
 }

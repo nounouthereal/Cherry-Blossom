@@ -1,8 +1,5 @@
 const { MessageEmbed } = require("discord.js");
 
-const x = '<:no:994948190606475334>'
-const tick = '<:verify:995696353252495441>'
-
 module.exports.run =  async (bot, msg, args) => {
     try { 
         if (isNaN(args[0]) && !args[0].startWith(`https://`)) {

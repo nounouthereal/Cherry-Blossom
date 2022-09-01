@@ -66,13 +66,14 @@ module.exports = {
             
         } catch (err) {
             console.log(err);
-            if (err.length > 2010)
+            if (err.length > 2010){
                 err.substring(0, 2010)
+            }
 
             let basicError = new MessageEmbed()
-                    .setDescription(`❌ <@${interaction.user.id}> : An error occured\n**Error:**\n\`${err}\``)
-                    .setColor("RED")
-                    .setTimestamp()
+                .setDescription(`❌ <@${interaction.user.id}> : An undefined error occured\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support](https://discord.gg/Y2jQKaPqKX)`)
+                .setColor("RED")
+                .setTimestamp()
             interaction.followUp({embeds: [basicError]})
         }
     },

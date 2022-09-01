@@ -36,11 +36,10 @@ Object.defineProperty(Array.prototype, 'flat', {
 });
 module.exports.config = {
     name: 'help', // Command Name
-    description: 'shows you more infomation about the command.', // Description
+    description: '❓ Can\'t find your way ?', // Description
     usage: '+help <command name>', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
     aliases: ['h','?'], // Aliases 
-    bankSpace: 0, // Amount of bank space to give when command is used.
     cooldown: 5 // Command Cooldown
 }

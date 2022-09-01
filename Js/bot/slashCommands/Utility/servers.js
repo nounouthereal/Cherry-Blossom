@@ -36,8 +36,16 @@ module.exports = {
             );
         interaction.followUp({ embeds: [embed], components: [row] });
         } catch (err) {
-        console.log(err);
-        return interaction.followUp({content: `❌ I am unable to track my guilds please try later`})
+            console.log(err);
+            if (err.length > 2010){
+                err.substring(0, 2010)
+            }
+
+            let basicError = new MessageEmbed()
+                .setDescription(`❌ <@${interaction.user.id}> : An undefined error occured\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support](https://discord.gg/Y2jQKaPqKX)`)
+                .setColor("RED")
+                .setTimestamp()
+            interaction.followUp({embeds: [basicError]})
         }
     }
 };

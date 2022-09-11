@@ -96,20 +96,20 @@ module.exports.run = async (bot, message, args) => {
       if (itemValue.rarety === "🔴 Mythique") {
         itemValue.rarety = "```diff\n-🔴 Mythiqual\n```"
       }
-      if (itemValue.rarety === "🟠 Légendaire") {
+      if (itemValue.rarety === "🟠 Legendary") {
         itemValue.rarety = "```fix\n🟠 Legendary\n```"
       }
-      if (itemValue.rarety === "🟣 Épique") {
+      if (itemValue.rarety === "🟣 Epic") {
         itemValue.rarety = "```yaml\n🟣 Epic\n```"
       }
       if (itemValue.rarety === "🔵 Rare") {
         console.log("rarety === Rare")
         itemValue.rarety = "```md\n# 🔵 Rare\n```"
       }
-      if (itemValue.rarety === "🟢 Atypique") {
+      if (itemValue.rarety === "🟢 Uncommon") {
         itemValue.rarety = "```diff\n+🟢 Uncommon\n```"
       }
-      if (itemValue.rarety === "⚪️ Commun") {
+      if (itemValue.rarety === "⚪️ Common") {
         itemValue.rarety = "```\n⚪️ Common\n```"
       }
 
@@ -197,23 +197,23 @@ module.exports.run = async (bot, message, args) => {
     const embed = new MessageEmbed()
     itemValues.forEach((itemValue) => {
       console.log(typeof itemValue.name)
-      if (itemValue.rarety === "🔴 Mythique") {
+      if (itemValue.rarety === "🔴 Mythiqual") {
         itemValue.rarety = "```diff\n-🔴 Mythiqual\n```"
       }
-      if (itemValue.rarety === "🟠 Légendaire") {
+      if (itemValue.rarety === "🟠 Legendary") {
         itemValue.rarety = "```fix\n🟠 Legendary\n```"
       }
-      if (itemValue.rarety === "🟣 Épique") {
+      if (itemValue.rarety === "🟣 Epic") {
         itemValue.rarety = "```yaml\n🟣 Epic\n```"
       }
       if (itemValue.rarety === "🔵 Rare") {
         console.log("rarety === Rare")
         itemValue.rarety = "```md\n# 🔵 Rare\n```"
       }
-      if (itemValue.rarety === "🟢 Atypique") {
+      if (itemValue.rarety === "🟢 Uncommon") {
         itemValue.rarety = "```diff\n+🟢 Uncommon\n```"
       }
-      if (itemValue.rarety === "⚪️ Commun") {
+      if (itemValue.rarety === "⚪️ Common") {
         itemValue.rarety = "```\n⚪️ Common\n```"
       }
 

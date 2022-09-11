@@ -4,7 +4,7 @@ const { MessageEmbed } = require('discord.js')
 module.exports = {
     name: "search",
     description: "🔍 Search for money",
-    timeout: 5000,
+    cooldown: 180,
     
 
     run: async (bot, interaction, args) => {

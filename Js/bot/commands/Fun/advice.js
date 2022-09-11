@@ -3,42 +3,43 @@ const fetch = require("node-fetch");
 const messageCreate = require("../../events/messageCreate");
 
 
-module.exports.run =  async (bot, message, args) => {
+module.exports.run = async (bot, message, args) => {
 
     try {
         const res = await fetch("https://api.adviceslip.com/advice"),
-        { slip } = await res.json();
+            { slip } = await res.json();
         const embed = new MessageEmbed()
-        .setTitle(`🤔 Advice`)
-        .setDescription(`>>> ${slip.advice}`)
-        .setColor("RANDOM")
-        .setFooter({
-            text: `Requested by ${message.member.displayName}`,
-            iconURL: message.author.displayAvatarURL({
-            dynamic: true,
-            format: "png",
-            size: 2048,
-            }),
-        })
-        .setThumbnail(
-            message.author.displayAvatarURL({
-            dynamic: true,
-            format: "png",
-            size: 2048,
+            .setTitle(`🤔 Advice`)
+            .setDescription(`>>> ${slip.advice}`)
+            .setColor("RANDOM")
+            .setFooter({
+                text: `Requested by ${message.member.displayName}`,
+                iconURL: message.author.displayAvatarURL({
+                    dynamic: true,
+                    format: "png",
+                    size: 2048,
+                }),
             })
-        );
-      return message.reply({ embeds: [embed] });
+            .setThumbnail(
+                message.author.displayAvatarURL({
+                    dynamic: true,
+                    format: "png",
+                    size: 2048,
+                })
+            );
+        return message.reply({ embeds: [embed] });
     } catch (err) {
         console.log(err);
 
-        if (err.length > 2010)
+        if (err.length > 2010) {
             err.substring(0, 2010)
+        }
 
         let basicError = new MessageEmbed()
-            .setDescription(`❌ <@${message.author.id}> : An error occured\n**Error:**\n\`${err}\``)
+            .setDescription(`❌ <@${message.author.id}> : An error occured. Please try later or contact support (\`/support || /bug\`)\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support](https://discord.gg/Y2jQKaPqKX)`)
             .setColor("RED")
             .setTimestamp()
-        message.reply({embeds: [basicError]})
+        message.reply({ embeds: [basicError] })
     }
 }
 

@@ -5,27 +5,27 @@ module.exports = {
     description: `🎱 Tells you a *magic* fortune`,
     timeout: 3000,
     options: [
-    {
-    name: "question",
-    description: "❔ The question to ask to the 8ball",
-    required: true,
-    type: 3,
-    },
+        {
+            name: "question",
+            description: "❔ The question to ask to the 8ball",
+            required: true,
+            type: 3,
+        },
     ],
-        run: async (bot, interaction, args) => {
-            try {
+    run: async (bot, interaction, args) => {
+        try {
             if (!args) {
                 let noQuestionEmb = new MessageEmbed()
                     .setDescription(`❌ <@${interaction.user.id}> : You need to precise your question`)
                     .setColor("RED")
-                interaction.followUp({embeds: [noQuestionEmb]})
+                interaction.followUp({ embeds: [noQuestionEmb] })
             }
             if (args.toString().length > 200) {
                 let tooLongQuestion = new MessageEmbed()
                     .setDescription(`❌ <@${interaction.user.id}> : Your question needs to be smaller than 200 characters.`)
                     .setColor("RED")
-                interaction.followUp({embeds: [tooLongQuestion]})
-                return ;
+                interaction.followUp({ embeds: [tooLongQuestion] })
+                return;
             }
             const images = [
                 ["Yes.", "https://c.tenor.com/TFhmPga4xEwAAAAC/magic8ball-yes.gif"],
@@ -55,26 +55,26 @@ module.exports = {
                 .setAuthor({ name: `🎱 8Ball`, iconURL: bot.user.displayAvatarURL() })
                 .setColor("#00b0f4")
                 .setFooter({
-                text: `Requested by ${interaction.user.username}`,
-                iconURL: interaction.user.displayAvatarURL({
-                dynamic: true,
-                format: "png",
-                size: 2048,
-                }),
+                    text: `Requested by ${interaction.user.username}`,
+                    iconURL: interaction.user.displayAvatarURL({
+                        dynamic: true,
+                        format: "png",
+                        size: 2048,
+                    }),
                 });
             return interaction.followUp({ embeds: [embed] });
-            
+
         } catch (err) {
             console.log(err);
-            if (err.length > 2010){
+            if (err.length > 2010) {
                 err.substring(0, 2010)
             }
 
             let basicError = new MessageEmbed()
-                .setDescription(`❌ <@${interaction.user.id}> : An undefined error occured\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support](https://discord.gg/Y2jQKaPqKX)`)
+                .setDescription(`❌ <@${interaction.user.id}> : An error occured. Please try later or contact support (\`/support || /bug\`)\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support Server](https://discord.gg/Y2jQKaPqKX)`)
                 .setColor("RED")
                 .setTimestamp()
-            interaction.followUp({embeds: [basicError]})
+            interaction.followUp({ embeds: [basicError] })
         }
     },
 };

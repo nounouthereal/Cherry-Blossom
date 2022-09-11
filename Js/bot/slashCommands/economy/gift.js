@@ -138,23 +138,23 @@ module.exports = {
         authoData.items = authorArray;
         await authoData.save();
 
-        if (itemToGive.rarety === "🔴 Mythique") {
-            itemToGive.rarety = "```diff\n-🔴 Mythique\n```"
+        if (itemToGive.rarety === "🔴 Mythiqual") {
+            itemToGive.rarety = "```diff\n-🔴 Mythiqual\n```"
         }
-        if (itemToGive.rarety === "🟠 Légendaire") {
-            itemToGive.rarety = "```fix\n🟠 Légendaire\n```"
+        if (itemToGive.rarety === "🟠 Legendary") {
+            itemToGive.rarety = "```fix\n🟠 Legendary\n```"
         }
-        if (itemToGive.rarety === "🟣 Épique") {
-            itemToGive.rarety = "```yaml\n🟣 Épique\n```"
+        if (itemToGive.rarety === "🟣 Epic") {
+            itemToGive.rarety = "```yaml\n🟣 Epic\n```"
         }
         if (itemToGive.rarety === "🔵 Rare") {
             itemToGive.rarety = "```md\n# 🔵 Rare\n```"
         }
-        if (itemToGive.rarety === "🟢 Atypique") {
-            itemToGive.rarety = "```diff\n+🟢 Atypique\n```"
+        if (itemToGive.rarety === "🟢 Uncommon") {
+            itemToGive.rarety = "```diff\n+🟢 Uncommon\n```"
         }
-        if (itemToGive.rarety === "⚪️ Commun") {
-            itemToGive.rarety = "```\n⚪️ Commun\n```"
+        if (itemToGive.rarety === "⚪️ Common") {
+            itemToGive.rarety = "```\n⚪️ Common\n```"
         }
 
         let messagemembergifted = new MessageEmbed()

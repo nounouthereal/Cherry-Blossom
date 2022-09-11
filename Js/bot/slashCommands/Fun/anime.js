@@ -27,15 +27,16 @@ module.exports = {
                 return interaction.followUp({embeds: [charsError]})
             }
 
-            const wait_embed = new MessageEmbed() // Prettier
+            const wait_embed = new MessageEmbed() 
                 .setColor("5865f2")
                 .setDescription(`<a:loading_please_wait:1014982234492633088> | I'm searching data for \`${search}\` anime. Please wait...`);
+                
 
             mal
                 .getInfoFromName(search)
                 .then(interaction.followUp({embeds: [wait_embed]}))
                 .then((data) => {
-                const embed = new MessageEmbed() // Prettier
+                const embed = new MessageEmbed() 
                 .setAuthor({
                 name: `🔍 My Anime List search result for ${args}`.split(",").join(" "),
                 iconURL: interaction.guild.iconURL({
@@ -47,11 +48,12 @@ module.exports = {
                 .setColor("RANDOM")
                 .addField(`🇬🇧 English Title`, "```" + data.englishTitle + "```")
                 .addField(`🇯🇵 Japanese Title`, "```" + data.japaneseTitle + "```")
-                .addField(`🧾 Type`, "```" + data.type + "```")
-                .addField(`🔄 Episodes`, "```" + data.episodes + " episodes```")
+                .addField(`🧾 Type`, "```" + data.type + "```", true)
+                .addField(`🔄 Episodes`, "```" + data.episodes + " episodes```", true)
+                .addField(`⭐️ Score`, "```" + data.score + "/10" + "```", true)
+                .addField(`📚 Themes, Genres`, "```" + data.themes + ", " + data.genres + "```")
                 .addField(`🔞 Rating`, "```" + data.rating + "```")
                 .addField(`📆 Aired`, "```" + data.aired + "```")
-                .addField(`⭐️ Score`, "```" + data.score + "/10" + "```")
                 .addField(`📊 Score Stats`, "```" + data.scoreStats + "```")
                 .setFooter({
                 text: `Asked by ${interaction.member.nickname}`,
@@ -80,14 +82,14 @@ module.exports = {
                     return interaction.followUp({embeds: [basicError]})
                 });
         } catch (err) {
-        console.log(err);
+            console.log(err);
 
             if (err.length > 2010){
                 err.substring(0, 2010)
             }
 
             let basicError = new MessageEmbed()
-                .setDescription(`❌ <@${interaction.user.id}> : An undefined error occured\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support](https://discord.gg/Y2jQKaPqKX)`)
+                .setDescription(`❌ <@${interaction.user.id}> : An error occured. Please try later or contact support (\`/support || /bug\`)\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support Server](https://discord.gg/Y2jQKaPqKX)`)
                 .setColor("RED")
                 .setTimestamp()
             interaction.followUp({embeds: [basicError]})

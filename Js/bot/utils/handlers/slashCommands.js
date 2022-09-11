@@ -30,7 +30,7 @@ module.exports = async (bot) => {
     });
     bot.on("ready", async () => {
         bot.guilds.cache
-        .get("974767284855910410")
+        .get("974767284855910410", "1015962784246276116")
         .commands.set(arrayOfSlashCommands);
     })
 }

@@ -3,17 +3,31 @@ const fetch = require('node-fetch');
 
 
 module.exports.run = async (bot, message, args) => {
-    const countries = args.join(" ");
+
+    try { 
+
+        const countries = args.join(" ");
+
         let array_all = ['all','max','world','tout','worldwide']
+
         if (args[1] != undefined)
-            return message.channel.send('Usage: +covid all || country');
+            return message.channel.send('Usage: +covid all || country')
+
+        const wait_embed = new MessageEmbed() 
+            .setDescription(`<a:loading_please_wait:1014982234492633088> | I'm downloading covid data for \`${countries || "worldwide"}\`. Please wait...`)
+            .setColor("5865f2");
+
+        sent = await message.reply({embeds: [wait_embed]})
+
         if (!args[0] || array_all.includes(args[0].toLowerCase())) {
+            
             const url = `https://disease.sh/v3/covid-19/all`
             let response
             response = await fetch(url).then(res => res.json())
+
             const embed = new MessageEmbed()
                 .setTitle(`🦠 Worldwide COVID-19 Stats 🌎`)
-                .setThumbnail(`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTs6wNtBHyIeFpAaN4hPPgg4PlJYXFZUIZx4VBp3qzQ6cyBdUTFEFBMIfpyQGvxyEla0ig&usqp=CAU`)
+                .setThumbnail(`https://w7.pngwing.com/pngs/927/817/png-transparent-globe-emoji-earth-world-europe-europe-miscellaneous-sphere-sign.png`)
                 .addField('😷 Total Cases', response.cases.toLocaleString())
                 .addField('☠️ Total Deaths', response.deaths.toLocaleString())
                 .addField('🏥 Total Recovered', response.recovered.toLocaleString())
@@ -24,12 +38,13 @@ module.exports.run = async (bot, message, args) => {
                 .setFooter(`Asked by: ${message.member.displayName} • Worldwide area`,message.guild.iconURL())
                 .setTimestamp()
                 .setColor(`RANDOM`)
-            message.channel.send({embeds: [embed]})
+            sent.edit({embeds: [embed]})
+
         } else {
+
             const url = `https://disease.sh/v3/covid-19/countries/${encodeURIComponent(countries)}`
             let response
             response = await fetch(url).then(res => res.json())
-            try {
                 const embed = new MessageEmbed()
                     .setTitle(`🦠 COVID-19 Stats for **${countries}**`)
                     .setThumbnail(response.countryInfo.flag)
@@ -43,11 +58,22 @@ module.exports.run = async (bot, message, args) => {
                     .setFooter(`Asked by: ${message.member.displayName} • Country asked: ${countries.toUpperCase()}`,message.guild.iconURL())
                     .setTimestamp()
                     .setColor(`RANDOM`)
-                message.channel.send({embeds:[embed]})
-            } catch {
-                message.channel.send('**:warning: Country not found (Make sure to enter a country and not a city)**')
+                sent.edit({embeds:[embed]})
             }
+    } catch (err) {
+        console.log(err);
+
+        if (err.length > 2010) {
+            err.substring(0, 2010)
         }
+
+        let basicError = new MessageEmbed()
+            .setDescription(`❌ <@${message.author.id}> : An error occured. Please try later or contact support (\`/support || /bug\`)\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support](https://discord.gg/Y2jQKaPqKX)`)
+            .setColor("RED")
+            .setTimestamp()
+        message.reply({ embeds: [basicError] })
+
+    }
     
 }
 

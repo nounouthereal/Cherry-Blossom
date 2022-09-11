@@ -13,9 +13,9 @@ module.exports = async (bot) => {
 
         file.forEach(f => {
             const pull = require(`/Users/nouhame/Bot_des_cerisiers/Js/bot/commands/Economy/${f}`);
-            bot.commands.set(pull.config.name, pull);
-            console.log(`Commande ${pull.config.name} loaded`)
-            pull.config.aliases.forEach(alias => bot.aliases.set(alias, pull.config.name));
+            bot.commands.set(pull.config?.name, pull);
+            console.log(`Commande ${pull.config?.name} loaded`)
+            pull.config.aliases.forEach(alias => bot.aliases.set(alias, pull.config?.name));
         });
     });
 
@@ -28,9 +28,9 @@ module.exports = async (bot) => {
 
         file.forEach(f => {
             const pull = require(`/Users/nouhame/Bot_des_cerisiers/Js/bot/commands/General/${f}`);
-            bot.commands.set(pull.config.name, pull);
-            console.log(`Commande ${pull.config.name} loaded`)
-            pull.config.aliases.forEach(alias => bot.aliases.set(alias, pull.config.name));
+            bot.commands.set(pull.config?.name, pull);
+            console.log(`Commande ${pull.config?.name} loaded`)
+            pull.config.aliases.forEach(alias => bot.aliases.set(alias, pull.config?.name));
         });
     });
 
@@ -43,9 +43,9 @@ module.exports = async (bot) => {
 
         file.forEach(f => {
             const pull = require(`/Users/nouhame/Bot_des_cerisiers/Js/bot/commands/Fun/${f}`);
-            bot.commands.set(pull.config.name, pull);
-            console.log(`Commande ${pull.config.name} loaded`)
-            pull.config.aliases.forEach(alias => bot.aliases.set(alias, pull.config.name));
+            bot.commands.set(pull.config?.name, pull);
+            console.log(`Commande ${pull.config?.name} loaded`)
+            pull.config.aliases.forEach(alias => bot.aliases.set(alias, pull.config?.name));
         });
     });
 
@@ -58,9 +58,9 @@ module.exports = async (bot) => {
 
         file.forEach(f => {
             const pull = require(`/Users/nouhame/Bot_des_cerisiers/Js/bot/commands/games/${f}`);
-            bot.commands.set(pull.config.name, pull);
-            console.log(`Commande ${pull.config.name} loaded`)
-            pull.config.aliases.forEach(alias => bot.aliases.set(alias, pull.config.name));
+            bot.commands.set(pull.config?.name, pull);
+            console.log(`Commande ${pull.config?.name} loaded`)
+            pull.config.aliases.forEach(alias => bot.aliases.set(alias, pull.config?.name));
         });
     });
 

@@ -26,10 +26,10 @@ module.exports = {
         const user = await bot.fetchUser(member.id);
         
 
-        if (member.presence.status === 'dnd') member.presence.status = '<:dnd:1013512333118672916> Do not disturb';
-        if (member.presence.status === 'online') member.presence.status = '<:online:1013511963663421563> Online';
-        if (member.presence.status === 'idle') member.presence.status = '<:idle:1013511731722596364> Idle';
-        if (member.presence.status === 'offline') member.presence.status = '<:offline:1013512151522091018> Offline';
+        if (member.presence?.status === 'dnd') member.presence.status = '<:dnd:1013512333118672916> Do not disturb';
+        if (member.presence?.status === 'online') member.presence.status = '<:online:1013511963663421563> Online';
+        if (member.presence?.status === 'idle') member.presence.status = '<:idle:1013511731722596364> Idle';
+        if (member.presence?.status === 'offline') member.presence.status = '<:offline:1013512151522091018> Offline';
 
         const createDays = Math.floor((Date.now() - member.user.createdAt) / 86400000);
         const joinDays = Math.floor((Date.now() - member.joinedAt) / 86400000);

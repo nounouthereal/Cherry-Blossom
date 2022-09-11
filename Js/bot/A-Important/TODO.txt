@@ -10,6 +10,7 @@ FOR BÊTA V1.0
 10. Version command
 11. Bank command (Show user's coin in bank)
 13. In dice.js slash and command and a stat command possibility (Whenever a game is begun stock user.id, total money gained or lost, and the user roll in a dice.sqlite file)
+14. Job system with skills
 
 || 4. Add minimum 2 context menu || DID
 || 8. Manage aliases || DID

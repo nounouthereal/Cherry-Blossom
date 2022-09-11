@@ -7,50 +7,50 @@ const ha = '<:saphir:996751134704279582>'
 const hp = '<:precious:996751142639915008>'
 
 const array = [{
-    name: '🍪 **Cookie**',
-    description: 'Miam Miam. (+use cookie || +use biscuit)',
+    name: '🍪 Cookie',
+    description: 'Mmmh Yummy. \`(+use cookie)\`',
     canUse: true,
     canBuy: true,
-    itemId:'cookie' || 'biscuit',
+    itemId:'cookie',
     displayOnShop: true,
     sellAmount: 10,
     price: 50,
-    rarety: '⚪️ Commun',
+    rarety: '⚪️ Common',
     keep: false,
     run: async (bot, message, args) => {
         const cookieRandom = [
-            '🙂 Vous avez mangé un cookie car vous aviez faim.',
-            '🥵 Tu t\'es étouffé avec un cookie et tu as failli mourir.',
-            '👍 Le cookie avait bon goût.'
+            '🙂 You ate a cookie because you were starving.',
+            '🥵 You choked on a cookie and almost died.',
+            '👍 The cookie tasted good.'
         ];
         const yes = cookieRandom[Math.floor(Math.random() * cookieRandom.length)];
         message.channel.send(`${yes}`);
     }
 },
 {
-    name: '🔒 **Cadenas**',
-    description: `Protège votre maison avec un cadenas (Utilisation automatique)`,
+    name: '🔒 Padlock',
+    description: `Protects you from theft once (Automatic use)`,
     canUse: false,
     canBuy: true,
-    itemId:'cadenas' || 'padlock',
+    itemId: 'padlock',
     displayOnShop: true,
-    sellAmount: 2000,
+    sellAmount: 4000,
     price: 10000,
-    rarety: '🟢 Atypique',
+    rarety: '🟢 Uncommon',
     keep: true,
     run: async (bot, message, args) => {
 
     }
 },
 {
-    name: '🎣 **Canne a pêche**',
-    description: 'Utilise la pour attraper des poissons avec la commande (+fish)',
+    name: '🎣 Canne a pêche',
+    description: 'Use your fishingrod to fish \`(+fish)\`',
     canUse: false,
     canBuy: true,
-    itemId: 'fishingrod' ||'canneapeche'||'peche'||'pêche',
+    itemId: 'fishingrod',
     displayOnShop: true,
-    sellAmount: 3000,
-    price: 15000,
+    sellAmount: 10000,
+    price: 20000,
     rarety: '🔵 Rare',
     resistance: 50,
     keep: true,
@@ -59,41 +59,41 @@ const array = [{
     }
 },
 {
-    name: '🐟 **Poisson commun**',
-    description: 'Vend le pour faire de l\'argent. (+sell commonfish || +sell poissoncommun)',
+    name: '🐟 Basic Fish',
+    description: 'Sell it to make money. \`(+sell commonfish)\`',
     canUse: false,
     canBuy: false,
-    itemId: 'commonfish' || 'poissoncommun',
+    itemId: 'commonfish',
     displayOnShop: false,
     sellAmount: 25,
     price: 0,
-    rarety: '⚪️ Commun',
+    rarety: '⚪️ Common',
     keep: true,
     run: async (bot, message, args) => {
 
     }
 },
 {
-    name: '🐠 **Poisson atypique** ',
-    description: 'Vend le pour faire de l\'argent. (+sell uncommonfish || +sell poissonatypique)',
+    name: '🐠 Tropical fish',
+    description: 'Vend le pour faire de l\'argent. \`(+sell tropicalfish)\`',
     canUse: false,
     canBuy: false,
-    itemId: 'uncommonfish' || 'poissonatypique',
+    itemId: 'tropicalfish',
     displayOnShop: false,
     sellAmount: 50,
     price: 0,
-    rarety: '🟢 Atypique',
+    rarety: '🟢 Uncommon',
     keep: true,
     run: async (bot, message, args) => {
 
     }
 },
 {
-    name: '🦑 **Poisson rare**',
-    description: 'Vend le pour faire de l\'argent. (+sell rarefish || +sell poissonrare)',
+    name: '🦑 Octopus',
+    description: 'Vend le pour faire de l\'argent. \`(+sell octupus)\`',
     canUse: false,
     canBuy: false,
-    itemId: 'rarefish' || 'poissonrare',
+    itemId: 'octopus',
     displayOnShop: false,
     sellAmount: 125,
     price: 0,
@@ -104,37 +104,37 @@ const array = [{
     }
 },
 {
-    name: '🐡 **Poisson épique**',
-    description: 'Vend le pour faire de l\'argent. (+sell epicfish || +sell poissonépique)',
+    name: '🐡 Pupper fish',
+    description: 'Sell it to make money. \`(+sell epicfish)\`',
     canUse: false,
     canBuy: false,
-    itemId: 'veryrarefish' || 'epicfish'||'poissonépique'||'poissonepique',
+    itemId: 'veryrarefish' || 'epicfish'||'poissonEpic'||'poissonepique',
     displayOnShop: false,
     sellAmount: 250,
     price: 0,
-    rarety: '🟣 Épique',
+    rarety: '🟣 Epic',
     keep: true,
     run: async (bot, message, args) => {
 
     }
 },
 {
-    name: '🐋 **Poisson légendaire**',
-    description: `Vend le pour faire de l\'argent. (+sell legendaryfish || +sell poissonlegendaire)`,
+    name: '🐋 Whale',
+    description: `Sell it to makje money. \`(+sell whale)\``,
     canUse: false,
     canBuy: false,
-    itemId: 'legendaryfish' ||'poissonlegendaire'||'poissonlégendaire',
+    itemId: 'legendaryfish' ||'poissonlegendaire'||'poissonLegendary',
     displayOnShop: false,
     sellAmount: 650,
     price: 0,
-    rarety: '🟠 Légendaire',
+    rarety: '🟠 Legendary',
     keep: true,
     run: async (bot, message, args) => {
 
     }
 },
 {
-    name: '👞 **Déchets**',
+    name: '👞 Déchets',
     description: `Vend le pour faire de l\'argent. (+sell junk || +sell dechets)`,
     canUse: false,
     canBuy: false,
@@ -142,54 +142,54 @@ const array = [{
     displayOnShop: false,
     sellAmount: 10,
     price: 0,
-    rarety: '⚫️ Extra commun',
+    rarety: '⚫️ Extra Common',
     keep: true,
     run: async (bot, message, args) => {
 
     }
 },
 {
-    name: '📜 **Bank Note**',
+    name: '📜 Bank Note',
     description: `Plus d'espace banquaire. (+use banknote || +buy banknote)`,
     canUse: true,
     canBuy: true,
-    itemId: 'banknote'||'notebank',
+    itemId: 'banknote',
     displayOnShop: true,
     sellAmount: 6667,
     price: 20000,
-    rarety: '🟢 Atypique',
+    rarety: '🟢 Uncommon',
     keep: false,
     run: async (bot, message, args) => {
         const random = Math.ceil((Math.random() * 5000) + 5000);
         const e = await bot.giveBankSpace(message.author.id, random);
-        message.channel.send(` Vous avez utilisé votre note bancaire qui vous donné **${random.toLocaleString()}** d'espace banquaire. Vous avez maintenant **${e.bankSpace.toLocaleString()}** fd'espace banquaire.`);
+        message.channel.send(` Vous avez utilisé votre note bancaire qui vous donné ${random.toLocaleString()} d'espace banquaire. Vous avez maintenant ${e.bankSpace.toLocaleString()} fd'espace banquaire.`);
     }
 },
 
 {
-    name: '🧭 **Compass**',
-    description: `Plus d'espace banquaire. (+use banknote || +buy banknote)`,
+    name: '🧭 Compass',
+    description: `Use it to explore places. \`(+explore)\``,
     canUse: true,
     canBuy: true,
-    itemId: 'banknote'||'notebank',
+    itemId: 'compass',
     displayOnShop: true,
     sellAmount: 6667,
     price: 20000,
-    rarety: '🟢 Atypique',
+    rarety: '🟢 Uncommon',
     keep: false,
     run: async (bot, message, args) => {
         const random = Math.ceil((Math.random() * 5000) + 5000);
         const e = await bot.giveBankSpace(message.author.id, random);
-        message.channel.send(` Vous avez utilisé votre note bancaire qui vous donné **${random.toLocaleString()}** d'espace banquaire. Vous avez maintenant **${e.bankSpace.toLocaleString()}** fd'espace banquaire.`);
+        message.channel.send(` Vous avez utilisé votre note bancaire qui vous donné ${random.toLocaleString()} d'espace banquaire. Vous avez maintenant ${e.bankSpace.toLocaleString()} fd'espace banquaire.`);
     }
 },
 
 {
-    name: `${rifle} **Fusil**`,
+    name: `${rifle} Rifle`,
     description: `Utilise le fusil pour chasser des animaux. (+hunt)`,
     canUse: false,
     canBuy: true,
-    itemId: 'rifle' || 'fusil',
+    itemId: 'rifle',
     displayOnShop: true,
     sellAmount: 3000,
     price: 45000,
@@ -200,22 +200,22 @@ const array = [{
     }
 },
 {
-    name: '🦌 **Cerf**',
-    description: 'Vend le cerf pour faire de l\'argent. (+sell deer || +sell cerf)',
+    name: '🦌 Deer',
+    description: 'Sell the deer to make money. \`(+sell deer)\`',
     canUse: false,
     canBuy: false,
-    itemId: 'deer'|| 'cerf',
+    itemId: 'deer',
     displayOnShop: false,
     sellAmount: 3500,
     price: 0,
-    rarety: '🟣 Épique',
+    rarety: '🟣 Epic',
     keep: true,
     run: async (bot, message, args) => {
 
     }
 },
 {
-    name: '🐻 **Ours**',
+    name: '🐻 Ours',
     description: 'Vend l\'ours pour faire de l\'argent. (+sell bear || +sell ours)',
     canUse: false,
     canBuy: false,
@@ -223,14 +223,14 @@ const array = [{
     displayOnShop: false,
     sellAmount: 7500,
     price: 0,
-    rarety: '🟠 Légendaire',
+    rarety: '🟠 Legendary',
     keep: true,
     run: async (bot, message, args) => {
 
     }
 },
 {
-    name: '🦆 **Canard**',
+    name: '🦆 Canard',
     description: 'Vend le canard pour faire de l\'argent. (+sell duck || +sell canard)',
     canUse: false,
     canBuy: false,
@@ -238,14 +238,14 @@ const array = [{
     displayOnShop: false,
     sellAmount: 50,
     price: 0,
-    rarety: '⚪️ Commun',
+    rarety: '⚪️ Common',
     keep: true,
     run: async (bot, message, args) => {
 
     }
 },
 {
-    name: '🐷 **Cochon**',
+    name: '🐷 Cochon',
     description: 'Vend le cochon pour faire de l\'argent. (+sell pig || +sewll cochon)',
     canUse: false,
     canBuy: false,
@@ -253,14 +253,14 @@ const array = [{
     displayOnShop: false,
     sellAmount: 50,
     price: 0,
-    rarety: '⚪️ Commun',
+    rarety: '⚪️ Common',
     keep: true,
     run: async (bot, message, args) => {
 
     }
 },
 {
-    name: '🐮 **Vache**',
+    name: '🐮 Vache',
     description: 'Vend la vache pour faire de l\'argent. (+sell cow || +sell vache)',
     canUse: false,
     canBuy: false,
@@ -268,14 +268,14 @@ const array = [{
     displayOnShop: false,
     sellAmount: 70,
     price: 0,
-    rarety: '🟢 Atypique',
+    rarety: '🟢 Uncommon',
     keep: true,
     run: async (bot, message, args) => {
 
     }
 },
 {
-    name: '🦊 **Renard**',
+    name: '🦊 Renard',
     description: 'Vend le renard pour faire de l\'argent. (+sell renard || +sell fox',
     canUse: false,
     canBuy: false,
@@ -290,7 +290,7 @@ const array = [{
     }
 },
 {
-    name: '🐰 **Lapin**',
+    name: '🐰 Lapin',
     description: 'Vend le lapin pour faire de l\'argent. (+sell rabbit || +sell lapin)',
     canUse: false,
     canBuy: false,
@@ -298,14 +298,14 @@ const array = [{
     displayOnShop: false,
     sellAmount: 70,
     price: 0,
-    rarety: '🟢 Atypique',
+    rarety: '🟢 Uncommon',
     keep: true,
     run: async (bot, message, args) => {
 
     }
 },
 {
-    name: '🐔 **Poulet**',
+    name: '🐔 Poulet',
     description: 'Vend le poulet pour faire de l\'argent. (+sell chicken || +sell poulet)',
     canUse: false,
     canBuy: false,
@@ -313,14 +313,14 @@ const array = [{
     displayOnShop: false,
     sellAmount: 30,
     price: 0,
-    rarety: '⚪️ Commun',
+    rarety: '⚪️ Common',
     keep: true,
     run: async (bot, message, args) => {
 
     }
 },
 {
-    name: '🐗 **Sanglier**',
+    name: '🐗 Sanglier',
     description: 'Vend le sanglier pour faire de l\'argent.(+sell boar || +sell sanglier)',
     canUse: false,
     canBuy: false,
@@ -334,7 +334,7 @@ const array = [{
     }
 },
 {
-    name: `${pick} **Pioche**`,
+    name: `${pick} Pioche`,
     description: `Utilise la pour miner des gemmes (+mine)`,
     canUse: false,
     canBuy: true,
@@ -349,7 +349,7 @@ const array = [{
     }
 },
 {
-    name: '🪨 **Minerais**',
+    name: '🪨 Minerais',
     description: 'Vend les minerais pour faire de l\'argent. (+sell minerals || +sell minerais)',
     canUse: false,
     canBuy: false,
@@ -364,7 +364,7 @@ const array = [{
     }
 },
 {
-    name: `${hd} **Gemmme de diamant**`,
+    name: `${hd} Gemmme de diamant`,
     description: `Vend le daimant pour faire de l'argent. (+sell diamant || +sell diamond)`,
     canUse: false,
     canBuy: false,
@@ -379,7 +379,7 @@ const array = [{
     }
 },
 {
-    name: `${hr} **Rubis**`,
+    name: `${hr} Rubis`,
     description: `Vend le rubis pour faire de l'argent. (+sell rubis || +sell ruby)`,
     canUse: false,
     canBuy: false,
@@ -394,7 +394,7 @@ const array = [{
     }
 },
 {
-    name: `${hg} **Jade**`,
+    name: `${hg} Jade`,
     description: `Vend le jade pour faire de l'argent. (+sell jade || +sell gade)`,
     canUse: false,
     canBuy: false,
@@ -409,7 +409,7 @@ const array = [{
     }
 },
 {
-    name: `${ha} **Saphir**`,
+    name: `${ha} Saphir`,
     description: `Vend le saphir pour faire de l'argent. (+sell saphir || +sell saphirgem)`,
     canUse: false,
     canBuy: false,
@@ -424,7 +424,7 @@ const array = [{
     }
 },
 {
-    name: `${hp} **Extra Précieuse**`,
+    name: `${hp} Extra Précieuse`,
     description: `Vend la pierre extra précieuse pour faire de l'argent. (+sell precious || +sell précieuse)`,
     canUse: false,
     canBuy: false,
@@ -439,7 +439,7 @@ const array = [{
     }
 },
 {
-    name: '🪓 **Hache**',
+    name: '🪓 Hache',
     description: `Use this to chops trees down`,
     canUse: true,
     canBuy: true,
@@ -451,7 +451,7 @@ const array = [{
     run: async (bot, message, args) => {
         const treeAmount = Math.round(Math.random() * 1) + 1;
         const data = await bot.fetchUser(message.author.id);
-        message.channel.send(`Vous avez coupé **${treeAmount}** x Arbres 🌲`);
+        message.channel.send(`Vous avez coupé ${treeAmount} x Arbres 🌲`);
         const findItem = data.items.find(i => i.name.toLowerCase() == 'tree');
         let userInv = data.items.filter(i => i.name.toLowerCase() !== 'tree');
         if (findItem) {
@@ -467,34 +467,34 @@ const array = [{
 },
 {
     name: 'tree',
-    description: '🌲 **Arbre**\nVend les pour faire de l\'argent.',
+    description: '🌲 Arbre\nVend les pour faire de l\'argent.',
     canUse: false,
     canBuy: false,
     displayOnShop: false,
     sellAmount: 750,
     price: 0,
-    rarety: '🟢 Atypique',
+    rarety: '🟢 Uncommon',
     keep: true,
     run: async (bot, message, args) => {
 
     }
 },
 {
-    name: '🍀 **Trêfle a quatre feuille**',
+    name: '🍀 Trêfle a quatre feuille',
     description: `Augmente les chances d'un vol réussi (+rob <membre>)`,
     canUse: false,
     canBuy: true,
     displayOnShop: true,
     sellAmount: 4000,
     price: 10000,
-    rarety: '🟢 Atypique',
+    rarety: '🟢 Uncommon',
     keep: false,
     run: async (bot, message, args) => {
 
     }
 },
 {
-    name: '👮 **Diplôme de policier**',
+    name: '👮 Diplôme de policier',
     description: 'Fait partie des items permettant de débloque le métier de policier. (+buy police || +buy p_diplome)',
     canUse: false,
     canBuy: true,
@@ -502,14 +502,14 @@ const array = [{
     displayOnShop: true,
     sellAmount: 0,
     price: 7500,
-    rarety: '🟢 Atypique',
+    rarety: '🟢 Uncommon',
     keep: true,
     run: async (bot, message, args) => {
 
     }
 },
 {
-    name: '🚓 **Voiture de police**',
+    name: '🚓 Voiture de police',
     description: 'Fait partie des items permettant de débloque le métier de policier. (+buy police_car || +buy p_car)',
     canUse: false,
     canBuy: true,
@@ -524,7 +524,7 @@ const array = [{
     }
 },
 {
-    name: '<:Pistol:962344070506741790> **Pistolet de police**',
+    name: '<:Pistol:962344070506741790> Pistolet de police',
     description: 'Fait partie des items permettant de débloque le métier de policier. (+buy police_pistol || +buy p_pistol)',
     canUse: false,
     canBuy: true,
@@ -532,7 +532,7 @@ const array = [{
     displayOnShop: true,
     sellAmount: 0,
     price: 2500,
-    rarety: '🟢 Atypique',
+    rarety: '🟢 Uncommon',
     keep: true,
     run: async (bot, message, args) => {
 
@@ -540,7 +540,7 @@ const array = [{
 },
 {
     name: '🏆 Trophée',
-    description: `🏆 **Le trophée ultime**`,
+    description: `🏆 Le trophée ultime`,
     canUse: false,
     canBuy: true,
     itemId: 'trophy' || 'trophé' || 'trophée'|| 'trophee'||'trophe',

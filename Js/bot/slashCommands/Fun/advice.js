@@ -40,7 +40,7 @@ module.exports = {
         }
 
         let basicError = new MessageEmbed()
-            .setDescription(`❌ <@${interaction.user.id}> : An undefined error occured\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support](https://discord.gg/Y2jQKaPqKX)`)
+            .setDescription(`❌ <@${interaction.user.id}> : An error occured. Please try later or contact support (\`/support || /bug\`)\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support Server](https://discord.gg/Y2jQKaPqKX)`)
             .setColor("RED")
             .setTimestamp()
         interaction.followUp({embeds: [basicError]})

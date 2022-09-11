@@ -18,7 +18,7 @@ module.exports.run = async (bot, message, args) => {
             .setColor(message.guild.me.displayHexColor);
         return message.channel.send({embeds: [embed]});
     }
-    let list = bot.commands.filter(x => x.config.name !== 'help' && x.config.name !== 'test');
+    let list = bot.commands.filter(x => x.config.name !== 'help' && x.config.name !== 'test' && x.config.aliases.includes("easter") != true);
     list = list.map(x => `\`${x.config.name}\``);
     const embed = new MessageEmbed()
         .setThumbnail(member.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true }))

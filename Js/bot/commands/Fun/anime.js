@@ -1,17 +1,17 @@
-const { MessageEmbed, MessageActionRow, MessageButton} = require("discord.js");
+const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 const mal = require("mal-scraper");
 
 module.exports.run = async (bot, message, args) => {
 
     try {
         const search = args.join(" ");
-        
+
         if (search.toString().length > 250) {
             let charsError = new MessageEmbed()
                 .setDescription(`❌ <@${message.author.id}> : Anime name needs to be under 250 (You need to reduce \`${parseInt(search.length - 250)}\` characters)`)
                 .setColor("RED")
                 .setTimestamp()
-            return message.reply({embeds: [charsError]})
+            return message.reply({ embeds: [charsError] })
         }
 
         const wait_embed = new MessageEmbed() // Prettier
@@ -20,65 +20,66 @@ module.exports.run = async (bot, message, args) => {
 
         mal
             .getInfoFromName(search)
-            .then(sent = await message.reply({embeds: [wait_embed]}))
+            .then(sent = await message.reply({ embeds: [wait_embed] }))
             .then((data) => {
-            const embed = new MessageEmbed() // Prettier
-            .setAuthor({
-            name: `🔍 My Anime List search result for ${args}`.split(",").join(" "),
-            iconURL: message.guild.iconURL({
-                dynamic: true,
-                format: "png",
-            }),
-            })
-            .setImage(data.picture)
-            .setColor("RANDOM")
-            .addField(`🇬🇧 English Title`, "```" + data.englishTitle + "```")
-            .addField(`🇯🇵 Japanese Title`, "```" + data.japaneseTitle + "```")
-            .addField(`🧾 Type`, "```" + data.type + "```")
-            .addField(`🔄 Episodes`, "```" + data.episodes + " episodes```")
-            .addField(`🔞 Rating`, "```" + data.rating + "```")
-            .addField(`📆 Aired`, "```" + data.aired + "```")
-            .addField(`⭐️ Score`, "```" + data.score + "/10" + "```")
-            .addField(`📊 Score Stats`, "```" + data.scoreStats + "```")
-            .setFooter({
-            text: `Asked by ${message.member.displayName}`,
-            iconURL: message.author.displayAvatarURL({
-                dynamic: true,
-                format: "png",
-                size: 2048,
-            }),
-            })
-            .setTimestamp();
-            const row = new MessageActionRow() // Prettier
-            .addComponents(
-            // Prettier
-            new MessageButton() // Prettier
-                .setStyle("LINK")
-                .setURL(data.url)
-                .setLabel("My Anime List")
-            );
-            sent.edit({ embeds: [embed], components: [row] });
+                const embed = new MessageEmbed() // Prettier
+                    .setAuthor({
+                        name: `🔍 My Anime List search result for ${args}`.split(",").join(" "),
+                        iconURL: message.guild.iconURL({
+                            dynamic: true,
+                            format: "png",
+                        }),
+                    })
+                    .setImage(data.picture)
+                    .setColor("RANDOM")
+                    .addField(`🇬🇧 English Title`, "```" + data.englishTitle + "```")
+                    .addField(`🇯🇵 Japanese Title`, "```" + data.japaneseTitle + "```")
+                    .addField(`🧾 Type`, "```" + data.type + "```", true)
+                    .addField(`🔄 Episodes`, "```" + data.episodes + " episodes```", true)
+                    .addField(`⭐️ Score`, "```" + data.score + "/10" + "```", true)
+                    .addField(`📚 Genres`, "```" + data.genres + "```")
+                    .addField(`🔞 Rating`, "```" + data.rating + "```")
+                    .addField(`📆 Aired`, "```" + data.aired + "```")
+                    .addField(`📊 Score Stats`, "```" + data.scoreStats + "```")
+                    .setFooter({
+                        text: `Asked by ${message.member.displayName}`,
+                        iconURL: message.author.displayAvatarURL({
+                            dynamic: true,
+                            format: "png",
+                            size: 2048,
+                        }),
+                    })
+                    .setTimestamp();
+                const row = new MessageActionRow() // Prettier
+                    .addComponents(
+                        // Prettier
+                        new MessageButton() // Prettier
+                            .setStyle("LINK")
+                            .setURL(data.url)
+                            .setLabel("My Anime List")
+                    );
+                sent.edit({ embeds: [embed], components: [row] });
             })
             .catch((err) => {
                 let basicError = new MessageEmbed()
                     .setDescription(`❌ <@${message.author.id}> : I can't find your anime (\`${search}\`)`)
                     .setColor("RED")
                     .setTimestamp()
-                return message.reply({embeds: [basicError]})
+                return message.reply({ embeds: [basicError] })
             });
     } catch (err) {
-    console.log(err);
+        console.log(err);
 
-        if (err.length > 2010){
+        if (err.length > 2010) {
             err.substring(0, 2010)
         }
 
         let basicError = new MessageEmbed()
-            .setDescription(`❌ <@${message.author.id}> : An undefined error occured\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support](https://discord.gg/Y2jQKaPqKX)`)
+            .setDescription(`❌ <@${message.author.id}> : An error occured. Please try later or contact support (\`/support || /bug\`)\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support](https://discord.gg/Y2jQKaPqKX)`)
             .setColor("RED")
             .setTimestamp()
-        message.reply({embeds: [basicError]})
-        }
+        message.reply({ embeds: [basicError] })
+    }
 }
 
 

@@ -99,22 +99,22 @@ module.exports = {
     
         const embed = new MessageEmbed()
         itemValues.forEach((itemValue) => {
-          if (itemValue.rarety === "🔴 Mythique") {
+          if (itemValue.rarety === "🔴 Mythiqual") {
             itemValue.rarety = "```diff\n-🔴 Mythiqual\n```"
           }
-          if (itemValue.rarety === "🟠 Légendaire") {
+          if (itemValue.rarety === "🟠 Legendary") {
             itemValue.rarety = "```fix\n🟠 Legendary\n```"
           }
-          if (itemValue.rarety === "🟣 Épique") {
+          if (itemValue.rarety === "🟣 Epic") {
             itemValue.rarety = "```yaml\n🟣 Epic\n```"
           }
           if (itemValue.rarety === "🔵 Rare") {
             itemValue.rarety = "```md\n# 🔵 Rare\n```"
           }
-          if (itemValue.rarety === "🟢 Atypique") {
+          if (itemValue.rarety === "🟢 Uncommon") {
             itemValue.rarety = "```diff\n+🟢 Uncommon\n```"
           }
-          if (itemValue.rarety === "⚪️ Commun") {
+          if (itemValue.rarety === "⚪️ Common") {
             itemValue.rarety = "```\n⚪️ Common\n```"
           }
     

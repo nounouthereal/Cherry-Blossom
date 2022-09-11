@@ -25,7 +25,7 @@ module.exports = async (bot, interaction) => {
             if (now < expirationTime) {
                 const timeLeft = (expirationTime - now) / 1000;
                 const cooldownEmbed = new Discord.MessageEmbed()
-                    .setDescription(`:warning: **${member.user.username}** : This command is on cooldown.\n\nThank to retry in : \`${prettyMilliseconds(timeLeft * 1000)}\`.\n\nThe default cooldown of this command is : \`${prettyMilliseconds(cmd.cooldown * 1000)}\`.`)
+                    .setDescription(`:warning: <@${interaction.user.id}> : This command is on cooldown.\n\nThank to retry in : \`${prettyMilliseconds(timeLeft * 1000)}\`.\n\nThe default cooldown of this command is : \`${prettyMilliseconds(cmd.cooldown * 1000)}\`.`)
                     .setColor('#FFA500');
                 return interaction.followUp({embeds: [cooldownEmbed]});
             }

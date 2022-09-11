@@ -18,7 +18,6 @@ process.on("uncaughtException", (err, origin) => {
 
 
 
-
 bot.login("OTQ0NTcyODYxODc0NjAyMDU0.GvsRDR.Aig5ui46hifSDuf5T8Ix0Frs0sgOBIURWJzOes");
 
 bot.commands = new Collection();

@@ -33,7 +33,7 @@ module.exports = {
         .setColor("RED")
         .setDescription(`❌ <@${member.user.id}> : You have  \`PASSIVE\` enabled, you need to disable it to use this command.`);
     
-    if (userData.passive == true) return message.channel.send({embeds: [passivewarn]});
+    if (userData.passive == true) return interaction.followUp({embeds: [passivewarn]});
 
 
     if (!betAmount || betAmount < 1 || betAmount > userData) {

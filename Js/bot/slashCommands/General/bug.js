@@ -56,7 +56,7 @@ module.exports = {
                 .addField(`Server:`, `${invite || "No server"} (\`${interaction.guild.id || "No server"}\`) *${interaction.guild.name || "No server"}*`)
                 .addField(`User:`, `**Name:** ${interaction.user.tag}\n**Nickname:** ${interaction.member.nickname || "No nickname"}\n**ID:** ${interaction.user.id}`)
                 .addField(`Command:`, `\`${command}\``)
-                .addField(`Command:`, `\`${error}\``)
+                .addField(`Error:`, `\`${error}\``)
                 .addField(`More details:`, `\`${desc}\``)
                 .setTimestamp()
                 .setColor("RED")

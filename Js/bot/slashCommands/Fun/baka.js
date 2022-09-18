@@ -1,14 +1,17 @@
 const { MessageEmbed } = require("discord.js");
 const fetch = require("node-fetch");
+let baka_emote = "<:baka:1019292436482232332>"
+
+
 
 module.exports = {
-    name: "kiss",
-    description: "😘 Kiss someone in front of @everyone, romantically",
+    name: "baka",
+    description: "😒 Says to someone he is a baka",
     cooldown: 5,
     options: [
         {
             name: "user",
-            description: "💓 The user to kiss",
+            description: "👤 The user",
             required: false,
             type: "USER",
         },
@@ -20,35 +23,33 @@ module.exports = {
 
             let member = interaction.options.getUser("user") || interaction.guild.members.cache.get(args[0]) || interaction.guild.members.cache.find((r) => r.user.username.toLowerCase().includes() === args.join(` `).toLocaleLowerCase());
 
-            if (!member) {
-                member = bot.user
+            let sentence
+
+            if (!member || member.id == interaction.user.id) {
+                member = interaction.user
+                sentence = `${baka_emote} || <@${interaction.member.id}> is a baka.`
             }
-            
-            if (member.id == interaction.user.id) {
-                let authorUserError = new MessageEmbed()
-                    .setDescription(`❌ <@${interaction.user.id}> : You want to kiss yourself, you're too narcissistic , ehh.`)
-                    .setColor("RED")
-                return interaction.followUp({ embeds: [authorUserError] })
+            else {
+                sentence = `${baka_emote} || <@${interaction.member.id}> said that <@${member.id}> is a baka.`
             }
-    
 
 
-            const res = await fetch("https://nekos.life/api/v2/img/kiss");
+            const res = await fetch("https://api.catboys.com/baka");
             const body = await res.json();
             const embed = new MessageEmbed() // Prettier
                 .setAuthor({
-                    name: `❤️‍🔥 Soo romantic`,
+                    name: `😒 Baka !`,
                     iconURL: interaction.user.displayAvatarURL({
                         dynamic: true,
                         format: "png",
                         size: 2048,
                     }),
                 })
-                .setDescription(`>>> 😘 <@${member.id || member.user.id}> just got a kiss from <@${interaction.member.id}>${Math.floor(Math.random() * 100 + 1) == 1 ? "\n|| I want someone I can kiss... please let me out||" : ""}`)
+                .setDescription(`>>> ${sentence}`)
                 .setImage(body.url)
                 .setColor("RANDOM")
                 .setFooter({
-                    text: `😘 Kiss • Asked by ${interaction.member.nickname}`,
+                    text: `😒 Baka • Asked by ${interaction.member.nickname}`,
                     iconURL: interaction.user.displayAvatarURL({
                         dynamic: true,
                         format: "png",
@@ -62,7 +63,7 @@ module.exports = {
 
             console.log(err);
             let basicError = new MessageEmbed()
-                .setDescription(`❌ <@${interaction.user.id}> : An error occured in kiss command. Please try later or contact support (\`/support || /bug\`)\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support](https://discord.gg/Y2jQKaPqKX)`)
+                .setDescription(`❌ <@${interaction.user.id}> : An error occured. Please try later or contact support (\`/support || /bug\`)\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support](https://discord.gg/Y2jQKaPqKX)`)
                 .setColor(`RED`)
                 .setTimestamp()
             interaction.followUp({ embeds: [basicError] })

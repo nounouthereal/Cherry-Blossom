@@ -5,7 +5,7 @@ const fetch = require('node-fetch');
 module.exports.run = async (bot, message, args) => {
 
     try {
-        
+
         const iq = Math.floor(Math.random() * 226);
         const embed = new MessageEmbed() // Prettier
             .setTitle(`🧠 IQ Test:`)
@@ -46,10 +46,10 @@ module.exports.run = async (bot, message, args) => {
 
 module.exports.config = {
     name: 'iq', // Command Name
-    description: 'Send github user inforamtions embed', // Description
-    usage: '+iq Optionnal: <user>', // Usage
+    description: '🧠 Display your\'s or a user\'s IQ', // Description
+    usage: '+iq Optionnal: @user', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['gitsearch','gs','gituser','gu'], // Aliases 
+    aliases: ['qi'], // Aliases 
     cooldown: 5 // Command Cooldown
 }

@@ -14,10 +14,6 @@ module.exports.run = async (bot, message, args) => {
         if (!user2) {
             user2 = message.author
         }
-
-        console.log(user1)
-        console.log(user2)
-
         
         if (!user1) {
             let authorUserError = new MessageEmbed()
@@ -27,7 +23,6 @@ module.exports.run = async (bot, message, args) => {
         }
 
 
-
         if (user1.id == message.author.id && user2.id == message.author.id) {
             let authorUserError = new MessageEmbed()
                 .setDescription(`❌ <@${message.author.id}> : You want to calculate love between yourself, you're too narcissistic , wanna a mirror 🪞.`)
@@ -35,10 +30,10 @@ module.exports.run = async (bot, message, args) => {
             return message.reply({ embeds: [authorUserError] })
         }
 
-
+       
         const options = {
             method: 'GET',
-            url: `https://simple-love-calculator.p.rapidapi.com/calculate_with_random_seed/${user1.username}/${user2.username}`,
+            url: `https://simple-love-calculator.p.rapidapi.com/calculate_with_random_seed/${user1?.user.username}/${user2.username}`,
             headers: {
               'X-RapidAPI-Key': 'fe357df54amsh2f40b55a738fff8p13c896jsn3139801de2e0',
               'X-RapidAPI-Host': 'simple-love-calculator.p.rapidapi.com'
@@ -179,10 +174,10 @@ module.exports.run = async (bot, message, args) => {
 
 module.exports.config = {
     name: 'ship', // Command Name
-    description: ' Let me rate whatever you want', // Description
-    usage: '+rate <thing>', // Usage
+    description: '💘 Ship users together', // Description
+    usage: '+love @user1 Optionnal: @user2', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['judge', 'evaluate'], // Aliases 
+    aliases: ['lovecalc', 'calclove'], // Aliases 
     cooldown: 5 // Command Cooldown
 }

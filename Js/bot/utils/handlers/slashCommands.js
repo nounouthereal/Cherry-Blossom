@@ -6,10 +6,6 @@ const { promisify } = require("util");
 const globPromise = promisify(glob);
 
 
-let amount = 0
-
-const arrayOfSlashCommands = [];
-
 module.exports = async (bot) => {
     const slashCommands = await globPromise(
         `${process.cwd()}/SlashCommands/*/*.js`
@@ -28,9 +24,12 @@ module.exports = async (bot) => {
         };
         arrayOfSlashCommands.push(file);
     });
+
     bot.on("ready", async () => {
-        bot.guilds.cache
-        .get("974767284855910410", "1015962784246276116")
-        .commands.set(arrayOfSlashCommands);
+        await bot.application.commands.set(arrayOfSlashCommands);    
+        //await bot.guilds.cache
+        //    .get("974767284855910410")
+        //    .commands.set(arrayOfSlashCommands);
+            
     })
 }

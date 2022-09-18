@@ -2,13 +2,13 @@ const { MessageEmbed } = require("discord.js");
 const fetch = require("node-fetch");
 
 module.exports = {
-    name: "kiss",
-    description: "😘 Kiss someone in front of @everyone, romantically",
+    name: "slap",
+    description: "✋ Slap someone, basically",
     cooldown: 5,
     options: [
         {
             name: "user",
-            description: "💓 The user to kiss",
+            description: "👤 The user to slap",
             required: false,
             type: "USER",
         },
@@ -26,29 +26,29 @@ module.exports = {
             
             if (member.id == interaction.user.id) {
                 let authorUserError = new MessageEmbed()
-                    .setDescription(`❌ <@${interaction.user.id}> : You want to kiss yourself, you're too narcissistic , ehh.`)
+                    .setDescription(`❌ <@${interaction.user.id}> : euhm slap yourself aren't you a bit masochist , ehh.`)
                     .setColor("RED")
                 return interaction.followUp({ embeds: [authorUserError] })
             }
     
 
 
-            const res = await fetch("https://nekos.life/api/v2/img/kiss");
+            const res = await fetch("https://nekos.life/api/v2/img/slap");
             const body = await res.json();
             const embed = new MessageEmbed() // Prettier
                 .setAuthor({
-                    name: `❤️‍🔥 Soo romantic`,
+                    name: `✋ That must hurt`,
                     iconURL: interaction.user.displayAvatarURL({
                         dynamic: true,
                         format: "png",
                         size: 2048,
                     }),
                 })
-                .setDescription(`>>> 😘 <@${member.id || member.user.id}> just got a kiss from <@${interaction.member.id}>${Math.floor(Math.random() * 100 + 1) == 1 ? "\n|| I want someone I can kiss... please let me out||" : ""}`)
+                .setDescription(`>>> ✋ Ouch, <@${interaction.member.id}> just slapped <@${member.id || member.user.id}>${Math.floor(Math.random() * 100 + 1) == 1 ? "\n|| They slap me too... please let me out||" : ""}`)
                 .setImage(body.url)
                 .setColor("RANDOM")
                 .setFooter({
-                    text: `😘 Kiss • Asked by ${interaction.member.nickname}`,
+                    text: `✋ Slap • Asked by ${interaction.member.nickname}`,
                     iconURL: interaction.user.displayAvatarURL({
                         dynamic: true,
                         format: "png",

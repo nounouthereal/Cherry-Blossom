@@ -34,7 +34,7 @@ module.exports = {
             }
 
             
-            const deathsGif = [`https://c.tenor.com/NbBCakbfZnkAAAAC/die-kill.gif`, `https://c.tenor.com/AGTqt-wXyiEAAAAC/nichijou-minigun.gif`, `https://c.tenor.com/-UbmVOLixPcAAAAC/killing-anime-girl.gif`, `https://c.tenor.com/pwPMerSJ-6gAAAAC/happy-sugar-life-%E3%83%8F%E3%83%83%E3%83%94%E3%83%BC%E3%82%B7%E3%83%A5%E3%82%AC%E3%83%BC%E3%83%A9%E3%82%A4%E3%83%95.gif`,`https://c.tenor.com/3BTuBDozaMgAAAAd/battle-in5seconds-after-meeting-mion.gif`,`https://c.tenor.com/G9tCUL5OBcYAAAAC/stab-knife.gif`]
+            const deathsGif = [`https://c.tenor.com/NbBCakbfZnkAAAAC/die-kill.gif`, `https://c.tenor.com/AGTqt-wXyiEAAAAC/nichijou-minigun.gif`, `https://c.tenor.com/-UbmVOLixPcAAAAC/killing-anime-girl.gif`, `https://c.tenor.com/pwPMerSJ-6gAAAAC/happy-sugar-life-%E3%83%8F%E3%83%83%E3%83%94%E3%83%BC%E3%82%B7%E3%83%A5%E3%82%AC%E3%83%BC%E3%83%A9%E3%82%A4%E3%83%95.gif`,`https://c.tenor.com/3BTuBDozaMgAAAAd/battle-in5seconds-after-meeting-mion.gif`,`https://c.tenor.com/G9tCUL5OBcYAAAAC/stab-knife.gif`,`https://api.satou-chan.xyz/interactions/kill/dsfgnor.gif`]
 
             const deathsText = [`🔪 <@${interaction.user.id}> murdered <@${member.id}>`, `🥷 <@${interaction.user.id}> assassinated <@${member.id}>`, `🩸 <@${interaction.user.id}> let the blood out of <@${member.id}>`, `🪦 <@${interaction.user.id}> killed <@${member.id}>`, `💀 <@${interaction.user.id}> put an end to the days of <@${member.id}>`, `☠️ <@${member.id}> was killed by <@${interaction.user.id}>`, `🪦 <@${member.id}> was assasinated by <@${interaction.user.id}>`]
 

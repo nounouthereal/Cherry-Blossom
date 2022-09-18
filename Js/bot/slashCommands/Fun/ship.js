@@ -50,7 +50,7 @@ module.exports = {
 
             const options = {
                 method: 'GET',
-                url: `https://simple-love-calculator.p.rapidapi.com/calculate_with_random_seed/${user1.username}/${user2.username}`,
+                url: encodeURI(`https://simple-love-calculator.p.rapidapi.com/calculate_with_random_seed/${user1.username}/${user2.username}`),
                 headers: {
                   'X-RapidAPI-Key': 'fe357df54amsh2f40b55a738fff8p13c896jsn3139801de2e0',
                   'X-RapidAPI-Host': 'simple-love-calculator.p.rapidapi.com'
@@ -123,7 +123,7 @@ module.exports = {
                     .setTimestamp();
                 const okembed = new MessageEmbed()
                     .setTitle(`💗 There is some love in the area`)
-                    .setDescription(`> 💗 A good couple | <@${user1.id}> + <@${user2.id}> = \`${result}%\` love\n\n**${bar}`)
+                    .setDescription(`> 💗 A good couple | <@${user1.id}> + <@${user2.id}> = \`${result}%\` love\n\n${bar}`)
                     .setColor("#FF00FF")
                     .setFooter({
                         text: `❣️ Love Calculator • Asked by ${interaction.member.displayName || interaction.user.username}`,

@@ -89,7 +89,7 @@ module.exports.run = async (bot, message, args) => {
 module.exports.config = {
     name: 'balance',
     description: 'Donne des données sur l\'argent du membre',
-    usage: '+balance Optionnel: @member',
+    usage: '+balance Optionnel: @user',
     botPerms: [],
     userPerms: [],
     aliases: ['bal', 'wallet','money'],

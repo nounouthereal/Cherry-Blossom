@@ -9,7 +9,6 @@ module.exports = {
 
 
         try {
-            bib
 
             const embed = new MessageEmbed()
                 .setTitle(`<:analytics:994948046314012772> I'm in \`${bot.guilds.cache.size}\` servers!`)

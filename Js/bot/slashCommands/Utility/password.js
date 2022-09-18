@@ -140,7 +140,7 @@ module.exports = {
                 .setTitle(`🔑 Password generation`)
                 .setDescription(`✅ Your password has been successfully generated and sent in your DM's (Direct Messages)\n\n>>> Note: This password is automatically and randomly generated. The password isn't stocked anywhere.`)
                 .setFooter({
-                text: `Asked by ${interaction.user.username} • ${interaction.guild.name}`,
+                text: `Asked by ${interaction.member.nickname || interaction.user.username} • ${interaction.guild.name}`,
                 iconURL: interaction.user.displayAvatarURL({
                 dynamic: true,
                 format: "png",
@@ -154,7 +154,7 @@ module.exports = {
                 .setTitle(`🔑 Password generation`)
                 .setDescription(`Password:\n>>> ||${password}||`)
                 .setFooter({
-                text: `Sent by ${interaction.user.username} • ${interaction.guild.name}`,
+                text: `Sent by ${interaction.member.nickname || interaction.user.username} • ${interaction.guild.name}`,
                 iconURL: interaction.user.displayAvatarURL({
                 dynamic: true,
                 format: "png",

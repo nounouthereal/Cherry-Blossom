@@ -2,13 +2,13 @@ const { MessageEmbed } = require("discord.js");
 const fetch = require("node-fetch");
 
 module.exports = {
-    name: "kiss",
-    description: "😘 Kiss someone in front of @everyone, romantically",
+    name: "smug",
+    description: "😏 Smug at someone, with style",
     cooldown: 5,
     options: [
         {
             name: "user",
-            description: "💓 The user to kiss",
+            description: "👤 The users",
             required: false,
             type: "USER",
         },
@@ -26,29 +26,29 @@ module.exports = {
             
             if (member.id == interaction.user.id) {
                 let authorUserError = new MessageEmbed()
-                    .setDescription(`❌ <@${interaction.user.id}> : You want to kiss yourself, you're too narcissistic , ehh.`)
+                    .setDescription(`❌ <@${interaction.user.id}> : You want to smug at yourself, you're realy a weirdo.`)
                     .setColor("RED")
                 return interaction.followUp({ embeds: [authorUserError] })
             }
     
 
 
-            const res = await fetch("https://nekos.life/api/v2/img/kiss");
+            const res = await fetch("https://nekos.life/api/v2/img/smug");
             const body = await res.json();
             const embed = new MessageEmbed() // Prettier
                 .setAuthor({
-                    name: `❤️‍🔥 Soo romantic`,
+                    name: `😏 Tsssk...`,
                     iconURL: interaction.user.displayAvatarURL({
                         dynamic: true,
                         format: "png",
                         size: 2048,
                     }),
                 })
-                .setDescription(`>>> 😘 <@${member.id || member.user.id}> just got a kiss from <@${interaction.member.id}>${Math.floor(Math.random() * 100 + 1) == 1 ? "\n|| I want someone I can kiss... please let me out||" : ""}`)
+                .setDescription(`>>> 😏 <@${interaction.member.id}> gived a smug look to <@${member.id || member.user.id}>${Math.floor(Math.random() * 100 + 1) == 1 ? "\n|| The, they, they smu, smug at , me, me too... please let me out||" : ""}`)
                 .setImage(body.url)
                 .setColor("RANDOM")
                 .setFooter({
-                    text: `😘 Kiss • Asked by ${interaction.member.nickname}`,
+                    text: `😏 Smug • Asked by ${interaction.member.nickname}`,
                     iconURL: interaction.user.displayAvatarURL({
                         dynamic: true,
                         format: "png",
@@ -62,7 +62,7 @@ module.exports = {
 
             console.log(err);
             let basicError = new MessageEmbed()
-                .setDescription(`❌ <@${interaction.user.id}> : An error occured in kiss command. Please try later or contact support (\`/support || /bug\`)\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support](https://discord.gg/Y2jQKaPqKX)`)
+                .setDescription(`❌ <@${interaction.user.id}> : An error occured. Please try later or contact support (\`/support || /bug\`)\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support](https://discord.gg/Y2jQKaPqKX)`)
                 .setColor(`RED`)
                 .setTimestamp()
             interaction.followUp({ embeds: [basicError] })

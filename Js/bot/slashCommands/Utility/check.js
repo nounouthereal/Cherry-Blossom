@@ -1,9 +1,6 @@
 
 const { MessageEmbed, MessageActionRow, MessageButton, MessageAttachment } = require("discord.js");
-const axios = require("axios")
 const fetch = require("node-fetch")
-const { Canvas } = require("canvacord");
-const { title } = require("process");
 
 module.exports = {
     name: "check",
@@ -40,11 +37,9 @@ module.exports = {
 
             if (args[0] == "nswf") {
 
+
                 let file = interaction.options.getAttachment("file")
                 let url = interaction.options.getString("url")
-
-                console.log(args[1])
-                console.log(file)
 
                 if (!args[1]) {
                     let errEmb = new MessageEmbed()
@@ -72,7 +67,7 @@ module.exports = {
 
                     const res = await fetch(`https://api.moderatecontent.com/moderate/?key=a7c72dd2e9b2ba2a8cf17727a65bca9f&url=${file.url}`);
                     const body = await res.json();
-
+    
                     let age_rating
 
                     let blur
@@ -132,6 +127,16 @@ module.exports = {
                     const res = await fetch(`https://api.moderatecontent.com/moderate/?key=a7c72dd2e9b2ba2a8cf17727a65bca9f&url=${url}`);
                     const body = await res.json();
 
+                    let errorCode = [1001, 1009, 1402]
+                    
+                    
+                    if (errorCode.includes(body.error_code)) {
+                        let errEmb = new MessageEmbed()
+                        .setDescription(`❌ <@${interaction.user.id}> : You need to precise a correct image link (url).\nError: \`${body.error}\``)
+                        .setColor("RED")
+                        return interaction.editReply({ embeds: [errEmb] })
+                    }
+
                     let age_rating
 
                     let blur
@@ -165,8 +170,6 @@ module.exports = {
                         title = "🔞 The url contain NSWF"
 
                     }
-
-
 
                     const embed = new MessageEmbed()
                         .setTitle(title + "")

@@ -1,6 +1,11 @@
 
 const { MessageEmbed, MessageActionRow, MessageButton, MessageAttachment } = require("discord.js");
-const axios = require("axios");
+const fs = require("fs");
+const QRCode = require('qrcode');
+const SPqr = require('qr-image')
+var gm = require('gm')
+const PDFDocument = require('pdfkit');
+
 
 
 module.exports = {
@@ -14,7 +19,7 @@ module.exports = {
             type: "STRING",
             required: true,
         },
-        /*{
+        {
             name: "format",
             description: "🌀 The qrcode format to be encode",
             type: "STRING",
@@ -33,6 +38,10 @@ module.exports = {
                     value: "jpeg"
                 },
                 {
+                    name: "PDF",
+                    value: "pdf"
+                },
+                {
                     name: "SVG",
                     value: "svg"
                 },
@@ -40,12 +49,16 @@ module.exports = {
                     name: "EPS",
                     value: "eps"
                 },
+                {
+                    name: "TXT",
+                    value: "txt"
+                },
 
             ],
-        },*/
+        },
         {
-            name: "size",
-            description: "↔️ The width of the QR code (in pixels)",
+            name: "scale",
+            description: "📈 The QR scale (1-10)",
             type: "NUMBER",
             required: false,
         },
@@ -68,16 +81,33 @@ module.exports = {
         try {
 
             let dataQr = interaction.options.getString("data")
-            let size = interaction.options.getNumber("size")
-            //let format = interaction.options.getString("format")
+            let format = interaction.options.getString("format")
             let foreground_color = interaction.options.getString("foreground_color")
             let background_color = interaction.options.getString("background_color")
-
-            if (!foreground_color) foreground_color = interaction.member.displayHexColor
-            if (!background_color) background_color = "ffffff"
+            let scale = interaction.options.getString("background_color")
 
 
-            if (!size) size = "300"
+            if (!foreground_color) foreground_color = "#FFF"
+            if (!background_color) background_color = "#0000"
+
+            if (!scale) scale = 10
+
+
+            let image = await QRCode.toBuffer(dataQr, {
+                color: {
+                  dark: foreground_color,
+                  light: background_color
+                },
+                scale: scale
+            })
+
+            let sub_format = format
+
+            if (format == "pdf") {
+                sub_format = "png"
+            }
+
+
 
 
 
@@ -87,51 +117,85 @@ module.exports = {
 
             interaction.followUp({ embeds: [wait_embed] })
 
-            const encodedParams = new URLSearchParams();
-            encodedParams.append("content", dataQr);
-            encodedParams.append("width", size);
-            encodedParams.append("height", size);
-            encodedParams.append("fg-color", foreground_color);
-            encodedParams.append("bg-color", background_color);
-
-            const options = {
-                method: 'POST',
-                url: 'https://neutrinoapi-qr-code.p.rapidapi.com/qr-code',
-                headers: {
-                    'content-type': 'application/x-www-form-urlencoded',
-                    'X-RapidAPI-Key': 'fe357df54amsh2f40b55a738fff8p13c896jsn3139801de2e0',
-                    'X-RapidAPI-Host': 'neutrinoapi-qr-code.p.rapidapi.com'
-                },
-                data: encodedParams
-            };
+            if (format == "txt") {
+                const atc = new MessageAttachment(Buffer.from(image), 'qrcodeBasic.txt');
+                return interaction.editReply({ files: [atc] });
+            }
 
 
 
-            axios.request(options).then(function (response) {
+            gm(image, `qrcode.${sub_format}`)
+                .toBuffer(format.toUpperCase(), function (err, buffer) {
+                })
 
-                const buffer = Buffer.from(response.data)
+
+            if (format == "pdf") {
+
+                const doc = new PDFDocument()
+
+                doc.image(image, {
+                    fit: [500, 500],
+                    align: 'center',
+                    valign: 'center'
+                });
 
 
-                const attachment = new MessageAttachment(buffer, `qrcode.png`)
+                doc.end();
 
-                let embedGenerated = new MessageEmbed()
-                    .setTitle('A slick little embed')
-                    .setColor(0xFF0000)
-                    .setImage(`attachment://qrcode.png`)
+                const atc = new MessageAttachment(doc, 'qrcodeBasic.pdf');
 
-                interaction.editReply({ embeds: [embedGenerated], files: [attachment] })
 
-            })
+
+                interaction.editReply({ embeds: [], files: [atc] });
+
+                return
+            }
+
+            const attachment = new MessageAttachment(image, `qrcode.${format}`)
+
+            let embedGenerated = new MessageEmbed()
+                .setColor(foreground_color)
+                .setImage(`attachment://qrcode.${format}`)
+
+            if (format == "eps") {
+
+                var qrSpData = SPqr.image(dataQr, { type: format });
+
+                const atc = new MessageAttachment(qrSpData, `qrcodeBasic.${format}`);
+
+
+
+                return await interaction.editReply({ embeds: [], files: [atc] })
+
+            }
+
+            if (format == "svg") {
+
+                var qrSpData = SPqr.image(dataQr, { type: format });
+
+                gm(image, `qrcode.svg`)
+                    .toBuffer(format.toUpperCase())
+
+                const atc = new MessageAttachment(qrSpData, `qrcode.${format}`);
+
+
+
+                return await interaction.editReply({ embeds: [], files: [atc] })
+            }
+
+            interaction.editReply({ embeds: [embedGenerated], files: [attachment] })
+
+
 
 
         } catch (err) {
 
             console.log(err);
             let basicError = new MessageEmbed()
-                .setDescription(`❌ <@${interaction.user.id}> : An error occured. Please try later or contact support (\`/support || /bug\`)\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support](https://discord.gg/Y2jQKaPqKX)`)
+                .setDescription(`❌ <@${interaction.user.id}> : An error occured. Please try later or contact support (\`/support || /bug\`)\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support Server](https://discord.gg/Y2jQKaPqKX)`)
                 .setColor(`RED`)
                 .setTimestamp()
-            interaction.followUp({ embeds: [basicError] })
+            interaction.editReply({ embeds: [basicError] }) || interaction.followUp({ embeds: [basicError] })
         }
     },
 };

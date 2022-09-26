@@ -1,4 +1,4 @@
-const skills = require('./skills');
+const skills = require('../skills');
 
 class SkillManager {
     contructor() {

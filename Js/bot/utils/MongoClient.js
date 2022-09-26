@@ -3,14 +3,14 @@ const { Client } = require('discord.js');
 const mongoose = require('mongoose');
 const { Intents, MessageEmbed } = require('discord.js');
 const economy = require('../models/EconomyModel');
-const ItemManager = require('./ItemManager');
-const SkillManager = require('./SkillManager');
+const ItemManager = require('./managers/ItemManager');
+const SkillManager = require('./managers/SkillManager');
 const itemss = require('/Users/nouhame/Bot_des_cerisiers/Js/bot/utils/items.js');
 
 
 class MongoClient extends Client {
     constructor() {
-        super({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_PRESENCES]});
+        super({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_PRESENCES , Intents.FLAGS.GUILD_VOICE_STATES]});
         const uri = "mongodb+srv://nounour:12345@cluster0.pirj0.mongodb.net/?retryWrites=true&w=majority";
         mongoose.connect(uri, {
             useNewUrlParser: true,

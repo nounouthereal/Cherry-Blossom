@@ -3,7 +3,7 @@ const { MessageEmbed } = require('discord.js')
 module.exports = {
     name: "crime",
     description: "🥷 Criminal deeds for money",
-    timeout: 5000,
+    cooldown: 25,
 
 
     run: async (bot, interaction, args) => {
@@ -45,7 +45,7 @@ module.exports = {
         let begembed = new MessageEmbed()
         .setColor("BLUE")
         .setTitle(`🥷 You have committed a crime`)
-        .setDescription(`**${usertag.username}** : 🥷 ${response}`)
+        .setDescription(`<@${usertag.id}> : 🥷 ${response}`)
         interaction.followUp({embeds: [begembed]})
     }
 
@@ -53,8 +53,8 @@ module.exports = {
         let begembed = new MessageEmbed()
         .setColor("GREY")
         .setTitle(`🚔 You had been arrested`)
-        .setDescription(`**${usertag.username}** : ${responsebad}`);
-        await bot.removeCoins(interaction.member.id, -random);
+        .setDescription(`<@${usertag.id}> : ${responsebad}`);
+        await bot.addCoins(interaction.member.id, -random);
         if (userData.coinsInWallet < 100){
             await bot.setCoins(interaction.member.id, 0)
         }

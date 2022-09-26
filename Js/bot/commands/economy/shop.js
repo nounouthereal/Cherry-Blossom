@@ -1,7 +1,7 @@
 
 const { MessageEmbed } = require("discord.js");
 const Discord = require("discord.js");
-const ItemManager = require("../../utils/ItemManager");
+const ItemManager = require("../../utils/managers/ItemManager");
 const itemss = require('/Users/nouhame/Bot_des_cerisiers/Js/bot/utils/items.js');
 const array = require('/Users/nouhame/Bot_des_cerisiers/Js/bot/utils/items.js');
 

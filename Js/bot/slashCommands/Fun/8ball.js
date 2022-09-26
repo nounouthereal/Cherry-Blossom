@@ -18,7 +18,7 @@ module.exports = {
                 let noQuestionEmb = new MessageEmbed()
                     .setDescription(`❌ <@${interaction.user.id}> : You need to precise your question`)
                     .setColor("RED")
-                interaction.followUp({ embeds: [noQuestionEmb] })
+                return interaction.followUp({ embeds: [noQuestionEmb] })
             }
             if (args.toString().length > 200) {
                 let tooLongQuestion = new MessageEmbed()

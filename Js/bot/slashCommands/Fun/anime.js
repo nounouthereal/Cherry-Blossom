@@ -51,7 +51,6 @@ module.exports = {
                 .addField(`🧾 Type`, "```" + data.type + "```", true)
                 .addField(`🔄 Episodes`, "```" + data.episodes + " episodes```", true)
                 .addField(`⭐️ Score`, "```" + data.score + "/10" + "```", true)
-                .addField(`📚 Themes, Genres`, "```" + data.themes + ", " + data.genres + "```")
                 .addField(`🔞 Rating`, "```" + data.rating + "```")
                 .addField(`📆 Aired`, "```" + data.aired + "```")
                 .addField(`📊 Score Stats`, "```" + data.scoreStats + "```")

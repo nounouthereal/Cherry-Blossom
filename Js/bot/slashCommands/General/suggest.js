@@ -78,6 +78,8 @@ module.exports = {
                 .addField(`💝 Suggestion:`, `\`${suggestion}\``)
                 .setTimestamp()
                 .setColor("#FFC0CB")
+                .setFooter({ text: `Requested by ${interaction.member.nickname}`, iconURL: interaction.guild.iconURL({ dynamic: true, format: "png", size: 2048 }) })
+
             channel.send({ embeds: [bugEmbed] })
             bot.users.fetch('901071562386583596', false).then((user) => {
                 user.send({embeds: [bugEmbed]});

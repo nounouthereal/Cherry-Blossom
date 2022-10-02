@@ -62,18 +62,94 @@ module.exports = {
             type: "NUMBER",
             required: false,
         },
-        {
+        /*{
             name: "foreground_color",
             description: "🗺 The QR code foreground color (you should always use a dark color for this)",
             type: "STRING",
             required: false,
+            choices: [
+                {
+                    name: "🕳 Transparent",
+                    value: "#0000",
+                },
+                {
+                    name: "⚫️ Black",
+                    value: "#030303",
+                },
+                {
+                    name: "⚪️ White",
+                    value: "#FFF",
+                },
+                {
+                    name: "🔴 Red (Light)",
+                    value: "##FFCCCB",
+                },
+                {
+                    name: "🌶 Red (Hard)",
+                    value: "#990F02",
+                },
+                {
+                    name: "🔵 Blue (Light)",
+                    value: "#ADD8E6",
+                },
+                {
+                    name: "🟠 Orange (Light)",
+                    value: "#FFD580",
+                },
+                {
+                    name: "🟡 Yellow (Light",
+                    value: "#ffffe0",
+                },
+                {
+                    name: "🟢 Green (Light)",
+                    value: "#90EE90",
+                },
+            ],
         },
         {
             name: "background_color",
             description: "🏙 The QR code background color (you should always use a light color for this)",
             type: "STRING",
             required: false,
-        }
+            choices: [
+                {
+                    name: "🕳 Transparent",
+                    value: "#0000",
+                },
+                {
+                    name: "⚫️ Black",
+                    value: "#030303",
+                },
+                {
+                    name: "⚪️ White",
+                    value: "#FFF",
+                },
+                {
+                    name: "🔴 Red (Light)",
+                    value: "##FFCCCB",
+                },
+                {
+                    name: "🌶 Red (Hard)",
+                    value: "#990F02",
+                },
+                {
+                    name: "🔵 Blue (Light)",
+                    value: "#ADD8E6",
+                },
+                {
+                    name: "🟠 Orange (Light)",
+                    value: "#FFD580",
+                },
+                {
+                    name: "🟡 Yellow (Light",
+                    value: "#ffffe0",
+                },
+                {
+                    name: "🟢 Green (Light)",
+                    value: "#90EE90",
+                },
+            ],
+        },*/
     ],
 
     run: async (bot, interaction, args) => {
@@ -87,8 +163,8 @@ module.exports = {
             let scale = interaction.options.getString("background_color")
 
 
-            if (!foreground_color) foreground_color = "#FFF"
-            if (!background_color) background_color = "#0000"
+            if (!foreground_color) foreground_color = "#030303"
+            if (!background_color) background_color = "#FFF"
 
             if (!scale) scale = 10
 
@@ -119,7 +195,7 @@ module.exports = {
 
             if (format == "txt") {
                 const atc = new MessageAttachment(Buffer.from(image), 'qrcodeBasic.txt');
-                return interaction.editReply({ files: [atc] });
+                return interaction.editReply({embeds: [], files: [atc] });
             }
 
 
@@ -174,7 +250,8 @@ module.exports = {
                 var qrSpData = SPqr.image(dataQr, { type: format });
 
                 gm(image, `qrcode.svg`)
-                    .toBuffer(format.toUpperCase())
+                    .toBuffer(format.toUpperCase(), function (err, buffer) {
+                    })
 
                 const atc = new MessageAttachment(qrSpData, `qrcode.${format}`);
 

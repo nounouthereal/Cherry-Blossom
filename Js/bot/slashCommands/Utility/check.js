@@ -175,7 +175,7 @@ module.exports = {
                         .setTitle(title + "")
                         .setDescription(`**🎂 Age Rating:**\n\`${age_rating}\`\n\n**％ Propabilities:**\n\`All ages: ${Math.round(body.predictions.everyone)}%\nAdvertised public (16+): ${Math.round(body.predictions.teen)}%\nNSWF: ${Math.round(body.predictions.adult)}%\``)
                         .setFooter({
-                            text: `Asked by ${interaction.member.nickname || interaction.user.username} • ${interaction.guild.name}`,
+                            text: `Requested by ${interaction.member.nickname || interaction.user.username} • ${interaction.guild.name}`,
                             iconURL: interaction.user.displayAvatarURL({
                                 dynamic: true,
                                 format: "png",

@@ -15,7 +15,7 @@ module.exports = {
                 .addField(`<:user:1013896589061926922> User Count`, `\`${bot.guilds.cache.reduce((a, g) => a + g.memberCount, 0)} members\``, true)
                 .addField(`<:chat:995075584147345439> Channel Count`, `\`${bot.channels.cache.size} channels\``, true)
                 .setFooter({
-                    text: `Asked by ${interaction.user.username} • ${interaction.guild.name}`,
+                    text: `Requested by ${interaction.user.username} • ${interaction.guild.name}`,
                     iconURL: interaction.user.displayAvatarURL({
                         dynamic: true,
                         format: "png",

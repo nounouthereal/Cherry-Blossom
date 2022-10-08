@@ -13,15 +13,67 @@ module.exports = {
             type: "STRING",
             required: true,
         },
+        {
+            name: "font",
+            description: "🌀 The ascii text font",
+            type: "STRING",
+            required: false,
+            choices: [
+                {
+                    name: "🔡 Standard (Basic)",
+                    value: "Standard",
+                },
+                {
+                    name: "🎨 Graffiti",
+                    value: "Graffiti",
+                },
+                {
+                    name: "🚇 3D",
+                    value: "3D-ASCII",
+                },
+                {
+                    name: "👻 Ghost",
+                    value: "Ghost",
+                },
+                {
+                    name: "🕺 Dancing",
+                    value: "Dancing",
+                },
+                {
+                    name: "🤪 Crazy",
+                    value: "Crazy",
+                },
+                {
+                    name: "❇️ Cursive",
+                    value: "Cursive",
+                },
+                {
+                    name: "📟 Alpha",
+                    value: "Alpha",
+                },
+                {
+                    name: "🖋 Caligraphy",
+                    value: "Caligraphy",
+                },
+            ],
+        },
     ],
 
     run: async (bot, interaction, args) => {
         try {
 
             let text = interaction.options.getString('text')
+            let font = interaction.options.getString('font')
+
+            if (!font) {
+                font = "Standard"
+            }
 
 
-            figlet(text, function (err, data) {
+
+            figlet(text, {
+                font: font,              
+            }, function (err, data) {
 
                 createPaste(
                     data,
@@ -36,19 +88,20 @@ module.exports = {
 
                         const atc = new MessageAttachment(Buffer.from(data), 'ascii.txt');
 
-                        let datad = data
 
-                        if(data.length > 1024)  datad = `${datad.substring(0, 1020)}` + `...`
+                        if (data.length > 1021) {
+                            data = "❌ Try the link"
+                        }
 
-                        const embed = new MessageEmbed() 
+                        const embed = new MessageEmbed()
                             .setColor("#57c478")
                             .setTitle(`✅ Your ascii code has been successfully generated!`)
 
                             .setDescription(`> 🔗 Link to ascii code paste: ${paste}`)
-                            .addField(`🔖 Embed displaying (Possibly glitched):`,`\`\`\`${datad}\`\`\``)
+                            .addField(`🔖 Embed displaying (Possibly glitched):`, `\`\`\`${data}\`\`\``)
 
                             .setFooter({
-                                text: `ʕっ•ᴥ•ʔっ ascii • Requested by ${interaction.member.nickname || interaction.user.username}`,
+                                text: `ʕっ•ᴥ•ʔっ ${font} ascii • Requested by ${interaction.member.nickname || interaction.user.username}`,
                                 iconURL: interaction.member.displayAvatarURL({
                                     dynamic: true,
                                     format: "png",
@@ -56,11 +109,11 @@ module.exports = {
                                 }),
                             })
                             .setTimestamp();
-                        const row = new MessageActionRow() 
+                        const row = new MessageActionRow()
 
                             .addComponents(
 
-                                new MessageButton() 
+                                new MessageButton()
                                     .setURL(paste)
                                     .setStyle("LINK")
                                     .setLabel("View ascii")

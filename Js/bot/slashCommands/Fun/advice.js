@@ -17,7 +17,7 @@ module.exports = {
                 .setDescription(`>>> ${slip.advice}`)
                 .setColor("RANDOM")
                 .setFooter({
-                    text: `Requested by ${interaction.member.nickname}`,
+                    text: `Asked by ${interaction.member.nickname}`,
                     iconURL: interaction.user.displayAvatarURL({
                         dynamic: true,
                         format: "png",

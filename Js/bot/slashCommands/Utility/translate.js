@@ -1,14 +1,15 @@
-const { TRANSLATE } = require('../../utils/json/lang.json');
+const { TRANSLATE } = require('../../utils/data/lang.json');
 const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 const ISO6391 = require("iso-639-1");
 const fetch = require("node-fetch");
 const gTranslate = require("@vitalets/google-translate-api");
-const { output } = require('pdfkit');
+
+const choices = ["ar", "cs", "de", "en", "fa", "fr", "hi", "hr", "it", "ja", "ko", "la", "nl", "pl", "ta", "te"];
 
 
 module.exports = {
     name: "translate",
-    description: "📠 Decode some text in more than 9 type of encoding",
+    description: "🌐 Translaste text in multiple language",
     cooldown: 5,
     options: [
         {
@@ -19,14 +20,14 @@ module.exports = {
         },
         {
             name: "to",
-            description: "🌍 The translating language",
+            description: "🌍 The output translating language",
             type: "STRING",
             required: true,
             choices: choices.map((choice) => ({ name: TRANSLATE[choice], value: choice })),
         },
         {
             name: "from",
-            description: "🌍 The translating language",
+            description: "🌍 The input translating language (Default to AUTO)",
             type: "STRING",
             required: false,
             choices: choices.map((choice) => ({ name: TRANSLATE[choice], value: choice })),
@@ -35,8 +36,9 @@ module.exports = {
     run: async (bot, interaction, args) => {
         try {
 
-            function translate(content, outputCode, fromInputCode) {
-                const response = await gTranslate(content, {from: fromInputCode, to: outputCode });
+            async function translate(content, outputCode, fromInputCode) {
+                const response = await gTranslate(content, {from: fromInputCode || "auto", to: outputCode });
+                console.log(response)
                 return {
                     input: response.from.text.value,
                     output: response.text,
@@ -49,13 +51,15 @@ module.exports = {
             }
 
             let text = interaction.options.getString("text")
-            let encode = interaction.options.getString("type")
+            let from = interaction.options.getString("from")
+            let to = interaction.options.getString("to")
+
 
 
             const embed = new MessageEmbed()
                 .setColor("#57c478")
                 .setFooter({
-                    text: `${encode.toUpperCase()} Translating • Asked by ${interaction.member.nickname || interaction.user.username}`,
+                    text: `${data.outputLang.toUpperCase()} Translating • Asked by ${interaction.member.nickname || interaction.user.username}`,
                     iconURL: interaction.user.displayAvatarURL({
                         dynamic: true,
                         format: "png",
@@ -63,9 +67,9 @@ module.exports = {
                     }),
                 })
                 .setTimestamp()
-                .setTitle(`🌍 ${encode.toUpperCase()} Translation`)
-                .addField(`:${data.inputCode}_flag: From ${data.inputLang}`, `\`\`\`${data.input}\`\`\``)
-                .addField(`:${data.outputCode}_flag: To ${data.outputLang}`, `\`\`\`${data.output || "❌ Translating error !!"}\`\`\``);
+                .setTitle(`${data.outputLang.toUpperCase()} Translation`)
+                .addField(`:flag_${data.outputCode}: : To ${data.outputLang}`, `\`\`\`${data.output || "❌ Translating error !!"}\`\`\``)
+                .addField(`:flag_${data.inputCode}: : From ${data.inputLang}`, `\`\`\`${text}\`\`\``);
             interaction.followUp({ embeds: [embed] });
 
 

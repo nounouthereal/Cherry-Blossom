@@ -10,7 +10,7 @@ module.exports = async (bot, message) => {
     const member = message.member;
 
     //Anti Scam
-    const arrayscam = require(`../utils/json/scam.json`)
+    const arrayscam = require(`../utils/data/scam.json`)
     if (arrayscam.some(word => message.content.toLowerCase().includes(word))) {
         console.log(`scam`)
         message.delete()

@@ -53,9 +53,9 @@ module.exports = {
 
             const body = await res.json();
 
-            const embed = new MessageEmbed() // Prettier
+            const embed = new MessageEmbed()
                 .setTitle(`${user.username} has just been cuddled by ${interaction.user.username}`)
-                .setDescription(`> ${user} got a hug from ${interaction.user}${Math.floor(Math.random() * 100 + 1) == 1 ? "\n||I want someone I can hug... please let me out||" : ""}`)
+                .setDescription(`> <@${user.id}> got cuddled by <@${interaction.user.id}>${Math.floor(Math.random() * 100 + 1) == 1 ? "\n||I want someone I can hug... please let me out||" : ""}`)
                 .setImage(body.url)
                 .setColor("RANDOM")
                 .setFooter({

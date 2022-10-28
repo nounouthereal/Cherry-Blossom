@@ -54,7 +54,7 @@ module.exports = {
             let suggestion = interaction.options.getString("suggest")
 
             const wait_embed = new MessageEmbed()
-                .setDescription(`<a:loading_please_wait:1014982234492633088> | We're reporting your \`${type}\` type suggestion . Please wait...`)
+                .setDescription(`<a:loading:1032282688821940245> | We're reporting your \`${type}\` type suggestion . Please wait...`)
                 .setColor("5865f2");
 
             interaction.followUp({ embeds: [wait_embed] })

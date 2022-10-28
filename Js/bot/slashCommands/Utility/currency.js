@@ -89,7 +89,7 @@ module.exports = {
 
                 const wait = new MessageEmbed()
                     .setColor("#5865f2")
-                    .setDescription(`<a:loading_please_wait:1014982234492633088> | Please wait... I'm converting \`${args[1]} ${args[2].toUpperCase()}\` to \`${args[3].toUpperCase()}\``);
+                    .setDescription(`<a:loading:1032282688821940245> | Please wait... I'm converting \`${args[1]} ${args[2].toUpperCase()}\` to \`${args[3].toUpperCase()}\``);
 
                 interaction.followUp({ embeds: [wait] }).then((msg) => {
 

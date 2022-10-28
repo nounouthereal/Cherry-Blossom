@@ -44,7 +44,7 @@ module.exports = {
             }
 
             const wait_embed = new MessageEmbed() 
-                .setDescription(`<a:loading_please_wait:1014982234492633088> | I'm generating a cuddle gif for \`${user.username}\`. Please wait...`)
+                .setDescription(`<a:loading:1032282688821940245> | I'm generating a cuddle gif for \`${user.username}\`. Please wait...`)
                 .setColor("5865f2");
 
             interaction.followUp({embeds: [wait_embed]})
@@ -80,7 +80,7 @@ module.exports = {
                 .setDescription(`❌ <@${interaction.user.id}> : An error occured. Please try later or contact support (\`/support || /bug\`)\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support](https://discord.gg/Y2jQKaPqKX)`)
                 .setColor("RED")
                 .setTimestamp()
-            interaction.followUp({ embeds: [basicError] })
+            interaction.editReply({ embeds: [basicError] }) || interaction.followUp({ embeds: [basicError] })
         }
     },
 };

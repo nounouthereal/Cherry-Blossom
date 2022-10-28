@@ -122,11 +122,11 @@ module.exports = {
                         row.components[0].setDisabled(true)
                         row.components[1].setDisabled(true)
 
-                        button.reply({content: `<a:loading_please_wait:1014982234492633088> | Please wait...`})
+                        button.reply({content: `<a:loading:1032282688821940245> | Please wait...`})
 
                         sleep(2)
 
-                        button.deleteReply({content: `<a:loading_please_wait:1014982234492633088> | Please wait...`})
+                        button.deleteReply({content: `<a:loading:1032282688821940245> | Please wait...`})
 
                         interaction.editReply({ embeds: [warnEmbed], components: [row] })
                     }
@@ -137,7 +137,7 @@ module.exports = {
 
 
             const wait_embed = new MessageEmbed()
-                .setDescription(`<a:loading_please_wait:1014982234492633088> | I'm downloading a \`${tagName} Waifu\` image. Please wait...`)
+                .setDescription(`<a:loading:1032282688821940245> | I'm downloading a \`${tagName} Waifu\` image. Please wait...`)
                 .setColor("5865f2");
 
             interaction.followUp({ embeds: [wait_embed] })

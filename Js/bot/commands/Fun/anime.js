@@ -16,7 +16,7 @@ module.exports.run = async (bot, message, args) => {
 
         const wait_embed = new MessageEmbed() // Prettier
             .setColor("5865f2")
-            .setDescription(`<a:loading_please_wait:1014982234492633088> | I'm searching data for \`${search}\` anime. Please wait...`);
+            .setDescription(`<a:loading:1032282688821940245> | I'm searching data for \`${search}\` anime. Please wait...`);
 
         mal
             .getInfoFromName(search)

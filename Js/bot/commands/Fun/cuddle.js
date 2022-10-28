@@ -30,7 +30,7 @@ module.exports.run = async (bot, message, args) => {
         }
 
         const wait_embed = new MessageEmbed() 
-            .setDescription(`<a:loading_please_wait:1014982234492633088> | I'm generating a cuddle gif for \`${user.username}\`. Please wait...`)
+            .setDescription(`<a:loading:1032282688821940245> | I'm generating a cuddle gif for \`${user.username}\`. Please wait...`)
             .setColor("5865f2");
 
         sent = await message.reply({embeds: [wait_embed]})

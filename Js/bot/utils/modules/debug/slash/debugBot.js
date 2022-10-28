@@ -14,7 +14,7 @@ module.exports = async (bot, interaction, args) => {
     const websocket_ping = Math.floor(bot.ws.ping);
     const wait_embed = new MessageEmbed() 
         .setColor("#5865f2")
-        .setDescription(`<a:loading_please_wait:1014982234492633088> | I'm collecting info about myself. Please wait...`);
+        .setDescription(`<a:loading:1032282688821940245> | I'm collecting info about myself. Please wait...`);
     interaction.followUp({ embeds: [wait_embed] }).then(async (process_message) => {
         
         const bot_ping = Math.floor(Date.now() / 10 - date);

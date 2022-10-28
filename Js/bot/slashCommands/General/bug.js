@@ -35,7 +35,7 @@ module.exports = {
             let desc = interaction.options.getString("description")
 
             const wait_embed = new MessageEmbed()
-                .setDescription(`<a:loading_please_wait:1014982234492633088> | We're reporting the bug for \`${command}\` command. Please wait...`)
+                .setDescription(`<a:loading:1032282688821940245> | We're reporting the bug for \`${command}\` command. Please wait...`)
                 .setColor("5865f2");
 
             interaction.followUp({ embeds: [wait_embed] })

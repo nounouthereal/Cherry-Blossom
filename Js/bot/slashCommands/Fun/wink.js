@@ -1,15 +1,14 @@
 const { MessageEmbed } = require("discord.js");
-const fetch = require('node-fetch');
-
+const anime = require("anime-actions");
 
 module.exports = {
-    name: "bite",
-    description: "😬 Bite someone, smoothly",
+    name: "wink",
+    description: "😉 Wink at someone, sympathetically",
     cooldown: 5,
     options: [
         {
             name: "user",
-            description: "🦷 The user to bite",
+            description: "😉 The user to wink at",
             required: false,
             type: "USER",
         },
@@ -27,29 +26,28 @@ module.exports = {
             
             if (member.id == interaction.user.id) {
                 let authorUserError = new MessageEmbed()
-                    .setDescription(`❌ <@${interaction.user.id}> : You want to bite yourself, you're a masochist , ehh.`)
+                    .setDescription(`❌ <@${interaction.user.id}> : You want to wink at yourself, how do you do that.`)
                     .setColor("RED")
                 return interaction.followUp({ embeds: [authorUserError] })
             }
+    
 
-            const res = await fetch("https://api.satou-chan.xyz/api/endpoint/bite");
-            const body = await res.json();
-
-
+            let image = await anime.wink()
+            
             const embed = new MessageEmbed() 
                 .setAuthor({
-                    name: `😬 Ouch...`,
+                    name: `😉 Yep...`,
                     iconURL: interaction.user.displayAvatarURL({
                         dynamic: true,
                         format: "png",
                         size: 2048,
                     }),
                 })
-                .setDescription(`>>> 🦷 <@${member.id || member.user.id}> just got bited by <@${interaction.member.id}>${Math.floor(Math.random() * 100 + 1) == 1 ? "\n|| They bully me to... please let me out||" : ""}`)
-                .setImage(body.url)
+                .setDescription(`>>> 😉 <@${interaction.member.id}> winked at <@${member.id || member.user.id}>${Math.floor(Math.random() * 100 + 1) == 1 ? "\n|| garggggl... argh...,,,,,.a..a.a.aa.a....||" : ""}`)
+                .setImage(image)
                 .setColor("RANDOM")
                 .setFooter({
-                    text: `🦷 Bite • Asked by ${interaction.member.nickname || interaction.user.username}`,
+                    text: `😉 Wink • Asked by ${interaction.member.nickname}`,
                     iconURL: interaction.user.displayAvatarURL({
                         dynamic: true,
                         format: "png",
@@ -57,7 +55,7 @@ module.exports = {
                     }),
                 })
                 .setTimestamp()
-                .setURL(body.url);
+                .setURL(image);
             interaction.followUp({ embeds: [embed] });
         } catch (err) {
 

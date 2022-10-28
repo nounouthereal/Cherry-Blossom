@@ -81,7 +81,7 @@ module.exports = {
                             .setColor("#5865F2")
                             .setTimestamp()
                             .setFooter({
-                                text: `${args[0]} • Asked by ${interaction.user.username}`,
+                                text: `${args[0]} • Asked by ${interaction.user.nickname || interaction.user.username}`,
                                 iconURL: interaction.user.displayAvatarURL({
                                     dynamic: true,
                                     format: "png",

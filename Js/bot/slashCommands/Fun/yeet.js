@@ -1,15 +1,14 @@
 const { MessageEmbed } = require("discord.js");
-const fetch = require('node-fetch');
-
+const anime = require("anime-actions");
 
 module.exports = {
-    name: "bite",
-    description: "😬 Bite someone, smoothly",
+    name: "yeet",
+    description: "🤾 Yeet someone, hardly",
     cooldown: 5,
     options: [
         {
             name: "user",
-            description: "🦷 The user to bite",
+            description: "🤾 The user to yeet",
             required: false,
             type: "USER",
         },
@@ -27,29 +26,28 @@ module.exports = {
             
             if (member.id == interaction.user.id) {
                 let authorUserError = new MessageEmbed()
-                    .setDescription(`❌ <@${interaction.user.id}> : You want to bite yourself, you're a masochist , ehh.`)
+                    .setDescription(`❌ <@${interaction.user.id}> : How the hell can you eat yourself, ehh.`)
                     .setColor("RED")
                 return interaction.followUp({ embeds: [authorUserError] })
             }
+    
+            let image = await anime.yeet()
 
-            const res = await fetch("https://api.satou-chan.xyz/api/endpoint/bite");
-            const body = await res.json();
-
-
+            
             const embed = new MessageEmbed() 
                 .setAuthor({
-                    name: `😬 Ouch...`,
+                    name: `🤾 Offf, this certainly hurt...`,
                     iconURL: interaction.user.displayAvatarURL({
                         dynamic: true,
                         format: "png",
                         size: 2048,
                     }),
                 })
-                .setDescription(`>>> 🦷 <@${member.id || member.user.id}> just got bited by <@${interaction.member.id}>${Math.floor(Math.random() * 100 + 1) == 1 ? "\n|| They bully me to... please let me out||" : ""}`)
-                .setImage(body.url)
+                .setDescription(`>>> 🤾 <@${interaction.member.id}> yeeted <@${member.id || member.user.id}>${Math.floor(Math.random() * 100 + 1) == 1 ? "\n|| They yeet me too... please let me out||" : ""}`)
+                .setImage(image)
                 .setColor("RANDOM")
                 .setFooter({
-                    text: `🦷 Bite • Asked by ${interaction.member.nickname || interaction.user.username}`,
+                    text: `🤾 Yeet • Asked by ${interaction.member.nickname}`,
                     iconURL: interaction.user.displayAvatarURL({
                         dynamic: true,
                         format: "png",
@@ -57,13 +55,13 @@ module.exports = {
                     }),
                 })
                 .setTimestamp()
-                .setURL(body.url);
+                .setURL(image);
             interaction.followUp({ embeds: [embed] });
         } catch (err) {
 
             console.log(err);
             let basicError = new MessageEmbed()
-                .setDescription(`❌ <@${interaction.user.id}> : An error occured. Please try later or contact support (\`/support || /bug\`)\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support](https://discord.gg/Y2jQKaPqKX)`)
+                .setDescription(`❌ <@${interaction.user.id}> : An error occured in kiss command. Please try later or contact support (\`/support || /bug\`)\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support](https://discord.gg/Y2jQKaPqKX)`)
                 .setColor(`RED`)
                 .setTimestamp()
             interaction.followUp({ embeds: [basicError] })

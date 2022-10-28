@@ -33,7 +33,7 @@ module.exports.run = async (bot, message, args) => {
             }
             const wait_embed = new MessageEmbed() // Prettier
                 .setColor("5865f2")
-                .setDescription(`<a:loading_please_wait:1014982234492633088> | I'm downloading random image from \`/${chanargs}/\`. Please wait...`);
+                .setDescription(`<a:loading:1032282688821940245> | I'm downloading random image from \`/${chanargs}/\`. Please wait...`);
             message.reply({ embeds: [wait_embed] }).then(async (messageAwait) => {
                 const board = chanargs;
                 const page = Math.floor(Math.random() * 10 + 1);

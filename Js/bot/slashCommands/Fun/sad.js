@@ -1,15 +1,15 @@
 const { MessageEmbed } = require("discord.js");
-const fetch = require('node-fetch');
+const anime = require('anime-actions');
 
 
 module.exports = {
-    name: "bite",
-    description: "😬 Bite someone, smoothly",
+    name: "sad",
+    description: "🙁 Tu est triste, arrête",
     cooldown: 5,
     options: [
         {
             name: "user",
-            description: "🦷 The user to bite",
+            description: "😞 The user to make feel him sad",
             required: false,
             type: "USER",
         },
@@ -21,35 +21,33 @@ module.exports = {
 
             let member = interaction.options.getUser("user") || interaction.guild.members.cache.get(args[0]) || interaction.guild.members.cache.find((r) => r.user.username.toLowerCase().includes() === args.join(` `).toLocaleLowerCase());
 
+            let text
+
             if (!member) {
                 member = bot.user
-            }
-            
-            if (member.id == interaction.user.id) {
-                let authorUserError = new MessageEmbed()
-                    .setDescription(`❌ <@${interaction.user.id}> : You want to bite yourself, you're a masochist , ehh.`)
-                    .setColor("RED")
-                return interaction.followUp({ embeds: [authorUserError] })
+                text = `>>> 😟 <@${interaction.user.id}> feels sad. ${Math.floor(Math.random() * 100 + 1) == 1 ? "\n||They ..they make me feel very sad to... please let me out||" : ""}`
             }
 
-            const res = await fetch("https://api.satou-chan.xyz/api/endpoint/bite");
-            const body = await res.json();
+            else {
+                text = `>>> 😟 <@${interaction.member.id}> made <@${member.id || member.user.id}> feel sad. ${Math.floor(Math.random() * 100 + 1) == 1 ? "\n||They ..they make me feel very sad to... please let me out||" : ""}`
+            }
 
+            let url = await anime.sad()
 
             const embed = new MessageEmbed() 
                 .setAuthor({
-                    name: `😬 Ouch...`,
+                    name: `🙁 Don't be sad...`,
                     iconURL: interaction.user.displayAvatarURL({
                         dynamic: true,
                         format: "png",
                         size: 2048,
                     }),
                 })
-                .setDescription(`>>> 🦷 <@${member.id || member.user.id}> just got bited by <@${interaction.member.id}>${Math.floor(Math.random() * 100 + 1) == 1 ? "\n|| They bully me to... please let me out||" : ""}`)
-                .setImage(body.url)
+                .setDescription(`${text}`)
+                .setImage(url)
                 .setColor("RANDOM")
                 .setFooter({
-                    text: `🦷 Bite • Asked by ${interaction.member.nickname || interaction.user.username}`,
+                    text: `😢 Sad • Asked by ${interaction.member.nickname || interaction.user.username}`,
                     iconURL: interaction.user.displayAvatarURL({
                         dynamic: true,
                         format: "png",
@@ -57,7 +55,7 @@ module.exports = {
                     }),
                 })
                 .setTimestamp()
-                .setURL(body.url);
+                .setURL(url);
             interaction.followUp({ embeds: [embed] });
         } catch (err) {
 

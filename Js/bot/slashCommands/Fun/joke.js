@@ -13,7 +13,7 @@ module.exports = {
         try {
 
             const wait_embed = new MessageEmbed() 
-                .setDescription(`<a:loading_please_wait:1014982234492633088> | I'm generating a \`joke\`. Please wait...`)
+                .setDescription(`<a:loading:1032282688821940245> | I'm generating a \`joke\`. Please wait...`)
                 .setColor("5865f2");
 
             interaction.followUp({embeds: [wait_embed]})

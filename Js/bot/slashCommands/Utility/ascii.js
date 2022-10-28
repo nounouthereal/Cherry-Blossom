@@ -37,7 +37,7 @@ module.exports = {
                 },
                 {
                     name: "🕺 Dancing",
-                    value: "Dancing",
+                    value: "Dancing Font",
                 },
                 {
                     name: "🤪 Crazy",
@@ -48,8 +48,20 @@ module.exports = {
                     value: "Cursive",
                 },
                 {
-                    name: "📟 Alpha",
-                    value: "Alpha",
+                    name: "💥 Epic",
+                    value: "Epic",
+                },
+                {
+                    name: "🈂 Katakana",
+                    value: "Katakana",
+                },
+                {
+                    name: "🛑 Impossible",
+                    value: "Impossible",
+                },
+                {
+                    name: "Ⓜ Italic",
+                    value: "Italic",
                 },
                 {
                     name: "🖋 Caligraphy",

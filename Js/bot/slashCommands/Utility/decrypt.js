@@ -36,7 +36,7 @@ module.exports = {
                 .setTitle(`📟 Decryption`)
                 .setDescription(`✅ Your decrypted text has been successfully generated and sent in your DM's (Direct Messages)\n\n>>> Note: The decrypted text and your key aren't stocked anywhere.`)
                 .setFooter({
-                    text: `Requested by ${interaction.member.nickname || interaction.user.username} • ${interaction.guild.name}`,
+                    text: `Asked by ${interaction.member.nickname || interaction.user.username} • ${interaction.guild.name}`,
                     iconURL: interaction.user.displayAvatarURL({
                         dynamic: true,
                         format: "png",
@@ -45,6 +45,7 @@ module.exports = {
                 })
                 .setColor("RANDOM")
                 .setTimestamp();
+
 
             const embed2 = new MessageEmbed()
                 .setTitle(`📟 Decryption`)

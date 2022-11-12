@@ -5,7 +5,8 @@ const CURSED = require('../../utils/data/p*rnWebsite.json');
 const URL = require("url").URL;
 const https = require('https');
 const http = require('http');
-const Ping = require('ping-wrapper');
+const request = require('request')
+const ms = require('ms')
 
 
 
@@ -58,7 +59,7 @@ module.exports = {
                             required: true,
                         },
                     ],
-                }
+                },
             ],
         },
     ],
@@ -120,15 +121,6 @@ module.exports = {
 
             const url = bigUrl.toLowerCase()
 
-            if (CURSED.some(word => url.includes(word.host)) && !interaction.channel.nswf) {
-
-                let badEmb = new MessageEmbed()
-                    .setDescription(`❌ <@${interaction.user.id}> : To screenshot a 18+ website you need to be in a NSWF Channel.`)
-                    .setImage("https://media.discordapp.net/attachments/721019707607482409/855827123616481300/nsfw.gif")
-                    .setColor("RED")
-                return interaction.followUp({ embeds: [badEmb] })
-            }
-
 
             if (!stringIsAValidUrl(url)) {
                 let badEmb = new MessageEmbed()
@@ -158,6 +150,15 @@ module.exports = {
 
             if (command == "screenshot") {
 
+                if (CURSED.some(word => url.includes(word.host)) && !interaction.channel.nswf) {
+
+                    let badEmb = new MessageEmbed()
+                        .setDescription(`❌ <@${interaction.user.id}> : To screenshot a 18+ website you need to be in a NSWF Channel.`)
+                        .setImage("https://media.discordapp.net/attachments/721019707607482409/855827123616481300/nsfw.gif")
+                        .setColor("RED")
+                    return interaction.followUp({ embeds: [badEmb] })
+                }
+
 
                 (async () => {
                     const browser = await puppeteer.launch({ headless: true });
@@ -181,7 +182,8 @@ module.exports = {
                     .setColor("RANDOM")
                     .setImage(`attachment://web.png`)
                     .setURL(url)
-                    .setFooter(`Web Screenshot • Asked by ${interaction.member.nickname || interaction.user.username}`)
+                    .setTimestamp()
+                    .setFooter({text: `Web Screenshot • Asked by ${interaction.member.nickname || interaction.user.username}`})
 
                 await interaction.editReply({ embeds: [embed], files: [image] })
 
@@ -192,11 +194,28 @@ module.exports = {
 
             if (command == "ping") {
 
-                if (url.startsWith("https://"))
-                
-                let data = https.get(url)
+                request({
+                    uri: url,
+                    method: 'GET',
+                    time: true
+                }, (err, resp) => {
 
-                console.log(data)
+                    const emb = new MessageEmbed()
+                    emb.setTitle(`🏓 Ping data for ${url.substring(url.startsWith("https") ? 8 : 7)}`)
+                    emb.setColor("RANDOM")
+                    emb.setFooter(`Web Ping • Asked by ${interaction.member.nickname || interaction.user.username}`)
+                    emb.setColor("RANDOM")
+                    emb.addFields(
+                        { name: `🧦 Socket (web) Connection Time`, value: `I needed to wait \`${ms(resp.timings.socket)}\` ms to make a websocket connection.` },
+                        { name: '👀 Lookup Time', value: `I needed to wait \`${ms(resp.timings.lookup)}\` ms to get a first lookup.` },
+                        { name: '📲 Connection Time', value: `I needed to wait \`${ms(resp.timings.connect)}\` ms to connect to the website server.` },
+                        { name: '💬 Response Time', value: `I needed to wait \`${ms(resp.timings.response)}\` ms to get the response from website server.` },
+                        { name: '🎬 Finalization Time', value: `I needed to wait \`${ms(resp.timings.end, {long: false})}\` ms to get the website loaded.` },
+                    )
+                    emb.setTimestamp();
+
+                    interaction.editReply({embeds: [emb]})
+                })
 
 
             }

@@ -13,6 +13,7 @@
     "@vitalets/google-translate-api": "^8.0.0",
     "@weky/inlinereply": "^0.0.0",
     "0.0.1": "^1.0.1",
+    "advanced-calculator": "^1.1.0",
     "amethyste-api": "^1.1.5",
     "anime-actions": "^1.0.6",
     "any-base": "^1.1.0",
@@ -55,8 +56,10 @@
     "is-function": "^1.0.2",
     "iso-639-1": "^2.1.15",
     "jimp": "^0.16.2",
+    "js-string-cleaner": "^1.2.0",
     "load-bmfont": "^1.4.1",
     "mal-scraper": "^2.11.4",
+    "mathjs": "^11.3.2",
     "mime": "^1.6.0",
     "min-document": "^2.19.0",
     "mkdirp": "^0.5.6",
@@ -106,13 +109,17 @@
     "translate": "^1.4.1",
     "utif": "^2.0.1",
     "weky": "^3.1.8",
+    "whois": "^2.13.9",
+    "whois-json": "^2.0.4",
     "xhr": "^2.6.0",
     "xml-parse-from-string": "^1.0.1",
     "xml2js": "^0.4.23",
     "xmlbuilder": "^11.0.1",
     "xoppack": "^1.5.6",
     "xtend": "^4.0.2",
-    "ytsr": "^3.2.2"
+    "ytdl-core": "^4.11.2",
+    "ytpl": "^2.3.0",
+    "ytsr": "^3.8.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

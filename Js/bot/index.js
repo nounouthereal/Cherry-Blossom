@@ -39,10 +39,21 @@ bot.player = new Player(bot, {
 })
 
 
+//General
 bot.commands = new Collection();
 bot.slashCommands = new Collection();
 bot.aliases = new Collection();
 bot.cooldowns = new Collection();
+
+//Utility
+bot.snipes = new Collection();
+
+
+
+bot.on('error', (error) => {
+    console.log(error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"
+    +error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n"+error+"\n\n");
+});
 
 
 require('./utils/handlers/command')(bot);

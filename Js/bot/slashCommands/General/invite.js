@@ -9,6 +9,7 @@ module.exports = {
 
         try {
 
+
             const embed = new MessageEmbed()
                 .setColor("#57c478")
                 .setTitle(`🎉 Yee!`)

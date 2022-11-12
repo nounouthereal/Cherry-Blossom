@@ -10,13 +10,13 @@ module.exports = {
     options: [
         {
             name: "query",
-            description: "seconds",
+            description: "1",
             required: false,
             type: "STRING"
         },
         {
-            name: "query",
-            description: "repeat",
+            name: "query2",
+            description: "2",
             required: false,
             type: "STRING"
         },
@@ -59,19 +59,13 @@ module.exports = {
 
             interaction.followUp({files: ["testPuppeteer.png"]})*/
 
-            const req = https.request(options, (res) => {
-                console.log('statusCode:', res.statusCode);
-                console.log('headers:', res.headers);
+            const ytdl = require('ytdl-core');
+            const fs = require('fs')
 
-                res.on('data', (d) => {
-                    process.stdout.write(d);
-                });
-            });
+            ytdl('https://www.youtube.com/watch?v=pyZ9dTb0W2M')
+                .pipe(fs.createWriteStream('video.mp4'));
+            
 
-            req.on('error', (e) => {
-                console.error(e);
-            });
-            req.end();
 
         } catch (err) {
             console.log(err);

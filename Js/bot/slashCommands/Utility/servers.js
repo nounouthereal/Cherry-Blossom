@@ -12,10 +12,10 @@ module.exports = {
 
             const embed = new MessageEmbed()
                 .setTitle(`<:analytics:994948046314012772> I'm in \`${bot.guilds.cache.size}\` servers!`)
-                .addField(`<:user:1013896589061926922> User Count`, `\`${bot.guilds.cache.reduce((a, g) => a + g.memberCount, 0)} members\``, true)
-                .addField(`<:chat:995075584147345439> Channel Count`, `\`${bot.channels.cache.size} channels\``, true)
+                .addField(`<:member:1023155815785435227> User Count`, `\`${bot.guilds.cache.reduce((a, g) => a + g.memberCount, 0)} members\``, true)
+                .addField(`<:chat:994948721739583549> Channel Count`, `\`${bot.channels.cache.size} channels\``, true)
                 .setFooter({
-                    text: `Requested by ${interaction.user.username} • ${interaction.guild.name}`,
+                    text: `Asked by ${interaction.member.nickname || interaction.user.username} • ${interaction.guild.name}`,
                     iconURL: interaction.user.displayAvatarURL({
                         dynamic: true,
                         format: "png",
@@ -30,7 +30,7 @@ module.exports = {
                 .addComponents(
                     new MessageButton() // Prettier
                         .setURL(`https://discord.com/api/oauth2/authorize?client_id=944572861874602054&permissions=1644971949559&scope=bot%20applications.commands`)
-                        .setEmoji(`<a:verifyred:994197138504417310>`)
+                        .setEmoji(`<a:inviteVerified:1058375300259528745>`)
                         .setLabel("Invite me!")
                         .setStyle("LINK")
                 );

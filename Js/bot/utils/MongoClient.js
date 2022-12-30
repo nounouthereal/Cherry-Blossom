@@ -10,7 +10,7 @@ const itemss = require('/Users/nouhame/Bot_des_cerisiers/Js/bot/utils/items.js')
 
 class MongoClient extends Client {
     constructor() {
-        super({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_PRESENCES , Intents.FLAGS.GUILD_VOICE_STATES]});
+        super({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_PRESENCES , Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS]});
         const uri = "mongodb+srv://nounour:12345@cluster0.pirj0.mongodb.net/?retryWrites=true&w=majority";
         mongoose.connect(uri, {
             useNewUrlParser: true,

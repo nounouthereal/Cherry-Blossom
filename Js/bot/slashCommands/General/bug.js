@@ -3,7 +3,7 @@ const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js')
 
 module.exports = {
     name: "bug",
-    description: "❌ Report an error or a bug to the devloppers",
+    description: "🐛 Report an error or a bug to the devloppers",
     cooldown: 75,
     options: [
         {
@@ -14,7 +14,7 @@ module.exports = {
         },
         {
             name: "error",
-            description: "❌ The error code or sentence (You can copy paste it)",
+            description: "🐛 The error/bug code or sentence (You can copy paste it)",
             type: "STRING",
             required: true,
         },
@@ -34,13 +34,25 @@ module.exports = {
             let error = interaction.options.getString("error")
             let desc = interaction.options.getString("description")
 
+            if (error > 800) {
+                error.substring(0, 800) + "..."
+            }
+
+            if (command > 120) {
+                command.substring(0, 120) + "..."
+            }
+
+            if (desc > 300) {
+                desc.substring(0, 300) + "..."
+            }
+
             const wait_embed = new MessageEmbed()
                 .setDescription(`<a:loading:1032282688821940245> | We're reporting the bug for \`${command}\` command. Please wait...`)
                 .setColor("5865f2");
 
             interaction.followUp({ embeds: [wait_embed] })
 
-            const channel = bot.channels.cache.find(channel => channel.id == "1015598150754508871")
+            const channel = bot.channels.cache.find(channel => channel.id == "1044337200021647530")
 
 
             let invite = await interaction.channel.createInvite(
@@ -67,12 +79,12 @@ module.exports = {
 
             let receivedEmbed = new MessageEmbed()
                 .setTitle(`🐛 Bug reported`)
-                .setDescription(`✅ Your bug has been reported and sent to the devloper, thanks this will help us to ameliorate the bot.`)
+                .setDescription(`✅ Your bug has been reported and sent to the devloppers, thanks this will help us to ameliorate the bot.`)
                 .setColor("GREEN")
 
-            const row = new MessageActionRow() // Prettier
+            const row = new MessageActionRow() 
                 .addComponents(
-                    new MessageButton() // Prettier
+                    new MessageButton() 
                         .setURL("https://discord.gg/Y2jQKaPqKX")
                         .setLabel("Support")
                         .setStyle("LINK")

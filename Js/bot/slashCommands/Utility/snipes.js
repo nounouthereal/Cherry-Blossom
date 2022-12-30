@@ -23,12 +23,11 @@ module.exports = {
 
             let channel = interaction.options.getChannel("channel")
 
-            if(!channel) {
+            if (!channel) {
                 channel = interaction.channel
             }
 
             const msg = bot.snipes.get(channel.id)
-
 
             if (msg == undefined) {
                 let errEmb = new MessageEmbed()
@@ -37,8 +36,17 @@ module.exports = {
                 return interaction.followUp({ embeds: [errEmb] })
             }
 
+            time = new Date(msg.timestamp);
+            
+            time = time.getDate() +
+                "/" + (time.getMonth() + 1) +
+                "/" + time.getFullYear() +
+                " " + time.getHours() +
+                ":" + time.getMinutes() +
+                ":" + time.getSeconds();
+
             const embed = new MessageEmbed()
-                .setAuthor(msg.author, msg.member.user.displayAvatarURL())
+                .setAuthor(`${msg.member.nickname || msg.author.tag} at ${time}`, msg.member.user.displayAvatarURL())
                 .setDescription(Formatters.spoiler(msg.content) || "❌ Ooops cannot snipe someone")
                 .setFooter({
                     text: `Get Snipe • Asked by ${interaction.member.nickname || interaction.user.username}`,

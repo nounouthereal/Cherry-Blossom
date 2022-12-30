@@ -1,6 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 const fetch = require('node-fetch');
-
+const Typo = require("typo-js")
+const dictionary = new Typo("en_US");
 
 
 module.exports = {
@@ -66,9 +67,22 @@ module.exports = {
 
             } else {
 
-                const url = `https://disease.sh/v3/covid-19/countries/${encodeURIComponent(country)}`
+                const url = `https://disease.sh/v3/covid-19/countries/${encodeURIComponent(country.toLowerCase())}`
                 let response = await fetch(url)
                 response = await response.json()
+
+                if (response.message == "Country not found or doesn't have any cases" || !response) {
+
+                    var array_of_suggestions = dictionary.suggest(country);
+
+                    let errEmb = new MessageEmbed()
+                        .setDescription(`❌ <@${interaction.user.id}> : Cannot track/find a country named: \`${country}\` : wanting to say \`${array_of_suggestions[0] || `Cherry Typo 1.0 Error : Cannot understand meaning of ${country}`}\``)
+                        .setColor("RED")
+                    return interaction.editReply({ embeds: [errEmb] }) || interaction.followUp({ embeds: [errEmb] })
+
+                }
+
+
                 const embed = new MessageEmbed()
                     .setTitle(`🦠 COVID-19 Stats for **${country}**`)
                     .setThumbnail(`${response.countryInfo.flag}`)

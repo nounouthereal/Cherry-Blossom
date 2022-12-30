@@ -2,7 +2,7 @@ const { Collection } = require('discord.js');
 const { Intents, MessageEmbed } = require('discord.js');
 const DBL = require("dblapi.js");
 const MongoClient = require('./utils/MongoClient');
-const bot = new MongoClient({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_PRESENCES , Intents.FLAGS.GUILD_VOICE_STATES]});
+const bot = new MongoClient({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_PRESENCES , Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS]});
 const logger = require("./utils/modules/specials/logger");
 
 //const Levels = require('discord-xp');

@@ -46,7 +46,7 @@ bot.on("messageCreate", async message => {
 
 //Login
 
-bot.login("MTAyODk3Njg5NTkwMTA0NDgwOA.GxAXES.KGFKrSPKUnb5Nk0dXXNMJwZJ_36LGN3_j1Oga8");
+bot.login("MTA0OTMwNTczOTYxMDU2MjU4MA.GuKagS.bdEAcINqe1vPisFF1Drz85iiH4smHma70FnULM");
 
 //Specials
 

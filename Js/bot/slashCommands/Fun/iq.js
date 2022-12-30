@@ -17,13 +17,13 @@ module.exports = {
         
         try {
 
-            const iq = Math.floor(Math.random() * 226);
+            let iq = Math.floor(Math.random() * 226);
             const embed = new MessageEmbed() // Prettier
                 .setTitle(`🧠 IQ Test:`)
                 .setColor("#4f545c")
                 .setTimestamp()
                 .setFooter({
-                    text: `Asked by ${interaction.member.nickname} • ${interaction.guild.name}`,
+                    text: `Asked by ${interaction.member.nickname || interaction.user.username} • ${interaction.guild.name}`,
                     iconURL: interaction.user.displayAvatarURL({
                         dynamic: true,
                         format: "png",

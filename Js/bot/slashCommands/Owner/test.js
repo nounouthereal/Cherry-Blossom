@@ -59,11 +59,16 @@ module.exports = {
 
             interaction.followUp({files: ["testPuppeteer.png"]})*/
 
-            const ytdl = require('ytdl-core');
+            /* const ytdl = require('ytdl-core');
             const fs = require('fs')
 
             ytdl('https://www.youtube.com/watch?v=pyZ9dTb0W2M')
-                .pipe(fs.createWriteStream('video.mp4'));
+                .pipe(fs.createWriteStream('video.mp4')); */
+
+            console.log(`${(![] + [])[+[]] +
+            (![] + [])[+!+[]] +
+            ([![]] + [][[]])[+!+[] + [+[]]] +
+            (![] + [])[!+[] + !+[]]}`)
             
 
 

@@ -13,12 +13,14 @@ module.exports = {
     ],
     run: async (bot, interaction, args) => {
         try {
+
             if (interaction.user.id !== "901071562386583596") {
                 let userError = new MessageEmbed()
                     .setDescription(`❌ <@${interaction.user.id}> : You need to be a devlopper or the owner of the bot`)
                     .setColor("RED")
                 return interaction.followUp({ embeds: [userError] })
             }
+            
             var result = args.join(" ");
             if (!result) {
                 let noEnter = new MessageEmbed()

@@ -5,6 +5,8 @@ const QRCode = require('qrcode');
 const SPqr = require('qr-image')
 var gm = require('gm')
 const PDFDocument = require('pdfkit');
+var asciify = require('asciify-image');
+
 
 
 
@@ -36,6 +38,10 @@ module.exports = {
                 {
                     name: "JPEG",
                     value: "jpeg"
+                },
+                {
+                    name: "ASCII",
+                    value: "ascii"
                 },
                 {
                     name: "PDF",
@@ -171,16 +177,16 @@ module.exports = {
 
             let image = await QRCode.toBuffer(dataQr, {
                 color: {
-                  dark: foreground_color,
-                  light: background_color
+                    dark: foreground_color,
+                    light: background_color
                 },
                 scale: scale
             })
 
-            let sub_format = format
+            let subFormat = format
 
             if (format == "pdf") {
-                sub_format = "png"
+                subFormat = "png"
             }
 
 
@@ -195,12 +201,43 @@ module.exports = {
 
             if (format == "txt") {
                 const atc = new MessageAttachment(Buffer.from(image), 'qrcodeBasic.txt');
-                return interaction.editReply({embeds: [], files: [atc] });
+                return interaction.editReply({ embeds: [], files: [atc] });
+            }
+
+            if (format == "ascii") {
+
+                var options = {
+                    fit: 'box',
+                    width: 20,
+                    height: 10,
+                }
+
+                asciify(image, options)
+
+                    .then(function (asciified) {
+
+                        console.loG(typeof asciified)
+
+                        const atc = new MessageAttachment(asciified.toBuffer(), 'qrcodeASCII.txt');
+                        return interaction.editReply({ embeds: [], files: [atc] });
+
+                    }).catch(function (err) {
+
+                        console.log(err);
+
+
+                        let basicError = new MessageEmbed()
+                            .setDescription(`❌ <@${interaction.user.id}> : An error occured. Please try later or contact support (\`/support || /bug\`)\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support Server](https://discord.gg/Y2jQKaPqKX)`)
+                            .setColor(`RED`)
+                            .setTimestamp()
+                        interaction.editReply({ embeds: [basicError] }) || interaction.followUp({ embeds: [basicError] })
+                    });
+
             }
 
 
 
-            gm(image, `qrcode.${sub_format}`)
+            gm(image, `qrcode.${subFormat}`)
                 .toBuffer(format.toUpperCase(), function (err, buffer) {
                 })
 

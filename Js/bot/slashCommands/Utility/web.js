@@ -124,7 +124,7 @@ module.exports = {
                     return new Promise((resolve, reject) => {
                         https
                             .get(url, function (res) {
-                                resolve(res.statusCode === 200);
+                                resolve(res.statusCode === 200 || res.statusCode == 301 || response.statusCode == 302 || response.statusCode == 201 || response.statusCode == 202);
                             })
                             .on("error", function (e) {
                                 resolve(false);
@@ -134,7 +134,7 @@ module.exports = {
                     return new Promise((resolve, reject) => {
                         http
                             .get(url, function (res) {
-                                resolve(res.statusCode === 200);
+                                resolve(res.statusCode === 200 || res.statusCode == 301 || response.statusCode == 302 || response.statusCode == 201 || response.statusCode == 202);
                             })
                             .on("error", function (e) {
                                 resolve(false);
@@ -143,14 +143,13 @@ module.exports = {
                 }
             }
 
-
             const url = bigUrl.toLowerCase()
 
-            if (!stringIsAValidUrl(url)) {
+            if (!stringIsAValidUrl(bigUrl)) {
                 let badEmb = new MessageEmbed()
-                    .setDescription(`❌ <@${interaction.user.id}> : \`${url}\` Is not a valid URL.`)
+                    .setDescription(`❌ <@${interaction.user.id}> : \`${bigUrl}\` Is not a valid URL.`)
                     .setColor("RED")
-                return interaction.followUp({ embeds: [badEmb] })
+                return interaction.editReply({ embeds: [badEmb] }) || interaction.followUp({ embeds: [badEmb] })
             }
 
             const wait_embed = new MessageEmbed()
@@ -161,13 +160,13 @@ module.exports = {
 
             if (bigCommand == "page") {
 
-                const check = await checkWebsite(url)
+                const check = await checkWebsite(bigUrl)
 
                 if (!check) {
                     let badEmb = new MessageEmbed()
-                        .setDescription(`❌ <@${interaction.user.id}> : Could not connect to a website named: \`${url}\`. Please verify if this website is running or even existing: [Get_To_The_Website](${url}).`)
+                        .setDescription(`❌ <@${interaction.user.id}> : Could not connect to a website named: \`${bigUrl}\`. Please verify if this website is running or even existing: [Get_To_The_Website](${bigUrl}).`)
                         .setColor("RED")
-                    return interaction.followUp({ embeds: [badEmb] })
+                    return interaction.editReply({ embeds: [badEmb] }) || interaction.followUp({ embeds: [badEmb] }) 
                 }
 
 
@@ -192,7 +191,7 @@ module.exports = {
                             .setDescription(`❌ <@${interaction.user.id}> : To screenshot a 18+ website you need to be in a NSWF Channel.`)
                             .setImage("https://media.discordapp.net/attachments/721019707607482409/855827123616481300/nsfw.gif")
                             .setColor("RED")
-                        return interaction.followUp({ embeds: [badEmb] })
+                        return interaction.editReply({ embeds: [badEmb] }) || interaction.followUp({ embeds: [badEmb] })
                     }
 
 

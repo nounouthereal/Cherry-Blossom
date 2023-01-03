@@ -1792,15 +1792,6 @@
     },
     {
         "protocol": "http",
-        "domain": "omg.yahoo.com",
-        "path": null,
-        "subdomain": "omg",
-        "host": "yahoo",
-        "tld": "com",
-        "parent_domain": "yahoo.com"
-    },
-    {
-        "protocol": "http",
         "domain": "www.celebuzz.com",
         "path": null,
         "subdomain": "www",
@@ -4462,15 +4453,6 @@
         "host": "largeporntube",
         "tld": "co",
         "parent_domain": "largeporntube.co"
-    },
-    {
-        "protocol": "http",
-        "domain": "video.search.yahoo.com",
-        "path": "search/video?fr=sfp&fr2=piv-web&p=porn&.bcrumb=ZaF57phvPYQ,1385310133",
-        "subdomain": "video",
-        "host": "search",
-        "tld": "yahoo.com",
-        "parent_domain": "search.yahoo.com"
     },
     {
         "protocol": "http",

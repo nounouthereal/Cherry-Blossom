@@ -44,6 +44,7 @@ bot.commands = new Collection();
 bot.slashCommands = new Collection();
 bot.aliases = new Collection();
 bot.cooldowns = new Collection();
+bot.version = "Pre Alpha [0.0.1]"
 
 //Utility
 bot.snipes = new Collection();

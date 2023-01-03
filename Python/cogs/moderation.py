@@ -1370,6 +1370,7 @@ async def do_warn(ctx, member: discord.Member, reason):
 
 @bot.command(help="Shows info for the channel specified using channel mention or ID", aliases=["channinfo"])
 async def channelinfo(ctx, channel):
+    
         if channel.isnumeric():
             channel_obj = ctx.guild.get_channel(int(channel))
         elif len(ctx.message.channel_mentions) > 0:

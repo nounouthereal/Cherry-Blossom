@@ -50,6 +50,7 @@ module.exports = {
             let gif_only = interaction.options.getBoolean(`gif_only`)
 
             let tagName = ""
+            let tagDesc = ""
 
             if (!tag) tag = "waifu" 
 
@@ -58,7 +59,11 @@ module.exports = {
             if (tag == "maid") { tagName = "🧹 Maid" }
             if (tag == "oppai") { tagName = "🍑 Oppai" }
 
-
+            if (tag == "waifu") { tagDesc = "A female anime/manga character." }
+            if (tag == "uniform") { tagDesc = "Girls wearing any kind of uniform, cosplay etc..." }
+            if (tag == "selfies") { tagDesc = "A photo-like image of a waifu." }
+            if (tag == "maid") { tagDesc = "Cute womans or girl employed to do domestic work in their working uniform." }
+            if (tag == "oppai") { tagDesc = "Girls with large breasts" }
             
             if (!gif_only) gif_only = "false"
 
@@ -133,7 +138,7 @@ module.exports = {
                 })
             }
             */
-
+//body.tags[0].description
 
 
             const wait_embed = new MessageEmbed()
@@ -142,12 +147,12 @@ module.exports = {
 
             interaction.followUp({ embeds: [wait_embed] })
 
-            let res = await fetch(`https://api.waifu.im/random/?selected_tags=${tag}&gif=${gif_only}`);
+            let res = await fetch(`https://api.waifu.im/search/?included_tags=${tag}&gif=${gif_only}`);
 
             const body = await res.json();
 
 
-            if (body.detail == "No image found matching the criteria given") {
+            if (body.detail == "No image found matching the criteria given" || body.detail) {
 
 
                 const NotFoundembed = new MessageEmbed()
@@ -167,13 +172,14 @@ module.exports = {
             }
 
             const embed = new MessageEmbed()
-                .setColor("RANDOM")
+                .setColor(body.images[0].dominant_color)
                 .setTitle(`${tagName} Waifu images`)
+                .setDescription(`Description : ${tagDesc}`)
                 .setURL(`${body.images[0].url}`)
                 .setImage(`${body.images[0].url}`)
                 .setTimestamp()
                 .setFooter({
-                    text: `👘 Waifu • Asked by ${interaction.member.nickname || interaction.user.username}`,
+                    text: `Waifu • Asked by ${interaction.member.nickname || interaction.user.username}`,
                     iconURL: interaction.user.displayAvatarURL({
                         dynamic: true,
                         format: "png",

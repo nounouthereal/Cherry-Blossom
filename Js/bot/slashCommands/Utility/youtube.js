@@ -2,6 +2,7 @@ const { MessageEmbed, MessageAttachment } = require("discord.js");
 const ytsr = require('ytsr');
 const ytdl = require('ytdl-core');
 
+const HttpsProxyAgent = require('https-proxy-agent');
 const fs = require("fs");
 const URL = require("url").URL;
 const https = require('https');
@@ -15,7 +16,7 @@ const http = require('http');
 module.exports = {
     name: "youtube",
     description: "📮 Make youtube actions",
-    cooldown: 15,
+    cooldown: 7.5,
     options: [
         {
             name: "video",
@@ -108,22 +109,12 @@ module.exports = {
             const url = bigUrl?.toLowerCase()
 
 
-            if (!stringIsAValidUrl(url)) {
+            if (!stringIsAValidUrl(url) && command == "download") {
                 let badEmb = new MessageEmbed()
                     .setDescription(`❌ <@${interaction.user.id}> : \`${url}\` Is not a valid url`)
                     .setColor("RED")
                 return interaction.followUp({ embeds: [badEmb] })
             }
-
-            const check = await checkYtbUrl(url)
-
-            if (!check) {
-                let badEmb = new MessageEmbed()
-                    .setDescription(`❌ <@${interaction.user.id}> : Could not connect to a youtube video named: \`${url}\`. Please verify if this video is working or even existing: [Get_To_The_Video](${url}).`)
-                    .setColor("RED")
-                return interaction.followUp({ embeds: [badEmb] })
-            }
-
 
 
 
@@ -136,35 +127,47 @@ module.exports = {
 
             if (command == "search") {
 
+                const filters1 = await ytsr.getFilters(search);
+                const filter1 = filters1.get('Type').get('Video');
 
-                
-                
-                const searchResults = await ytsr(search);
+                const options = {
+                    pages: 1,
+                }
 
-                console.log(searchResults)
+                const searchResults = await ytsr(filter1.url, options);
 
+                const video = searchResults.items[0]
 
                 const emb = new MessageEmbed()
-                emb.setTitle(`📮 Video info for ${meteo.name}`)
+                emb.setTitle(`📮 Video informations for ${search}`)
                 emb.setColor("RANDOM")
-                emb.setFooter(`${emoji} Weather • Asked by ${interaction.member.nickname || interaction.user.username}`)
+                emb.setFooter(`Youtube Search • Asked by ${interaction.member.nickname || interaction.user.username}`,
+                    interaction.user.displayAvatarURL({
+                        dynamic: true,
+                        format: "png",
+                        size: 2048,
+                    })
+                )
+
                 emb.addFields(
-                    { name: `Weather Description`, value: `${emoji} **${weather_main} - ${weather_description}**`},
-                    { name: '🌡 Temperature (°C)', value: `**${current_temperature_celsiuis}°C**`},
-                    { name: '🔥 - 🧊 Temperature Max et Min(°C)', value: `**Temp.max: ${temp_max_celsius}°C\nTemp.min: ${temp_min_celsius}°C**`},
-                    { name: '🤒 Température ressentie(C)', value: `**${current_feels_like_celsius}°C**`},
-                    { name: '💧 Humidity(%)', value: `**${current_humidity}%**`},
-                    { name: '🌍 Atmospheric pressure(hPa)', value: `**${current_pressure}hPa**`},
-                    { name: '🍃 Wind Speed(m/s) - 🌬 Wind Direction', value: `**${meteo.wind.speed}m/s** \`||\` **${meteo.wind.deg}°**`, inline: true},
-                    { name: '☁️ Cloud Cover (%)', value: `**${meteo.clouds.all}%**`, inline: true},
-                    { name: '🗺 Coordinates(lat-lon)', value: `**Latitude: ${lat}\nLongitude: ${lon}**`, inline: false},
-                    { name: '🕰 Jet lag UTC(h)', value: `**${current_timezone}h**`},
+                    { name: `📹 Title:`, value: `${video.title}` },
+                    { name: '🤳 Channel:', value: `**${video.author.name}**` },
+                    { name: '👁‍🗨 Views:', value: `\`${video.views.toLocaleString()} views\``, inline: true },
+                    { name: '⌛️ Duration:', value: `${video.duration}`, inline: true },
+                    { name: '🔗 URL:', value: `__${video.url}__`, inline: false },
+                    { name: '🆔 ID:', value: `\`${video.id}\``, inline: true },
+                    { name: '🕰 Uploaded:', value: `**${video.uploadedAt}**`, inline: true },
+                    //{ name: '☁️ Cloud Cover (%)', value: `**${meteo.clouds.all}%**`, inline: true },
+                    //{ name: '🗺 Coordinates(lat-lon)', value: `**Latitude: ${lat}\nLongitude: ${lon}**`, inline: false },
+                    //{ name: '🕰 Jet lag UTC(h)', value: `**${current_timezone}h**` },
                     //{ name: '⛩ Region', value: `${meteo.region}` },
                     //{ name: '♻️ Status', value: `${meteo.status.toUpperCase()}` },
                 )
+                emb.setThumbnail(video.author.bestAvatar.url)
+                emb.setImage(video.bestThumbnail.url)
                 emb.setTimestamp();
 
-                await interaction.editReply({ embeds: [emb]})
+                await interaction.editReply({ embeds: [emb] })
 
 
 
@@ -173,28 +176,49 @@ module.exports = {
             if (command == "download") {
 
 
-                ytdl(url)
+                const proxy = 'http://user:pass@111.111.111.111:8080';
+                const agent = HttpsProxyAgent(proxy);
+
+
+                const check = await checkYtbUrl(url)
+
+                if (!check) {
+                    let badEmb = new MessageEmbed()
+                        .setDescription(`❌ <@${interaction.user.id}> : Could not connect to a youtube video named: \`${url}\`. Please verify if this video is working or even existing: [Get_To_The_Video](${url}).`)
+                        .setColor("RED")
+                    return interaction.editReply({ embeds: [badEmb] }) || interaction.followUp({ embeds: [badEmb] })
+                }
+
+
+
+                ytdl(url, {
+                    requestOptions: { agent },
+                })
                     .pipe(fs.createWriteStream(`/Users/nouhame/Bot_des_cerisiers/Js/bot/cherry-youtube-video-${interaction.user.id}.mp4`));
-                
+
                 await new Promise(resolve => setTimeout(resolve, 10000));
-                    
+
                 let video = new MessageAttachment(`/Users/nouhame/Bot_des_cerisiers/Js/bot/cherry-youtube-video-${interaction.user.id}.mp4`, `cherry-youtube-video.mp4`);
-
-                console.log(video)
-
 
 
 
                 const embed = new MessageEmbed()
-                    .setTitle(`📮 `)
-                    //.setDescription(`${url} Options: \n\nFull Page: \`${full}\`\nOmit Background: \`${omitBack}\`\n\n**Image:**`)
+                    .setTitle(`📮 Youtube Video Download`)
+                    .setDescription(`:warning: Don't forget, Youtube videos reuploading is forbidden.`)
                     .setColor("RED")
+                    .setImage(url)
                     .setTimestamp()
-                    .setFooter({ text: `Youtube Video Download • Asked by ${interaction.member.nickname || interaction.user.username}` })
+                    .setFooter({ text: `Youtube Video Download • Asked by ${interaction.member.nickname || interaction.user.username}`,
+                        iconURL: interaction.user.displayAvatarURL({
+                            dynamic: true,
+                            format: "png",
+                            size: 2048,
+                        })
+                    }) 
 
                 await interaction.editReply({ embeds: [embed], files: [video] })
 
-                await new Promise(resolve => setTimeout(resolve, 4000));
+                await new Promise(resolve => setTimeout(resolve, 1000));
 
 
                 fs.unlinkSync(`/Users/nouhame/Bot_des_cerisiers/Js/bot/cherry-youtube-video-${interaction.user.id}.mp4`);
@@ -213,7 +237,7 @@ module.exports = {
                 .setDescription(`❌ <@${interaction.user.id}> : An undefined error occured\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support](https://discord.gg/Y2jQKaPqKX)`)
                 .setColor("RED")
                 .setTimestamp();
-            return interaction.followUp({ embeds: [basicError] })
+            return interaction.editReply({ embeds: [basicError] }) || interaction.followUp({ embeds: [basicError] })
         }
     }
 };

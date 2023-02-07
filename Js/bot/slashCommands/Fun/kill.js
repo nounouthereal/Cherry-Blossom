@@ -41,8 +41,9 @@ module.exports = {
 
             const choosedDeathsGifs = deathsGif[Math.floor(Math.random() * deathsGif.length)];
 
-            const choosedDeathText = deathsText[Math.floor(Math.random() * deathsGif.length)];
-            console.log(choosedDeathsGifs)
+            let choosedDeathText = deathsText[Math.floor(Math.random() * deathsGif.length)];
+
+            if (!choosedDeathText) choosedDeathText = `☠️ <@${member.id}> was killed by <@${interaction.user.id}>`
 
             const embed = new MessageEmbed() 
             
@@ -65,7 +66,7 @@ module.exports = {
                     }),
                 })
                 .setImage(choosedDeathsGifs)
-                .setDescription(`>>> ${choosedDeathText}${Math.floor(Math.random() * 100 + 1) == 1 ? `\n||I want to kill myself... please let me out||` : ``}`);
+                .setDescription(`>>> ${choosedDeathText}${Math.floor(Math.random() * 300 + 1) == 1 ? `\n||I want to kill myself... please let me out|| 2 on 20 bot easter eggs` : ``}`);
             interaction.followUp({ embeds: [embed] });
 
 

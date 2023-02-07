@@ -26,7 +26,7 @@ module.exports = {
             
             if (member.id == interaction.user.id) {
                 let authorUserError = new MessageEmbed()
-                    .setDescription(`❌ <@${interaction.user.id}> : How the hell can you eat yourself, ehh.`)
+                    .setDescription(`❌ <@${interaction.user.id}> : How the hell can you yeet yourself, ehh.`)
                     .setColor("RED")
                 return interaction.followUp({ embeds: [authorUserError] })
             }

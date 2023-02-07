@@ -1,9 +1,11 @@
-const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
+const { MessageEmbed, MessageActionRow, MessageButton, UserFlags } = require("discord.js");
 const { version: discordjsVersion } = require('discord.js')
 const nodeVersion = process.version.match(/^v(\d+\.\d+)/)[1];
 const osu = require("node-os-utils");
 const moment = require("moment");
 const { Permissions } = require('discord.js');
+const emojiAPI = require("emoji-api");
+const converter = require('discord-emoji-converter')
 
 const cpu = osu.cpu;
 const os = osu.os;
@@ -73,6 +75,19 @@ module.exports = {
             ],
         },
         {
+            name: "message",
+            description: "📩 Give you informations about a message",
+            type: "SUB_COMMAND",
+            options: [
+                {
+                    name: "link",
+                    description: "🔗 The message link you want informations from",
+                    type: "STRING",
+                    required: true,
+                }
+            ],
+        },
+        {
             name: "role",
             description: "🎭 Give you informations about a role",
             type: "SUB_COMMAND",
@@ -114,8 +129,9 @@ module.exports = {
             const user = interaction.options.getUser("user");
             const channel = interaction.options.getChannel("channel");
             const role = interaction.options.getRole("role");
-            const moji = interaction.options.getString("emoji");
+            let moji = interaction.options.getString("emoji");
             const notFetchedInvite = interaction.options.getString("invite");
+            let messageBrut = interaction.options.getString("link");
 
             if (subCom == "ban") {
 
@@ -229,7 +245,7 @@ module.exports = {
 
                 if (channel.type != "GUILD_CATEGORY" && channel.type != "GUILD_PUBLIC_THREAD") {
                     const category = interaction.guild.channels.cache.find(c => c == channel.parentId)
-                    if (category != undefined || category != null ) embed.addField("🗄 Channel Category:", "```" + category.name + ` (ID: ${category.id})\`\`\``);
+                    if (category != undefined || category != null) embed.addField("🗄 Channel Category:", "```" + category.name + ` (ID: ${category.id})\`\`\``);
                 }
 
                 if (channel.type == "GUILD_PUBLIC_THREAD" || channel.type == "GUILD_PRIVATE_THREAD") {
@@ -384,7 +400,66 @@ module.exports = {
                     true: "\`Yes\`"
                 }
 
+                const regex = /\p{Extended_Pictographic}/ug
+
+
                 const emoji = interaction.guild.emojis.cache.find((emoji) => (emoji.name).toLowerCase() == moji.toLowerCase() || emoji.id == moji || moji.includes(emoji.name) || moji.includes(emoji.id))
+
+
+                if (!emoji) {
+
+                    try {
+
+                        let emojiValue
+
+                        if (moji.match(regex)) {
+                            emojiValue = converter.getShortcode(moji)
+                        }
+
+                        else {
+                            emojiValue = moji
+                            moji = converter.getEmoji(moji)
+                        }
+
+
+                        const emo = emojiAPI.get(moji);
+                        const data = emo._data
+
+                        let link = emo.twemoji()
+
+                        const embed = new MessageEmbed()
+                        embed.setAuthor(`Emoji Info for ${emo.formattedName}`, link)
+                        embed.setColor("RANDOM")
+                        embed.setDescription(":warning: This emoji is a basic discord emoji.")
+                        embed.setThumbnail(link)
+                        embed.addField("😀 Emoji:", `${moji} (**${emo.formattedName}**)`)
+                        embed.addField(`🏷 Discord Name:`, `\`${emojiValue}\``)
+                        embed.addField(`Ⓜ️ Emoji URL:`, `__${link}__`)
+                        embed.addField("*️⃣ Unicode:", `\`${data.codepoints}\``)
+                        embed.addField("🗄 Group:", `${data.group}`, true)
+                        embed.addField("❔ Require Colons:", status[true], true)
+                        embed.setImage(link)
+                        embed.setFooter({
+                            text: `Emoji Info • Asked by ${interaction.member.nickname || interaction.user.username}`,
+                            iconURL: interaction.user.displayAvatarURL({
+                                dynamic: true,
+                                format: "png",
+                                size: 2048,
+                            }),
+                        });
+
+                        interaction.followUp({ embeds: [embed] })
+
+                        return
+
+                    }
+                    catch (e) {
+                        let errEmb = new MessageEmbed()
+                            .setDescription(`❌ <@${interaction.user.id}> : Cannot find an emoji named: \`${moji}\`.`)
+                            .setColor("RED")
+                        return interaction.followUp({ embeds: [errEmb] })
+                    }
+                }
 
                 let linkPre = `https://cdn.discordapp.com/emojis/${emoji.id}`
 
@@ -404,10 +479,11 @@ module.exports = {
                 embed.setAuthor(`Emoji Info for ${emoji.name}`, link)
                 embed.setColor("RANDOM")
                 embed.setThumbnail(link)
-                embed.addField("😀 Emoji:", `<${animatedAdd}:${emoji.name}:${emoji.id}> (**${emoji.name}**)`)
+                embed.addField("😀 Emoji:", `<${animatedAdd}:${emoji.name}:${emoji.id}> \`<${animatedAdd}:${emoji.name}:${emoji.id}>\``)
+                embed.addField(`🏷 Name:`, `${emoji.name}`)
                 embed.addField(`Ⓜ️ Emoji URL:`, `__${link}__`)
                 embed.addField("🆔 ID :", `\`${emoji.id}\``)
-                embed.addField("👮 Author:", `\`${emoji.author || "❌ Ooops, cannot find author"}\``)
+                embed.addField("👮 Creator:", `\`${emoji.author || "❌ Ooops, cannot find author"}\``)
                 embed.addField("📺 Animated:", status[emoji.animated], true)
                 embed.addField("❔ Require Colons:", status[emoji.requiresColons], true)
                 embed.addField("💻 Twitch Managed:", status[emoji.managed], true)
@@ -435,30 +511,105 @@ module.exports = {
 
                 const invite = await interaction.guild.invites.fetch().then(invites => invites.find((invite) => (invite.url).toLowerCase() == notFetchedInvite.toLowerCase() || invite.code == notFetchedInvite || notFetchedInvite.includes(invite.url) || notFetchedInvite.includes(invite.code)));
 
+                if (!invite) {
+                    let errEmb = new MessageEmbed()
+                        .setDescription(`❌ <@${interaction.user.id}> : Cannot track/find an invite named: \`${notFetchedInvite}\``)
+                        .setColor("RED")
+                    return interaction.followUp({ embeds: [errEmb] })
+                }
+
                 const embed = new MessageEmbed()
-                    embed.setAuthor(`📧 Invite Info for ${invite.url}`, invite.guild.iconURL())
-                    embed.setColor("RANDOM")
-                    embed.addField("📨 Invite URL:", `__${invite.url}__`)
-                    embed.addField(`🔐 Invite Code:`, `\`${invite.code}\``)
-                    embed.addField(`📩 Uses:`, `\`${invite.uses} uses\``)
-                    embed.addField(`🔐 Max Uses:`, `\`${invite.maxUses} max uses\``)
-                    embed.addField("🏘 Invite Server:", `**${invite.guild.name}** (\`${invite.guild.id}\`)`, false)
-                    embed.addField("🏠 Invite Channel:", `**${invite.channel.name}** (\`${invite.channelId}\`)`, false)
-                    embed.addField("👤 Inviter (Author):", `**${invite.inviter.tag}** (\`${invite.inviter.id}\`) [__Is Bot:__ ${status[invite.inviter.bot]}]`, false)
-                    embed.addField("⏳ Temporary:", status[invite.temporary], true)
-                    embed.addField("👴 Max Age:", `\`${invite.maxAge}s\` \`[${invite.maxAge / 60 / 60}h]\``, true)
-                    embed.addField("🎬 Expires The:", `<t:${Math.round(invite._expiresTimestamp / 1000)}>`, true)
-                    embed.addField("🗓 Created At:", `<t:${Math.round(invite.createdTimestamp / 1000)}>`, true)
-                    embed.setFooter({
-                        text: `Invite Info • Asked by ${interaction.member.nickname || interaction.user.username}`,
-                        iconURL: interaction.user.displayAvatarURL({
-                            dynamic: true,
-                            format: "png",
-                            size: 2048,
-                        }),
-                    });
+                embed.setAuthor(`Invite Informations for ${invite.url}`, interaction.guild.iconURL())
+                embed.setColor("RANDOM")
+                embed.addField("📨 Invite URL:", `__${invite.url}__`)
+                embed.addField(`🔐 Invite Code:`, `\`${invite.code}\``)
+                embed.addField(`📩 Uses:`, `\`${invite.uses} uses\``)
+                embed.addField(`🔐 Max Uses:`, `\`${invite.maxUses} max uses\``)
+                embed.addField("🏘 Invite Server:", `**${invite.guild.name}** (\`${invite.guild.id}\`)`, false)
+                embed.addField("🏠 Invite Channel:", `**${invite.channel.name}** (\`${invite.channelId}\`)`, false)
+                embed.addField("👤 Inviter (Author):", `**${invite.inviter.tag}** (\`${invite.inviter.id}\`) [__Is Bot:__ ${status[invite.inviter.bot]}]`, false)
+                embed.addField("⏳ Temporary:", status[invite.temporary], true)
+                embed.addField("👴 Max Age:", `\`${invite.maxAge}s\` \`[${invite.maxAge / 60 / 60}h]\``, true)
+                embed.addField("🎬 Expires The:", `<t:${Math.round(invite._expiresTimestamp / 1000)}>`, true)
+                embed.addField("🗓 Created At:", `<t:${Math.round(invite.createdTimestamp / 1000)}>`, true)
+                embed.setFooter({
+                    text: `Invite Info • Asked by ${interaction.member.nickname || interaction.user.username}`,
+                    iconURL: interaction.user.displayAvatarURL({
+                        dynamic: true,
+                        format: "png",
+                        size: 2048,
+                    }),
+                });
 
                 interaction.followUp({ embeds: [embed] })
+
+            }
+
+            if (subCom == "message") {
+
+                if (!messageBrut.startsWith(`https://discord.com/channels/${interaction.guild.id}/${interaction.channel.id}`)) {
+                    let emb = new MessageEmbed()
+                        .setDescription(`❌ <@${interaction.member.id}> : The link needs to be a discord message link`)
+                        .setColor("RED")
+
+                    return interaction.followUp({ embeds: [emb] })
+                }
+
+                else if (messageBrut.startsWith(`https://discord.com/channels/${interaction.guild.id}/${interaction.channel.id}`)) {
+                    messageBrut = messageBrut.split('/')
+                    messageBrut = messageBrut[6]
+                }
+
+                const message = await interaction.channel.messages.fetch(messageBrut)
+
+                if (!message) {
+
+                    let emb = new MessageEmbed()
+                        .setDescription(`❌ <@${interaction.member.id}> : Seems like \`${messageBrut}\` is not a correct link`)
+                        .setColor("RED")
+
+                    return interaction.followUp({ embeds: [emb] })
+                }
+
+                let is_an_embed
+                let has_component
+
+                if (message.embeds[0] == '[]' || !message.embeds || message.embeds[0] == "") {
+                    is_an_embed = '\`No\`'
+                }
+
+                else {
+                    is_an_embed = "\`Yes\`"
+                }
+
+                if (message.components == '[]' || message.components == '') {
+                    has_component = '\`No\`'
+                }
+
+                else {
+                    has_component = "\`Yes\`"
+                }
+
+                let embed_info = new MessageEmbed()
+                    .setAuthor(`Message Informations for ${messageBrut}`, interaction.guild.iconURL())
+                    .addField(`🔗 Message link:`, `https://discord.com/channels/${message.guildId}/${message.channelId}/${message.id}`)
+                    .addField(`👑 Author:`, `<@${message.author.id}> [**${message.author.tag}**]`)
+                    .addField(`❔ Is an Embed:`, is_an_embed, true)
+                    .addField(`❓ Has components:`, has_component, true)
+                    .addField(`🆎 Type:`, message.type, true)
+                    .addField(`📅 Sended the:`, `<t:${Math.round(message.createdTimestamp / 1000)}>`, true)
+                    .addField(`🆔 Message ID:`, `\`${message.id}\``, false)
+                    .addField(`🆔 Channel ID:`, `\`${message.channelId}\``)
+                    .addField(`🆔 Guild ID:`, `\`${message.guildId}\``)
+                    .setFooter({ text: `Asked by: ${interaction.member.nickname} • ${interaction.guild.name}`, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
+                    .setColor("RANDOM")
+
+                if (message.type == "APPLICATION_COMMAND" || message.type == "CONTEXT_MENU_COMMAND") {
+                    embed_info.addField(`🖲 Message command name:`, `\`${message.interaction.commandName}\`` || `:warning: Error message origin command is undefined`)
+                }
+
+
+                interaction.followUp({ embeds: [embed_info] })
 
             }
 
@@ -728,32 +879,133 @@ module.exports = {
             if (subCom == "user") {
 
                 const member = interaction.guild.members.cache.get(user.id);
-                
+
                 const status = {
                     false: "\`No\`",
                     true: "\`Yes\`"
                 }
 
-                console.log(member)
-                console.log(user)
+                let color = member.displayHexColor;
+                if (color == '#000000') color = member.hoistRole?.hexColor || member.displayColor || "ffffff";
+
+                let emojiArray = []
+
+                let flags = user.flags.toArray();
+
+                if (flags.includes("STAFF")) emojiArray.push("<:discordEmployee:1071401506529611896>")
+                if (flags.includes("PARTNER")) emojiArray.push("<:discordPartner:1071401157496426526>")
+                if (flags.includes("HYPESQUAD")) emojiArray.push("<:discordHypesquad:1071401448316874792>")
+                if (flags.includes("BUG_HUNTER_LEVEL_1")) emojiArray.push("<:bugHunter:1071400301120196669>")
+                if (flags.includes("HOUSE_BRAVERY")) emojiArray.push("<:bravery:1071400299031433259>")
+                if (flags.includes("HOUSE_BRILLANCE")) emojiArray.push("<:brillance:1071401816455131136>")
+                if (flags.includes("HOUSE_BALANCE")) emojiArray.push("<:balance:1071400292400246924>")
+                if (flags.includes("PREMIUM_EARLY_SUPPORTER")) emojiArray.push("<:earlySupporter:1071400633858539621>")
+                if (flags.includes("BUG_HUNTER_LEVEL_2")) emojiArray.push("<:goldenBugHunter:1071400286255579156>")
+                if (flags.includes("VERIFIED_DEVELOPER")) emojiArray.push("<:DEV:1058731359817973841>")
+                if (flags.includes("ACTIVE_DEVELOPER")) emojiArray.push("<:badge_active_developer:1071400284795969627>")
+
+                let total_roles = member.roles.cache.size;
+
+                let rolemap = member.roles.cache
+                    .sort((a, b) => b.position - a.position)
+                    .map(r => r)
+                    .join("|");
+
+                if (rolemap.length > 983) {
+
+                    rolemap = rolemap.substring(0, 983) + ` and more...`
+                }
+
+                let total_perms = member.permissions.toArray().length
+
+                let perms = member.permissions.toArray()
+                    .join(`\`, \``)
+
+                if (total_perms < 1) perms = ":warning:" + "\`User has no permissions\`";
+
+                if (perms.length > 1005) perms.substring(0, 1005) + " and more..."
+
+                if (total_roles < 1) rolemap = ":warning:" + "\`User has no role\`";
+
+                emojiArray = emojiArray.join(", ");
+
+                if (emojiArray.length < 1) emojiArray = ":warning:" + "\`User has no badges\`";
 
                 const embed = new MessageEmbed()
-                    .setColor()
-                    .setAuthor()
-                    .addField(`💳 Username:`, `**${user.username}**`, true)
-                    .addField(`🆔 ID:`, `\`${user.id}\``)
-                    .addField(`🧾 Tag:`, `${user.tag}`)
-                    .addField(`🤖 Bot:`, ``)
-                    .addField(``, ``)
-                    .addField(``, ``)
-                    .addField(``, ``)
-                    .addField(``, ``)
-                    .addField(``, ``)
-                    .addField(``, ``)
-                    .addField(``, ``)
-                    .addField(``, ``)
-                    .addField(``, ``)
-                
+                    .setColor(color)
+                    .setAuthor(`Informations for ${user.username}`, user.displayAvatarURL({ dynamic: true }))
+                    .addField(`<:username:1071397091588456508> Username:`, `**${user.username}**`, true)
+                    .addField(`🆔 ID:`, `\`${user.id}\``, true)
+                    .addField(`🧾 Tag:`, `${user.tag}`, true)
+                    .addField(`<:member:1023155815785435227> Nickname:`, `${user.tag}`, true)
+                    .addField(`🤖 Bot:`, `${status[user.bot]}`, true)
+                    .addField(`📅 Account Created At:`, `<t:${Math.round(user.createdTimestamp / 1000)}>`, true)
+                    .addField(`📆 Joined The:`, `<t:${Math.round(member.joinedTimestamp / 1000)}>`, true)
+                    .addField(`<a:allBadges:1071400157389799464> Badges:`, `${emojiArray}`, false)
+                    .addField(`🎭 Roles:`, `${rolemap}`, false)
+                    .addField(`🛃 Permissions:`, `\`${perms}\``, false)
+                    .addField(`🌠 Avatar:`, `__${user.displayAvatarURL({ dynamic: true })}__`)
+                    .addField(`🌄 Banner:`, `__${user.banner || `:warning: User has no banner`}__`)
+
+                if (member.premiumSinceTimestamp) embed.addField(`\n<a:nitroAnimated:1013512088615911456> Boosted Server The:`, `<t:${Math.round(member.premiumSinceTimestamp / 1000)}>`)
+
+                if (member.presence) {
+                    embed.addField(`-------------------------------------------------------------`, `**👁 Activity:**`, false)
+
+                    let statusEmoji = `<:dnd:1013512333118672916>`
+                    let presenceStatus = "Do not Derange (DND)"
+                    let platform = "Desktop"
+                    let platformEmoji = "<:onlineDesktop:1071474813123698808>"
+
+                    if (member.presence?.status == "offline") {
+                        statusEmoji = "<:offline:1013512151522091018>"
+                        presenceStatus = "Offline"
+                    }
+                    if (member.presence?.status == "idle") {
+                        statusEmoji = "<:idle:1013511731722596364>"
+                        presenceStatus = "Idle"
+                    }
+                    if (member.presence?.status == "online") {
+                        statusEmoji = "<:online:1071474815564775527>"
+                        presenceStatus = "Online"
+                    }
+
+                    if (member.presence?.clientStatus.web) {
+                        platform = "Web"
+                        platformEmoji = "<:onlineWeb:1071474811521478790>"
+                    }
+                    if (member.presence?.clientStatus.mobile) {
+                        platform = "Mobile"
+                        platformEmoji = "<:onlineMobile:1071474808564490330>"
+                    }
+
+                    embed.addField(`<:status:1013511963663421563> Presence:`, `${statusEmoji} ${presenceStatus}`, true)
+                    embed.addField(`📱 Platform:`, `${platformEmoji} ${platform}`, true)
+                    let activityArray = []
+
+                    member.presence?.activities.forEach((activity, i) => {
+                        if (i > 6) return
+                        console.log(activity)
+                        activityArray.push(`*${activity.name}* [${activity.details || activity.state || "No details"}]`)
+                    })
+
+                    embed.addField(`🎟 Activity:`, `${activityArray.join(" || ")}`, false)
+                }
+
+                embed.setThumbnail(user.displayAvatarURL({ dynamic: true }))
+                embed.setTimestamp()
+                embed.setFooter({
+                    text: `User Info • Asked by ${interaction.member.nickname || interaction.user.username}`,
+                    iconURL: user.displayAvatarURL({
+                        dynamic: true,
+                        format: "png",
+                        size: 2048,
+                    }),
+                });
+
+
+                interaction.followUp({ embeds: [embed] })
+
             }
 
 

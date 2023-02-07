@@ -27,7 +27,7 @@ module.exports = {
         },
         {
             name: "rename",
-            description: "💽 Change/Rename an user nickname",
+            description: "🪪 Change/Rename an user nickname",
             type: "SUB_COMMAND",
             options: [
                 {
@@ -38,7 +38,7 @@ module.exports = {
                 },
                 {
                     name: "nickname",
-                    description: "📀 The new nickname you want to apply to the user",
+                    description: "🪪 The new nickname you want to apply to the user",
                     type: "STRING",
                     required: true,
                 },
@@ -108,14 +108,14 @@ module.exports = {
                 }
 
                 let embed = new MessageEmbed()
-                    .setTitle(`✅ Nickname Normalized`)
+                    .setDescription(`✅ Nickname has been normalized successfully`)
                     .addField(`👤 User:`, `<@${member.user.id}>`)
-                    .addField(`🧱 Ancient nickname`, `\`${ancient}\``)
+                    .addField(`🏛 Ancient nickname`, `\`${ancient}\``)
                     .addField(`🛡 Normalized nickname:`, `\`${nickname}\``)
                     .addField(`👮 Moderator:`, `<@${interaction.user.id}>`)
                     .addField(`🚓 Reason:`, `\`${reason}\``)
-                    .setFooter({ text: `Asked by: ${interaction.member.nickname} • ${interaction.guild.name}`, iconURL: interaction.user.displayAvatarURL() })
-                    .setColor("RANDOM")
+                    .setFooter({ text: `Asked by: ${interaction.member.nickname || interaction.user.username} • ${interaction.guild.name}`, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
+                    .setColor("GREEN")
 
                 interaction.followUp({ embeds: [embed] })
 
@@ -128,8 +128,6 @@ module.exports = {
                 }
 
                 const member = interaction.guild.members.cache.get(user.id)
-
-                console.log(member)
 
                 let ancient = member.nickname || user.username 
 
@@ -145,14 +143,14 @@ module.exports = {
                 member.setNickname(`${nickname}`, `${reason}`)
 
                 let embed = new MessageEmbed()
-                    .setTitle(`✅ New Nickname`)
+                    .setDescription(`✅ Nickname has been changed successfully`)
                     .addField(`👤 User:`, `<@${member.user.id}>`)
-                    .addField(`🧱 Ancient nickname`, `\`${ancient}\``)
-                    .addField(`📀 New nickname:`, `\`${nickname}\``)
+                    .addField(`🏛 Ancient nickname`, `\`${ancient}\``)
+                    .addField(`🪪 New nickname:`, `\`${nickname}\``)
                     .addField(`👮 Moderator:`, `<@${interaction.user.id}>`)
                     .addField(`🚓 Reason:`, `\`${reason}\``)
-                    .setFooter({ text: `Asked by: ${interaction.member.nickname} • ${interaction.guild.name}`, iconURL: interaction.user.displayAvatarURL() })
-                    .setColor("RANDOM")
+                    .setFooter({ text: `Asked by: ${interaction.member.nickname || interaction.user.username} • ${interaction.guild.name}`, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
+                    .setColor("GREEN")
 
                 interaction.followUp({ embeds: [embed] })
 
@@ -165,8 +163,9 @@ module.exports = {
                 }
 
 
-                let ancient = member.nickname
+                const member = interaction.guild.members.cache.get(user.id)
 
+                let ancient = member.nickname || user.username 
 
                 if (user.username == ancient) {
                     let wrongEmb = new MessageEmbed()
@@ -178,13 +177,13 @@ module.exports = {
                 member.setNickname(``, `${reason}`)
 
                 let embed = new MessageEmbed()
-                    .setTitle(`✅ Nickname Deleted`)
+                    .setDescription(`✅ Nickname has been deleted successfully`)
                     .addField(`👤 User:`, `<@${member.user.id}>`)
-                    .addField(`🧱 Ancient nickname`, `\`${ancient}\``)
+                    .addField(`🏛 Ancient nickname:`, `\`${ancient}\``)
                     .addField(`👮 Moderator:`, `<@${interaction.user.id}>`)
                     .addField(`🚓 Reason:`, `\`${reason}\``)
-                    .setFooter({ text: `Asked by: ${interaction.member.nickname} • ${interaction.guild.name}`, iconURL: interaction.user.displayAvatarURL() })
-                    .setColor("RANDOM")
+                    .setFooter({ text: `Asked by: ${interaction.member.nickname || interaction.user.username} • ${interaction.guild.name}`, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
+                    .setColor("GREEN")
 
                 interaction.followUp({ embeds: [embed] })
 

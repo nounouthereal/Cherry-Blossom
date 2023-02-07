@@ -50,18 +50,21 @@ module.exports = {
 
             const options = {
                 method: 'GET',
-                url: encodeURI(`https://simple-love-calculator.p.rapidapi.com/calculate_with_random_seed/${user1.username}/${user2.username}`),
+                url: 'https://love-calculator.p.rapidapi.com/getPercentage',
+                params: { sname: user1.username, fname: user2.username },
                 headers: {
-                  'X-RapidAPI-Key': 'fe357df54amsh2f40b55a738fff8p13c896jsn3139801de2e0',
-                  'X-RapidAPI-Host': 'simple-love-calculator.p.rapidapi.com'
+                    'X-RapidAPI-Key': 'fe357df54amsh2f40b55a738fff8p13c896jsn3139801de2e0',
+                    'X-RapidAPI-Host': 'love-calculator.p.rapidapi.com'
                 }
             };
 
             axios.request(options).then(function (response) {
 
-                let result = response.data.value
+                let result = parseInt(response.data.percentage)
 
-
+                if (!result) {
+                    throw new Error(".")
+                }
 
 
 
@@ -161,20 +164,18 @@ module.exports = {
                     })
                     .setTimestamp();
 
-                console.log(result)
-
-                if (result > 90) return interaction.followUp({ embeds: [hardloveemb] });
+                if (result > 85) return interaction.followUp({ embeds: [hardloveemb] });
                 if (result < 30) return interaction.followUp({ embeds: [verybadloveembed] });
                 if (result < 40) return interaction.followUp({ embeds: [notgoodenoughemb] });
                 if (result < 50) return interaction.followUp({ embeds: [shrugembed] });
                 if (result < 60) return interaction.followUp({ embeds: [okembed] });
                 if (result < 70) return interaction.followUp({ embeds: [thumbupembed] });
-                if (result > 80) return interaction.followUp({ embeds: [eyesembed] });
+                if (result <= 85) return interaction.followUp({ embeds: [eyesembed] });
 
             }).catch(function (error) {
                 console.error(error);
                 let basicError = new MessageEmbed()
-                    .setDescription(`❌ <@${interaction.user.id}> : An error occured (\`API ERROR TYPE\`). Please try later or contact support (\`/support || /bug\`)\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n\n[Support](https://discord.gg/Y2jQKaPqKX)`)
+                    .setDescription(`❌ <@${interaction.user.id}> : An error occured (\`API ERROR TYPE\`). Please try later or contact support (\`/support || /bug\`)\n\n**Error:**\n\n\`${error}\`\n\n**Support**\n\n[Support](https://discord.gg/Y2jQKaPqKX)`)
                     .setColor(`RED`)
                     .setTimestamp()
                 interaction.followUp({ embeds: [basicError] })
@@ -193,3 +194,4 @@ module.exports = {
         }
     },
 };
+

@@ -216,9 +216,9 @@ module.exports = {
 
                     .then(function (asciified) {
 
-                        console.loG(typeof asciified)
+                        const buff = Buffer.from(asciified, "utf-8");
 
-                        const atc = new MessageAttachment(asciified.toBuffer(), 'qrcodeASCII.txt');
+                        const atc = new MessageAttachment(buff, 'qrcodeASCII.txt');
                         return interaction.editReply({ embeds: [], files: [atc] });
 
                     }).catch(function (err) {

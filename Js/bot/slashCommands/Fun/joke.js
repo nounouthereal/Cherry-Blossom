@@ -5,7 +5,7 @@ const fetch = require('node-fetch')
 module.exports = {
     name: "joke",
     description: "🤣 Get a joke",
-    cooldown: 5,
+    cooldown: 6,
 
 
     run: async (bot, interaction, args) => {

@@ -3,7 +3,7 @@ const fetch = require('node-fetch')
 
 
 module.exports = {
-    name: "joke",
+    name: "Joke",
     description: "🤣 Get a joke",
     cooldown: 7,
 

@@ -31,39 +31,43 @@ module.exports = {
             const encryptedString = cryptr.encrypt(text);
 
 
-            const embed = new MessageEmbed() 
+            const embed = new MessageEmbed()
                 .setTitle(`📟 Encryption`)
                 .setDescription(`✅ Your encrypted text has been successfully generated and sent in your DM's (Direct Messages)\n\n>>> Note: The encrypted text and your key aren't stocked anywhere.`)
                 .setFooter({
-                text: `Asked by ${interaction.member.nickname || interaction.user.username} • ${interaction.guild.name}`,
-                iconURL: interaction.user.displayAvatarURL({
-                dynamic: true,
-                format: "png",
-                size: 2048,
-                }),
+                    text: `Asked by ${interaction.member.nickname || interaction.user.username} • ${interaction.guild.name}`,
+                    iconURL: interaction.user.displayAvatarURL({
+                        dynamic: true,
+                        format: "png",
+                        size: 2048,
+                    }),
                 })
                 .setColor("RANDOM")
                 .setTimestamp();
 
-            const embed2 = new MessageEmbed() 
+            const embed2 = new MessageEmbed()
                 .setTitle(`📟 Encryption`)
-                .addField(`📥 Basic text`,`\`\`\`${text}\`\`\``)
-                .addField(`📤 Encrypted text`,`\`\`\`${encryptedString}\`\`\``)
-                .addField(`🔑 Your key`,`||Normally you should have remembred of your key sorry but there is no way we put it here||`)
+                .addField(`📥 Basic text`, `\`\`\`${text}\`\`\``)
+                .addField(`📤 Encrypted text`, `\`\`\`${encryptedString}\`\`\``)
+                .addField(`🔑 Your key`, `||Normally you should have remembred of your key sorry but there is no way we put it here||`)
                 .setFooter({
-                text: `Sent by ${interaction.member.nickname || interaction.user.username} • ${interaction.guild.name}`,
-                iconURL: interaction.user.displayAvatarURL({
-                dynamic: true,
-                format: "png",
-                size: 2048,
-                }),
+                    text: `Sent by ${interaction.member.nickname || interaction.user.username} • ${interaction.guild.name}`,
+                    iconURL: interaction.user.displayAvatarURL({
+                        dynamic: true,
+                        format: "png",
+                        size: 2048,
+                    }),
                 })
                 .setColor("RANDOM")
                 .setTimestamp();
 
-        interaction.followUp({ embeds: [embed]});
+            interaction.followUp({ content: `.` }).then(msg => {
+                msg.delete({ timeout: 10 })
+            })
 
-        interaction.user.send({embeds: [embed2]})
+            interaction.followUp({ embeds: [embed] });
+
+            interaction.user.send({ embeds: [embed2] })
 
 
         } catch (err) {

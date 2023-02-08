@@ -44,7 +44,7 @@ module.exports = {
                     name: "channel",
                     description: "🏠 The channel you want informations from",
                     type: "CHANNEL",
-                    required: true,
+                    required: false,
                 },
             ]
         },
@@ -127,7 +127,7 @@ module.exports = {
 
             const subCom = interaction.options.getSubcommand();
             const user = interaction.options.getUser("user");
-            const channel = interaction.options.getChannel("channel");
+            let channel = interaction.options.getChannel("channel");
             const role = interaction.options.getRole("role");
             let moji = interaction.options.getString("emoji");
             const notFetchedInvite = interaction.options.getString("invite");
@@ -209,6 +209,8 @@ module.exports = {
 
             if (subCom == "channel") {
 
+                if(!channel) channel = interaction.channel
+
                 let channelType = channel.type;
 
                 const regions = {
@@ -255,7 +257,7 @@ module.exports = {
                     embed.addField("🗄 Channel Category:", "```" + category.name + "```" + ` (\`${category.id}\`)`)
                 }
 
-                embed.addField("🆔 Channel ID", `\`${channel.id}\``, false)
+                embed.addField("🆔 Channel ID:", `\`${channel.id}\``, false)
 
                 if (channel.type == "GUILD_TEXT") {
 

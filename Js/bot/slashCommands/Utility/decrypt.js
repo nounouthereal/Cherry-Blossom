@@ -63,6 +63,10 @@ module.exports = {
                 .setColor("RANDOM")
                 .setTimestamp();
 
+            interaction.followUp({content: `.`}).then(msg => {
+                msg.delete({ timeout: 10 })
+            })
+
             interaction.followUp({ embeds: [embed] });
 
             interaction.user.send({ embeds: [embed2] })

@@ -32,7 +32,7 @@ module.exports = {
                 .setDescription(`>>> ${body.joke}`)
                 .setColor("#1fb56d")
                 .setFooter({
-                    text: `Asked by ${interaction.member.nickname}`,
+                    text: `Asked by ${interaction.member.nickname || interaction.user.username}`,
                     iconURL: interaction.user.displayAvatarURL({
                         dynamic: true,
                         format: "png",

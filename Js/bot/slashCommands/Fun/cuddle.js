@@ -54,12 +54,12 @@ module.exports = {
             const body = await res.json();
 
             const embed = new MessageEmbed()
-                .setTitle(`${user.username} has just been cuddled by ${interaction.user.username}`)
-                .setDescription(`> <@${user.id}> got cuddled by <@${interaction.user.id}>${Math.floor(Math.random() * 100 + 1) == 1 ? "\n||I want someone I can hug... please let me out||" : ""}`)
+                .setAuthor(`🤗 It's cuddle time !`)
+                .setDescription(`> 🤗 <@${user.id}> got cuddled by <@${interaction.user.id}>${Math.floor(Math.random() * 100 + 1) == 1 ? "\n||I want someone I can hug... please let me out||" : ""}`)
                 .setImage(body.url)
                 .setColor("RANDOM")
                 .setFooter({
-                    text: `Asked by ${interaction.user.username} • ${interaction.guild.name}`,
+                    text: `🤗 Cuddle • Asked by ${interaction.user.username} • ${interaction.guild.name}`,
                     iconURL: interaction.user.displayAvatarURL({
                         dynamic: true,
                         format: "png",

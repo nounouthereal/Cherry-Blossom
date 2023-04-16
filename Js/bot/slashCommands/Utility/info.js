@@ -181,7 +181,7 @@ module.exports = {
                         const serversembed = new MessageEmbed()
                             .setTitle(`📝 Informations on ${bot.user.username}`)
                             .setThumbnail(bot.user.displayAvatarURL())
-                            .addField(`🤖 | Certified:`, `❎ No`, true)
+                            .addField(`<:Bot:932601118184325180> | Certified:`, `❎ No`, true)
                             .addField(`📡 | I am active on:`, `\`${bot.guilds.cache.size} servers\``, true)
                             .addField("🏓 | I have a ping of:", "`" + Math.round(bot.ws.ping) + "ms\`", true)
                             .addField("📋 | My Name is:", `**${bot.user.username}**`, true)
@@ -196,7 +196,7 @@ module.exports = {
                             .addField(`<:RAM:1013512014469021817> | RAM Usage:`, `\`\`\`Server: ${memory_info.usedMemMb.toFixed()}MB/${memory_info.totalMemMb.toFixed()}MB (${(100 - memory_info.freeMemPercentage).toFixed(2)}% used)\nClient: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB/${memory_info.totalMemMb.toFixed()}MB (${((100 * (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)) / memory_info.totalMemMb.toFixed()).toFixed(2)}% used)\`\`\``)
                             .addField("💾 | Memory:", `\`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}` + " MB Used\`", true)
                             .addField("<:DEV:1058731359817973841> | Devs:", "**nounou#4483**", true)
-                            .setFooter(`Bot Info • Asked by ${interaction.member.nickname || interaction.user.username}`, bot.user.displayAvatarURL)
+                            .setFooter(`Bot Info • Asked by ${interaction.member.nickname || interaction.user.username}`, bot.user.displayAvatarURL())
 
                             .setColor("RANDOM")
                             .setThumbnail(bot.user.avatarURL)
@@ -389,6 +389,9 @@ module.exports = {
 
                 embed.addField("💾 Channel Type:", `\`${channelType}\``, true)
                 embed.addField("📅 Creation date:", `<t:${Math.round(channel.createdTimestamp / 1000 || channel._createdTimestamp / 1000)}>`, true)
+                embed.setFooter({
+                    text: `Channel Info • Asked by ${interaction.member.nickname || interaction.user.username}`,
+                });
 
 
                 interaction.followUp({ embeds: [embed] })
@@ -443,11 +446,7 @@ module.exports = {
                         embed.setImage(link)
                         embed.setFooter({
                             text: `Emoji Info • Asked by ${interaction.member.nickname || interaction.user.username}`,
-                            iconURL: interaction.user.displayAvatarURL({
-                                dynamic: true,
-                                format: "png",
-                                size: 2048,
-                            }),
+                            iconURL: link
                         });
 
                         interaction.followUp({ embeds: [embed] })
@@ -524,9 +523,9 @@ module.exports = {
                 embed.setAuthor(`Invite Informations for ${invite.url}`, interaction.guild.iconURL())
                 embed.setColor("RANDOM")
                 embed.addField("📨 Invite URL:", `__${invite.url}__`)
-                embed.addField(`🔐 Invite Code:`, `\`${invite.code}\``)
-                embed.addField(`📩 Uses:`, `\`${invite.uses} uses\``)
-                embed.addField(`🔐 Max Uses:`, `\`${invite.maxUses} max uses\``)
+                embed.addField(`🔐 Invite Code:`, `\`${invite.code}\``, true)
+                embed.addField(`📩 Uses:`, `\`${invite.uses} uses\``, true)
+                embed.addField(`🔐 Max Uses:`, `\`${invite.maxUses} max uses\``, true)
                 embed.addField("🏘 Invite Server:", `**${invite.guild.name}** (\`${invite.guild.id}\`)`, false)
                 embed.addField("🏠 Invite Channel:", `**${invite.channel.name}** (\`${invite.channelId}\`)`, false)
                 embed.addField("👤 Inviter (Author):", `**${invite.inviter.tag}** (\`${invite.inviter.id}\`) [__Is Bot:__ ${status[invite.inviter.bot]}]`, false)
@@ -536,11 +535,6 @@ module.exports = {
                 embed.addField("🗓 Created At:", `<t:${Math.round(invite.createdTimestamp / 1000)}>`, true)
                 embed.setFooter({
                     text: `Invite Info • Asked by ${interaction.member.nickname || interaction.user.username}`,
-                    iconURL: interaction.user.displayAvatarURL({
-                        dynamic: true,
-                        format: "png",
-                        size: 2048,
-                    }),
                 });
 
                 interaction.followUp({ embeds: [embed] })
@@ -576,7 +570,7 @@ module.exports = {
                 let is_an_embed
                 let has_component
 
-                if (message.embeds[0] == '[]' || !message.embeds || message.embeds[0] == "") {
+                if (!message.embeds[0].type) {
                     is_an_embed = '\`No\`'
                 }
 
@@ -851,7 +845,7 @@ module.exports = {
                 embed.addField(`😀 Emojis[${emojis}] :`, `${membersWithRole}`, false)
                 embed.addField(`👅 Language:`, `\`${interaction.guild.preferredLocale}\``, true)
                 embed.addField("🔮 Boosts:", `\`${total_boosts}\` Boosts *( Level: \`${boost_level}\` )*`, true)
-                embed.addField("🤖 Bots:", `\`${botCount}\``, true)
+                embed.addField("<:Bot:932601118184325180> Bots:", `\`${botCount}\``, true)
                 embed.addField("🗺 Channels:", `\`${ChannelCount}\``, true)
                 embed.addField("🏢 Categories:", `\`${total_categories}\``, true)
                 embed.addField("💬 Text channels:", `\`${textChannelCount}\``, true)
@@ -938,10 +932,10 @@ module.exports = {
                     .setAuthor(`Informations for ${user.username}`, user.displayAvatarURL({ dynamic: true }))
                     .addField(`<:username:1071397091588456508> Username:`, `**${user.username}**`, true)
                     .addField(`🆔 ID:`, `\`${user.id}\``, true)
-                    .addField(`🧾 Tag:`, `${user.tag}`, true)
-                    .addField(`<:member:1023155815785435227> Nickname:`, `${user.tag}`, true)
-                    .addField(`🤖 Bot:`, `${status[user.bot]}`, true)
-                    .addField(`📅 Account Created At:`, `<t:${Math.round(user.createdTimestamp / 1000)}>`, true)
+                    .addField(`🧾 Tag:`, `${user.tag}`, false)
+                    .addField(`<:member:1023155815785435227> Nickname:`, `${user.tag}`, false)
+                    .addField(`<:Bot:932601118184325180> Bot:`, `${status[user.bot]}`, true)
+                    .addField(`📅 Account Created At:`, `<t:${Math.round(user.createdTimestamp / 1000)}>`, false)
                     .addField(`📆 Joined The:`, `<t:${Math.round(member.joinedTimestamp / 1000)}>`, true)
                     .addField(`<a:allBadges:1071400157389799464> Badges:`, `${emojiArray}`, false)
                     .addField(`🎭 Roles:`, `${rolemap}`, false)

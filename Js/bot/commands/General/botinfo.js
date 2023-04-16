@@ -5,7 +5,7 @@ const { version: discordjsVersion } = require('discord.js');
 module.exports.run = async (bot, message, args) =>  {
     var serversembed = new MessageEmbed()
     .setTitle(`📝 Informations sur ${bot.user.username}`)
-    .addField(`🤖 | Bot certifié :`,`Non.`)
+    .addField(`<:Bot:932601118184325180> | Bot certifié :`,`Non.`)
     .addField(`📡 | Je suis actif sur :`,`${bot.guilds.cache.size} serveurs.`, true)
     .addField("🏓 | J'ai un ping de : ", Math.round(bot.ws.ping) + "ms", true)
     .addField("📋 Nom :", `${bot.user.username}`, true)

@@ -32,9 +32,7 @@ module.exports = {
                 return interaction.followUp({ embeds: [authorUserError] })
             }
 
-            const bullyGif = [`https://media.tenor.com/OTIghAN4rzkAAAAC/shouko-nishimya-shoko-nishimya.gif`, `https://media.tenor.com/o2Q0xMRv-4IAAAAd/mahou-shoujo-site-anime.gif`, `https://media.tenor.com/yWEfaRb2Ly8AAAAM/jojo-meme.gif`,`https://thumbs.gfycat.com/EveryAggravatingKarakul-mobile.mp4`]
-
-            const choosedBullyGifs = bullyGif[Math.floor(Math.random() * bullyGif.length)];
+            const bullyGif = anime.bully()
 
             const embed = new MessageEmbed() 
                 .setAuthor({

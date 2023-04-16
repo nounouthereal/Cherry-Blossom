@@ -14,49 +14,41 @@ module.exports = {
 
         const message = await interaction.channel.messages.fetch(interaction.targetId)
 
-        console.log(message)
-
         let is_an_embed
         let has_component
-        console.log(message.embeds)
-        console.log(message.components+'s')
+    
+        console.log(message.embeds[0].type)
 
-        if (message.embeds[0] == '[]' ) {
-            is_an_embed = 'No'
+        if (!message.embeds[0].type) {
+            is_an_embed = '\`No\`'
         }
 
         else {
-            is_an_embed = "Yes"
+            is_an_embed = "\`Yes\`"
         }
 
         if (message.components == '[]' || message.components == '') {
-            has_component = 'No'
+            has_component = '\`No\`'
         }
 
         else {
-            has_component = "Yes"
+            has_component = "\`Yes\`"
         }
 
-        let date = new Date(message.createdTimestamp)
-        date = "Date: "+date.getDate()+
-          "/"+(date.getMonth()+1)+
-          "/"+date.getFullYear()+
-          " "+date.getHours()+
-          ":"+date.getMinutes()+
-          ":"+date.getSeconds();
+        let date = `<t:${Math.round( message.createdTimestamp / 1000)}>`
 
         let embed_info = new MessageEmbed()
         .setTitle(`Message Information`)
-        .addField(`🔗 Messsage Link`,`https://discord.com/channels/${message.guildId}/${message.channelId}/${message.id}`)
-        .addField(`👑 Author`,`**${message.author.tag}**`)
-        .addField(`❔ Is an Embed:`, is_an_embed)
-        .addField(`❓ Has components:`, is_an_embed)
-        .addField(`🆎 Type`, message.type)
+        .addField(`🔗 Message Link`,`https://discord.com/channels/${message.guildId}/${message.channelId}/${message.id}`)
+        .addField(`👑 Author`,`<@${message.author.id}> [**${message.author.tag}**]`)
+        .addField(`❔ Is an Embed:`, is_an_embed, true)
+        .addField(`❓ Has components:`, is_an_embed, true)
+        .addField(`🆎 Type`, "```" + message.type + "```")
         .addField(`📅 Sended at:`, date)
         .addField(`🆔 Message ID:`, `\`${message.id}\``)
-        .addField(`🆔 Channel ID:`, `\`${message.channelId}\``)
-        .addField(`🆔 Guild ID:`, `\`${message.guildId}\``)
-        .setFooter({text: `Asked by: ${interaction.member.nickname} • ${interaction.guild.name}`, iconURL: interaction.guild.iconURL()})
+        .addField(`🆔 Channel ID:`, `\`${message.channelId}\``, true)
+        .addField(`🆔 Guild ID:`, `\`${message.guildId}\``, truea)
+        .setFooter({text: `Asked by: ${interaction.member.nickname || interaction.user.username} • ${interaction.guild.name}`, iconURL: interaction.guild.iconURL()})
         .setColor("RANDOM")
 
         if (message.type == "APPLICATION_COMMAND" || message.type == "CONTEXT_MENU_COMMAND") {

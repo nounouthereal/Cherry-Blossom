@@ -15,7 +15,7 @@ module.exports = {
         const { version } = require("discord.js")
         var serversembed = new Discord.MessageEmbed()
         .setTitle(`📝Informations sur ${client.user.username}`)
-        .addField(`🤖 | Bot certifié :`,`Non.`)
+        .addField(`<:Bot:932601118184325180> | Bot certifié :`,`Non.`)
         .addField(`📡 | Je suis actif sur :`,`${client.guilds.cache.size} serveurs.`, true)
         .addField("🏓 | J'ai un ping de : ", Math.round(client.ws.ping) + "ms", true)
         .addField("📋 Nom :", `${client.user.username}`, true)

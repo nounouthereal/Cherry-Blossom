@@ -166,7 +166,7 @@ module.exports = {
                     let badEmb = new MessageEmbed()
                         .setDescription(`❌ <@${interaction.user.id}> : Could not connect to a website named: \`${bigUrl}\`. Please verify if this website is running or even existing: [Get_To_The_Website](${bigUrl}).`)
                         .setColor("RED")
-                    return interaction.editReply({ embeds: [badEmb] }) || interaction.followUp({ embeds: [badEmb] }) 
+                    return interaction.editReply({ embeds: [badEmb] }) || interaction.followUp({ embeds: [badEmb] })
                 }
 
 
@@ -199,7 +199,11 @@ module.exports = {
                         const browser = await puppeteer.launch({ headless: true });
 
                         const page = await browser.newPage();
-                        await page.goto(url);
+                        await page.goto(url, {timeout: 0});
+                        await page.waitForNavigation({
+                            waitUntil: 'networkidle0',
+                        });
+                          
                         await page.screenshot({ path: `/Users/nouhame/Bot_des_cerisiers/Js/bot/web-${interaction.user.id}.png`, fullPage: full, omitBackground: omitBack });
 
                         await browser.close();
@@ -229,6 +233,15 @@ module.exports = {
 
                 if (command == "ping") {
 
+                    const check = await checkWebsite(bigUrl)
+
+                    if (!check) {
+                        let badEmb = new MessageEmbed()
+                            .setDescription(`❌ <@${interaction.user.id}> : Could not connect to a website named: \`${bigUrl}\`. Please verify if this website is running or even existing: [Get_To_The_Website](${bigUrl}).`)
+                            .setColor("RED")
+                        return interaction.editReply({ embeds: [badEmb] }) || interaction.followUp({ embeds: [badEmb] })
+                    }
+
                     request({
                         uri: url,
                         method: 'GET',
@@ -251,6 +264,15 @@ module.exports = {
             }
 
             if (bigCommand == "url") {
+
+                const check = await checkWebsite(bigUrl)
+
+                if (!check) {
+                    let badEmb = new MessageEmbed()
+                        .setDescription(`❌ <@${interaction.user.id}> : Could not connect to a website named: \`${bigUrl}\`. Please verify if this website is running or even existing: [Get_To_The_Website](${bigUrl}).`)
+                        .setColor("RED")
+                    return interaction.editReply({ embeds: [badEmb] }) || interaction.followUp({ embeds: [badEmb] })
+                }
 
                 if (command == "shorten") {
 
@@ -312,7 +334,7 @@ module.exports = {
                 .setDescription(`❌ <@${interaction.user.id}> : An undefined error occured\n\n**Error:**\n\n\`${err}\`\n\n**Support**\n[Support](https://discord.gg/Y2jQKaPqKX)`)
                 .setColor("RED")
                 .setTimestamp();
-            return interaction.followUp({ embeds: [basicError] })
+            return interaction.followUp({ embeds: [basicError], ephemeral: true })
         }
     }
 };

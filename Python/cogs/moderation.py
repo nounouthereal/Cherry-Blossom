@@ -222,7 +222,7 @@ async def on_message(message):
 
         sent1 = await message.channel.send(message.author.mention)
         emb = discord.Embed(title = ":warning: Automod", description=f"🚫 **Votre message a été supprimé car il contenait un mot interdit ou grossier sur le serveur.**\n En l'occurence le mot : `{censored_text}`\nCeci est votre **{count_member_automod}** avertissement",color = warned)
-        emb.set_footer(text="🤖 BOT AUTOMOD SYSTEM")
+        emb.set_footer(text="<:Bot:932601118184325180> BOT AUTOMOD SYSTEM")
         sent = await message.channel.send(embed = emb)
 
 
@@ -230,7 +230,7 @@ async def on_message(message):
         if count_member_automod == 3:
             sent1 = await message.channel.send(message.author.mention)
             emb = discord.Embed(title = ":warning: Automod", description=f"🚫 **Votre message a été supprimé car il contenait un mot interdit sur le serveur.**\n En l'occurence le mot : `{censored_text}`\nCeci est votre **{count_member_automod}** avertissement\n**Sanction:** `Warn`",color = warned)
-            emb.set_footer(text="🤖 BOT AUTOMOD SYSTEM")
+            emb.set_footer(text="<:Bot:932601118184325180> BOT AUTOMOD SYSTEM")
             sent = await message.author.send(embed = emb)
             await message.channel.send(embed = emb)
             await do_warn(ctx, message.author,'BOT AUTOMOD SYSTEM: Mot grossiers envoyés a 3 reprises')
@@ -241,7 +241,7 @@ async def on_message(message):
         elif count_member_automod == 6:
             sent1 = await message.channel.send(message.author.mention)
             emb = discord.Embed(title = ":warning: Automod", description=f"🚫 **Votre message a été supprimé car il contenait un mot interdit sur le serveur.**\n En l'occurence le mot : `{censored_text}`\nCeci est votre **{count_member_automod}** avertissement\n**Sanction:** `Mute`",color = warned)
-            emb.set_footer(text="🤖 BOT AUTOMOD SYSTEM")
+            emb.set_footer(text="<:Bot:932601118184325180> BOT AUTOMOD SYSTEM")
             await message.author.send(embed = emb)
             sent = await message.channel.send(embed = emb)
             await do_timeout(ctx, message.author, '1h', 'BOT AUTOMOD SYSTEM: Mot grossiers envoyés a 6 reprises')
@@ -252,7 +252,7 @@ async def on_message(message):
             
             sent1 = message.channel.send(message.author.mention)
             emb = discord.Embed(title = ":warning: Automod", description=f"🚫 **Votre message a été supprimé car il contenait un mot interdit sur le serveur.**\n En l'occurence le mot : `{censored_text}`\nCeci est votre **{count_member_automod}** avertissement\n**Sanction:** `Admin and Moderator Alert + Mute 2h`",color = warned)
-            emb.set_footer(text="🤖 BOT AUTOMOD SYSTEM")
+            emb.set_footer(text="<:Bot:932601118184325180> BOT AUTOMOD SYSTEM")
             await message.author.send(embed = emb)
             sent = await message.channel.send(embed = emb)
             await do_timeout(ctx, message.author, '2h', 'BOT AUTOMOD SYSTEM: Mot grossiers envoyés a 8 reprises')
@@ -285,7 +285,7 @@ async def botinfo(ctx):
         is_verified_bot == "Oui"
 
     serversembed = discord.Embed( title = f'📝 Informations sur {bot.user.name}', color=ctx.guild.me.top_role.color)
-    serversembed.add_field(name = '🤖 | Bot certifié :', value = is_verified_bot)
+    serversembed.add_field(name = '<:Bot:932601118184325180> | Bot certifié :', value = is_verified_bot)
     serversembed.add_field(name = '📡 | Je suis actif sur :',value = f"{len(bot.guilds)} serveurs.", inline = False)
     serversembed.add_field(name ="🏓 | J'ai un ping de : ",value = f"{latency} ms", inline = False)
     serversembed.add_field(name ="📋 | Nom :", value = bot.user.name, inline = False)
@@ -1292,7 +1292,7 @@ async def userinfo(ctx, *, member: discord.Member = None): # b'\xfc'
         has_nitro = 'Oui'
 
     embed.add_field(name=title,value=gm)
-    embed.add_field(name="🤖 Bot :", value=("Oui" if member.bot else "Non"))
+    embed.add_field(name="<:Bot:932601118184325180> Bot :", value=("Oui" if member.bot else "Non"))
     members = sorted(ctx.guild.members, key=lambda m: m.joined_at)
     embed.add_field(name="📊 Position :", value=str(members.index(member)+1))
     embed.add_field(name="🗳 HypeSquad :", value=hypesquad_class)

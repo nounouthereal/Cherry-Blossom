@@ -165,7 +165,7 @@ module.exports = {
         .addField(`Item:`,`${itemToGive.name}`)
         .addField(`🎨 Item rarety:`, itemToGive.rarety)
         .addField(`🧮 Quantity:`,parseInt(giveAmount).toLocaleString())
-        .setFooter(`Sent by ${interaction.member.nickname} • ${interaction.guild.name}`,interaction.guild.iconURL())
+        .setFooter(`Sent by ${interaction.member.nickname || interaction.user.username} • ${interaction.guild.name}`,interaction.guild.iconURL())
         .setTimestamp()
         member.send({embeds: [messagemembergifted]}).catch();
 

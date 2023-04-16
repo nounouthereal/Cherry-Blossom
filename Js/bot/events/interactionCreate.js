@@ -8,6 +8,15 @@ module.exports = async (bot, interaction) => {
         await interaction.deferReply({ ephemeral: false }).catch(() => {});
 
         const cmd = bot.slashCommands.get(interaction.commandName);
+
+        if (cmd.dis) {
+
+            const disabledEmbed = new MessageEmbed()
+                    .setDescription(`:x: <@${interaction.user.id}> : This command is disabled.`)
+                    .setColor("RED");
+                return interaction.followUp({embeds: [disabledEmbed]});
+        }
+
         if (!cmd) { 
             return interaction.followUp({ ephemeral: true, content: "❌ It appears me that this command does not exist, thanks to check your internet connection or try later." });
         }
@@ -30,6 +39,7 @@ module.exports = async (bot, interaction) => {
                 return interaction.followUp({embeds: [cooldownEmbed]});
             }
         }
+
 
         if (cmd.bankSpace != 0 || cmd.bankSpace != null || cmd.bankSpace != undefined || cmd.bankSpace != NaN || cmd.bankSpace != "" || cmd.bankSpace != "NaN") {
             bot.giveBankSpace(interaction.user.id, cmd.bankSpace);

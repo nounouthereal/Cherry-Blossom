@@ -9,6 +9,7 @@ const choices = ["ar", "cs", "de", "en", "fa", "fr", "hi", "hr", "it", "ja", "ko
 
 module.exports = {
     name: "translate",
+    dis: true,
     description: "🌐 Translaste text in multiple language",
     cooldown: 5,
     options: [

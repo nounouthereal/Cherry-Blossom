@@ -3,7 +3,7 @@ const { MessageEmbed, MessageActionRow, MessageButton, MessageAttachment } = req
 
 module.exports = {
     name: "debug",
-    description: "❌ Debug something yourself",
+    description: "❌ Something went wrong ?",
     cooldown: 25,
     options: [
         {

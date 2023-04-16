@@ -38,7 +38,6 @@ bot.player = new Player(bot, {
     }
 })
 
-
 //General
 bot.commands = new Collection();
 bot.slashCommands = new Collection();

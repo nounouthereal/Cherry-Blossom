@@ -1,7 +1,7 @@
 const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 
 module.exports = {
-    name: "clear",
+    name: "purge",
     description: "Description will be in sub_commands",
     cooldown: 15,
     options: [
@@ -12,7 +12,7 @@ module.exports = {
             options: [
                 {
                     name: "channel",
-                    description: "🏚 The channel which will be cleared",
+                    description: "🏚 The channel which will be purged",
                     type: "CHANNEL",
                     required: false,
                 },
@@ -56,7 +56,7 @@ module.exports = {
                     description: "💯 The amount of invites to delete",
                     type: "NUMBER",
                     required: true,
-                    maxValue: 100,
+                    maxValue: 600,
                     minValue: 2,
                 }
             ],
@@ -78,7 +78,7 @@ module.exports = {
                     name: "amount",
                     description: "💯 The amount of messages to delete",
                     type: "NUMBER",
-                    required: false,
+                    required: true,
                     maxValue: 600,
                     minValue: 2,
                 }
@@ -120,14 +120,14 @@ module.exports = {
 
                 let warnEmbed = new MessageEmbed()
                     .setColor("YELLOW")
-                    .setDescription(`:warning: <@${interaction.user.id}> : Are you sur you want to clear all messages in <#${channel.id}>.`);
+                    .setDescription(`:warning: <@${interaction.user.id}> : Are you sure you want to purge all messages in <#${channel.id}>.`);
                 interaction.followUp({ embeds: [warnEmbed], components: [row] }).catch();
 
                 const buttonFilter = (verifyInteraction) => {
                     let notInteractionAuthorEmb = new MessageEmbed()
                         .setColor("RED")
-                        .setDescription(`: x: <@${ verifyInteraction.user.id }> : Only the author of the command can use the buttons`);
-        
+                        .setDescription(`: x: <@${verifyInteraction.user.id}> : Only the author of the command can use the buttons`);
+
                     if (verifyInteraction.user.id === interaction.user.id) return true;
                     return interaction.followUp({ embeds: [notInteractionAuthorEmb], ephemeral: true })
                 }
@@ -139,45 +139,45 @@ module.exports = {
 
                 buttonColletor.on("end", async (ButtonInteraction) => {
                     const button = ButtonInteraction.first()
-        
+
                     const id = button.customId;
-        
+
                     if (id === 'no') {
                         let stop_embed = new MessageEmbed()
                             .setDescription(`:bulb: You stopped the command.`)
                             .setColor("YELLOW")
                         button.reply({ embeds: [stop_embed] })
-        
+
                         row.components[0].setDisabled(true)
                         row.components[1].setDisabled(true)
-        
+
                         interaction.editReply({ embeds: [warnEmbed], components: [row] })
-        
+
                         return
                     }
-        
+
                     if (id === 'yes') {
-        
+
                         row.components[0].setDisabled(true)
                         row.components[1].setDisabled(true)
-        
+
                         interaction.editReply({ embeds: [warnEmbed], components: [row] })
 
                         await channel.clone().then(async (clonedChannel) => {
                             const originalPosition = channel.position;
-        
+
                             await channel.delete().catch(() => null);
                             await clonedChannel.setPosition(originalPosition);
-        
+
                             const emb = new MessageEmbed()
                                 .setColor("GREEN")
-                                .setDescription(`✅ Cleared channel successfully`)
+                                .setDescription(`✅ Cleared channel messages successfully`)
                                 .addField(`🏠 Channel:`, `<#${clonedChannel.id}>`)
                                 .addField(`👮 Moderator:`, `<@${interaction.user.id}> [**${interaction.user.tag}**]`)
                                 .addField(`📑 Reason:`, `*${reason}*`)
                                 .setTimestamp()
                                 .setFooter({ text: `Asked by: ${interaction.member.nickname || interaction.user.username} • ${interaction.guild.name}`, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
-        
+
                             clonedChannel.send({ embeds: [emb] }).then(m => {
                                 setTimeout(() => {
                                     m.delete()
@@ -190,25 +190,56 @@ module.exports = {
 
             }
 
+            if (command == "user") {
+
+                interaction.channel.messages.fetch({
+                    limit: amount
+                }).then(async (messages) => {
+                    const botMessages = [];
+                    messages.filter(m => m.author.id === user.id).forEach(msg => botMessages.push(msg))
+                    await interaction.channel.bulkDelete(botMessages)
+
+                    const emb = new MessageEmbed()
+                        .setColor("GREEN")
+                        .setDescription(`✅ Cleared/Purged an user messages successfully`)
+                        .addField(`👤 User:`, `<@${user.id}>`)
+                        .addField(`💯 Amount:`, `\`${amount}\``)
+                        .addField(`👮 Moderator:`, `<@${interaction.user.id}> [**${interaction.user.tag}**]`)
+                        .addField(`📑 Reason:`, `*${reason}*`)
+                        .setTimestamp()
+                        .setFooter({ text: `Asked by: ${interaction.member.nickname || interaction.user.username} • ${interaction.guild.name}`, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
+
+                    interaction.followUp({ embeds: [emb] }).then(m => {
+                        setTimeout(() => {
+                            m.delete()
+                        }, 10000)
+                    })
+                })
+            }
+
             if (command == "messages") {
 
-                await interaction.channel.bulkDelete(amount, true)
+                interaction.channel.messages.fetch({
+                    limit: amount
+                }).then(async (messages) => {
+                    await interaction.channel.bulkDelete(amount, true)
 
-                const emb = new MessageEmbed()
-                    .setColor("GREEN")
-                    .setDescription(`✅ Cleared/Purged messages successfully`)
-                    .addField(`💯 Amount:`, `\`${amount}\``)
-                    .addField(`👮 Moderator:`, `<@${interaction.user.id}> [**${interaction.user.tag}**]`)
-                    .addField(`📑 Reason:`, `*${reason}*`)
-                    .setTimestamp()
-                    .setFooter({ text: `Asked by: ${interaction.member.nickname || interaction.user.username} • ${interaction.guild.name}`, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
+                    const emb = new MessageEmbed()
+                        .setColor("GREEN")
+                        .setDescription(`✅ Cleared/Purged messages successfully`)
+                        .addField(`💯 Amount:`, `\`${amount}\``)
+                        .addField(`👮 Moderator:`, `<@${interaction.user.id}> [**${interaction.user.tag}**]`)
+                        .addField(`📑 Reason:`, `*${reason}*`)
+                        .setTimestamp()
+                        .setFooter({ text: `Asked by: ${interaction.member.nickname || interaction.user.username} • ${interaction.guild.name}`, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
 
-                interaction.followUp({ embeds: [emb] }).then(m => {
-                    setTimeout(() => {
-                        m.delete()
-                    }, 10000)
+                    interaction.followUp({ embeds: [emb] }).then(m => {
+                        setTimeout(() => {
+                            m.delete()
+                        }, 10000)
+                    })
+
                 })
-
             }
 
         } catch (err) {

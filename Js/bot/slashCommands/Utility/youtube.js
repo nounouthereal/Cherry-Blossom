@@ -36,7 +36,7 @@ module.exports = {
                         },
                     ],
                 },
-                {
+                /* {
                     name: "download",
                     description: "📥 Download a youtube video",
                     type: "SUB_COMMAND",
@@ -48,7 +48,7 @@ module.exports = {
                             required: true,
                         },
                     ],
-                },
+                }, */
             ],
         },
     ],
@@ -73,6 +73,7 @@ module.exports = {
 
             const stringIsAValidUrl = (s) => {
                 try {
+                    if(!s.startsWith("https://youtube.com") && !s.startsWith("https://www.youtube.com")) return false;
                     new URL(s);
                     return true;
                 } catch (err) {
@@ -111,7 +112,7 @@ module.exports = {
 
             if (!stringIsAValidUrl(url) && command == "download") {
                 let badEmb = new MessageEmbed()
-                    .setDescription(`❌ <@${interaction.user.id}> : \`${url}\` Is not a valid url`)
+                    .setDescription(`❌ <@${interaction.user.id}> : \`${url}\` Is not a valid youtube url.`)
                     .setColor("RED")
                 return interaction.followUp({ embeds: [badEmb] })
             }
@@ -173,7 +174,7 @@ module.exports = {
 
             }
 
-            if (command == "download") {
+            /* if (command == "download") {
 
 
                 const proxy = 'http://user:pass@111.111.111.111:8080';
@@ -225,7 +226,7 @@ module.exports = {
 
 
 
-            }
+            } */
 
         } catch (err) {
             console.log(err);

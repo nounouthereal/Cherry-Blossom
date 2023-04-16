@@ -16,7 +16,7 @@ module.exports = {
         let avatar_embed = new MessageEmbed()
         .setImage(user.displayAvatarURL({size:1024,dynamic:true}))
         .setTimestamp()
-        .setFooter({text: `Asked by: ${interaction.member.nickname} • ${interaction.guild.name}`, iconURL: interaction.guild.iconURL()})
+        .setFooter({text: `Asked by: ${interaction.member.nickname  || interaction.user.username} • ${interaction.guild.name}`, iconURL: interaction.guild.iconURL()})
         .setColor("RANDOM")
 
         interaction.followUp({content: `<@${user.id}>'s [avatar](${user.displayAvatarURL()})` ,embeds: [avatar_embed]})

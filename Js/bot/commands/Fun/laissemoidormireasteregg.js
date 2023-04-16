@@ -50,6 +50,6 @@ module.exports.config = {
     usage: '1/20 Bot easter eggs', // Usage
     botPerms: [], // Bot permissions needed to run command. Leave empty if nothing.
     userPerms: [], // User permissions needed to run command. Leave empty if nothing.
-    aliases: ['easter'], // Aliases 
+    aliases: ['easter1'], // Aliases 
     cooldown: 5 // Command Cooldown
 }

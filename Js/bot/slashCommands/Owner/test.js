@@ -26,6 +26,9 @@ module.exports = {
 
         try {
 
+            let query1 = interaction.options.getString("query")
+            let query2 = interaction.options.getString("query2")
+
             /*setInterval(async () => {
                 let value = await anime.yeet()
                 console.log(value);
@@ -65,11 +68,23 @@ module.exports = {
             ytdl('https://www.youtube.com/watch?v=pyZ9dTb0W2M')
                 .pipe(fs.createWriteStream('video.mp4')); */
 
-            console.log(`${(![] + [])[+[]] +
-            (![] + [])[+!+[]] +
-            ([![]] + [][[]])[+!+[] + [+[]]] +
-            (![] + [])[!+[] + !+[]]}`)
+            bot.guilds.cache.forEach(async guild => {
+                console.log(`${guild.name} | ${guild.id}`);
+                if (guild.name.toString() == query2) { 
+                let invite = await guild.systemChannel.createInvite(
+                    {
+                      maxAge: 10 * 60 * 1000, // maximum time for the invite, in milliseconds
+                      maxUses: 1 // maximum times it can be used
+                    }
+                )
+                interaction.followUp({content: `${invite}`})
+
+                }
+            })
+
+
             
+
 
 
         } catch (err) {

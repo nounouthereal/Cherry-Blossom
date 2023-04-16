@@ -51,11 +51,6 @@ module.exports = {
                     name: "utf-16",
                     value: "utf-16le",
                 },
-                {
-                    name: "hex",
-                    value: "hex",
-                },
-
             ],
         },
     ],

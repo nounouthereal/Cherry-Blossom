@@ -73,7 +73,7 @@
     "ms": "^2.1.3",
     "nekos.life": "^2.0.9",
     "node-os-utils": "^1.3.7",
-    "nodemailer": "^6.7.8",
+    "nodemailer": "^6.9.9",
     "npm-check": "^6.0.1",
     "omggif": "^1.0.10",
     "pako": "^1.0.11",

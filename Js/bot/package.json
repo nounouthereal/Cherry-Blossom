@@ -113,7 +113,7 @@
     "text-to-img-craiyon-scrapper": "^1.0.0",
     "timm": "^1.7.1",
     "tinycolor2": "^1.4.2",
-    "translate": "^1.4.1",
+    "translate": "^3.0.0",
     "typo-js": "^1.2.2",
     "unshort": "^1.0.0",
     "utif": "^2.0.1",
